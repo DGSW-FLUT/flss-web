@@ -1,5 +1,10 @@
 # flss-web
 
+## Commit rules
+```
+[ADD|FIX|REMOVE] content....
+```
+
 ## Project setup
 ```
 yarn install & npm install
