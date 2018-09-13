@@ -3,7 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+import Vuevent from "vuevent";
+
 Vue.config.productionTip = false;
+
+Vue.use(Vuevent);
 
 new Vue({
   router,
