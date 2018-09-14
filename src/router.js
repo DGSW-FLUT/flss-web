@@ -10,12 +10,23 @@ const router = new Router({
     {
       path: "/login",
       name: "login",
-      component: () => import("./views/Login.vue")
+      component: () => import("./views/Login")
     },
     {
       path: "/",
-      name: "home",
-      component: () => import("./views/Home.vue")
+      name: "inner-app",
+      component: () => import("./views/InnerApp"),
+      children: [
+        {
+          path: "/",
+          name: "select-class",
+          component: () => import("./views/SelectClass")
+        },
+        {
+          path: "*",
+          rediect: "/"
+        }
+      ]
     },
     {
       path: "*",

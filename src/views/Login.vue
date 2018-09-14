@@ -47,7 +47,7 @@ export default {
   methods: {
     login() {
       this.$store.commit("setAuthenticated", true);
-      this.$router.push({ path: "/" });
+      this.$router.push({ name: "select-class" });
     }
   }
 };
