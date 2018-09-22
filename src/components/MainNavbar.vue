@@ -8,7 +8,7 @@
           <b-navbar-nav>
             <div v-for="(menu, i) in menus" :key="i">
               <router-link :to="menu.link">
-                <b-nav-item>
+                <b-nav-item class="m-2">
                   <b-nav-text>{{menu.text}}</b-nav-text>
                 </b-nav-item>
               </router-link>

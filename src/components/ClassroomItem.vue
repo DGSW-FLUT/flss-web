@@ -1,8 +1,8 @@
 <template>
   <div class="classroom-item">
-    <b-card :title="classroom.name"
+    <b-card :title="classroom.showName"
             :img-src="imageSrc"
-            img-alt="Image"
+            :img-alt="classroom.name"
             img-top
             tag="article"
             class="mb-2">
@@ -19,6 +19,11 @@ export default {
     imageSrc() {
       let random = Math.floor(Math.random() * 25);
       return `https://picsum.photos/600/300/?image=${parseInt(random)}`;
+    }
+  },
+  methods: {
+    showRealName() {
+      
     }
   }
 };

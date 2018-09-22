@@ -18,16 +18,32 @@ export default {
       menus: [
         {
           link: "/",
-          text: "가입한 학급"
+          text: "수업 설계"
         },
         {
           link: "/",
-          text: "메뉴 1"
+          text: "플립드 러닝 수업 자료"
         },
         {
           link: "/",
-          text: "메뉴 2"
-        }
+          text: "상호 작용"
+        },
+        {
+          link: "/",
+          text: "보상 도구"
+        },
+        {
+          link: "/",
+          text: "지원 도구"
+        },
+        {
+          link: "/",
+          text: "평가 도구"
+        },
+        {
+          link: "/",
+          text: "학습 자료"
+        },
       ]
     };
   },
