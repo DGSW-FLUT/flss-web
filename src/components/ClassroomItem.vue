@@ -1,11 +1,10 @@
 <template>
   <div class="classroom-item">
     <b-card :title="classroom.name"
-            img-src="https://picsum.photos/600/300/?image=25"
+            :img-src="imageSrc"
             img-alt="Image"
             img-top
             tag="article"
-            style="max-width: 20rem;"
             class="mb-2">
       <b-button href="#" variant="primary">둘러보기</b-button>
     </b-card>
@@ -15,9 +14,15 @@
 <script>
 export default {
   name: "classroom-item",
-  props: ["classroom"]
+  props: ["classroom"],
+  computed: {
+    imageSrc() {
+      let random = Math.floor(Math.random() * 25);
+      return `https://picsum.photos/600/300/?image=${parseInt(random)}`;
+    }
+  }
 };
 </script>
 
-<style>
+<style lang="scss">
 </style>

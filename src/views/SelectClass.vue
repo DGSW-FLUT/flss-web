@@ -2,13 +2,10 @@
   <div id="select-class">
     <div class="mt-5"></div>
     <b-container>
-      <div class="d-inline lead">가입한 클래스룸 <span class="classroom-number">3</span></div>
+      <div class="d-inline">가입한 클래스룸 <span class="classroom-number">{{ classrooms.length }}</span></div>
       <b-row>
-        <b-col cols="4">
-          <create-classroom-item />
-          <classroom-item v-for="(classroom, i) in classrooms" :key="i" :classroom="classroom" />
-          <!-- FIXME: 한 줄에 lg, md 4개, sm 3개 -->
-        </b-col>
+          <!-- <create-classroom-item /> -->
+          <classroom-item class="col-md-3 col-sm-4 mb-4" v-for="(classroom, i) in classrooms" :key="i" :classroom="classroom" />
       </b-row>
     </b-container>
   </div>
@@ -33,6 +30,15 @@ export default {
         },
         {
           name: "FLUT"
+        },
+        {
+          name: "DARKROOM"
+        },
+        {
+          name: "클래스 5"
+        },
+        {
+          name: "클래스 6"
         }
       ]
     };
@@ -40,7 +46,7 @@ export default {
   created() {
     this.classrooms.forEach(classroom => {
       if (classroom.name.length >= 12) {
-        classroom.name = classroom.name.slice(0, 12) + "...";
+        classroom.name = classroom.name.slice(0, 9) + "...";
       }
     });
   }

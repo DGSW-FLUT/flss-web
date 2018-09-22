@@ -1,6 +1,6 @@
 <template>
   <div id="inner-app">
-    <main-navbar :menus="menus" />
+    <main-navbar :menus="menus" class="border-bottom" />
     <router-view />
   </div>
 </template>

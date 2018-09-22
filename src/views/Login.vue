@@ -20,7 +20,7 @@
             <button class="input base" @click="login()">
               로그인
             </button>
-            <button class="input classting">
+            <button class="input classting" @click="loginViaClassting()">
               Classting으로 로그인
             </button>
             <button class="input google">
@@ -48,6 +48,15 @@ export default {
     login() {
       this.$store.commit("setAuthenticated", true);
       this.$router.push({ name: "select-class" });
+    },
+    loginViaClassting() {
+      this.$http.get('http://localhost:3000/auth/classting')
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     }
   }
 };
