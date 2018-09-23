@@ -29,6 +29,11 @@ const router = new Router({
       ]
     },
     {
+      path: "/interaction",
+      name: "interaction",
+      component: () => import("./views/Interaction")
+    },
+    {
       path: "*",
       redirect: "/"
     }

@@ -25,7 +25,7 @@ export default {
           text: "플립드 러닝 수업 자료"
         },
         {
-          link: "/",
+          link: "/interaction",
           text: "상호 작용"
         },
         {
