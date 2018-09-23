@@ -18,11 +18,11 @@ export default {
       menus: [
         {
           link: "/",
-          text: "수업 설계"
+          text: "영상 제작"
         },
         {
           link: "/",
-          text: "플립드 러닝 수업 자료"
+          text: "메뉴 1"
         },
         {
           link: "/interaction",
