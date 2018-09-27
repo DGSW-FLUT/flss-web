@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-import Axios from 'axios';
+import Axios from "axios";
 import Vuevent from "vuevent";
 import BootstrapVue from "bootstrap-vue";
 

@@ -56,8 +56,8 @@ export default {
 </script>
 
 <style lang="scss">
-  .classroom-number {
-    font-weight: bold;
-    font-size: 15px;
-  }
+.classroom-number {
+  font-weight: bold;
+  font-size: 15px;
+}
 </style>

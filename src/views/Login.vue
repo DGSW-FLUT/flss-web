@@ -50,13 +50,14 @@ export default {
       this.$router.push({ name: "select-class" });
     },
     loginViaClassting() {
-      this.$http.get('http://localhost:3000/auth/classting')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      this.$http
+        .get("http://localhost:3000/auth/classting")
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
