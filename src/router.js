@@ -18,6 +18,11 @@ const router = new Router({
       component: () => import("./views/MainView"),
       children: [
         {
+          path: "/interaction",
+          name: "interaction",
+          component: () => import("./views/Interaction")
+        },
+        {
           path: "/",
           name: "select-class",
           component: () => import("./views/SelectClass")
