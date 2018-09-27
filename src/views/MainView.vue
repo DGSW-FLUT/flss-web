@@ -1,5 +1,5 @@
 <template>
-  <div id="inner-app">
+  <div id="main-view">
     <main-navbar :menus="menus" class="border-bottom" />
     <router-view />
   </div>
@@ -9,7 +9,7 @@
 import MainNavbar from "@/components/MainNavbar";
 
 export default {
-  name: "inner-app",
+  name: "main-view",
   components: {
     MainNavbar
   },
@@ -25,9 +25,25 @@ export default {
           text: "메뉴 1"
         },
         {
+          link: "/interaction",
+          text: "상호 작용"
+        },
+        {
           link: "/",
-          text: "메뉴 2"
-        }
+          text: "보상 도구"
+        },
+        {
+          link: "/",
+          text: "지원 도구"
+        },
+        {
+          link: "/",
+          text: "평가 도구"
+        },
+        {
+          link: "/",
+          text: "학습 자료"
+        },
       ]
     };
   },

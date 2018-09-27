@@ -39,13 +39,43 @@ const router = new Router({
     },
     {
       path: "/",
-      name: "inner-app",
-      component: () => import("./views/InnerApp"),
+      name: "main-view",
+      component: () => import("./views/MainView"),
       children: [
+        {
+          path: "/interaction",
+          name: "interaction",
+          component: () => import("./views/Interaction")
+        },
         {
           path: "/",
           name: "select-class",
           component: () => import("./views/SelectClass")
+        },
+        {
+          path: "/class1",
+          name: "class-view",
+          component: () => import("./views/class/ClassView"),
+          children: [
+            {
+              path: "/",
+              name: "class-home",
+              component: () => import("./views/class/ClassHome")
+            },
+            // {
+              
+            // },
+            // {
+              
+            // },
+            // {
+              
+            // },
+            {
+              path: '*',
+              redirect: '/'
+            }
+          ],
         },
         {
           path: "*",
