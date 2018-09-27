@@ -18,6 +18,11 @@ const router = new Router({
       component: () => import("./views/InnerApp"),
       children: [
         {
+          path: "/interaction",
+          name: "interaction",
+          component: () => import("./views/Interaction")
+        },
+        {
           path: "/",
           name: "select-class",
           component: () => import("./views/SelectClass")
@@ -27,11 +32,6 @@ const router = new Router({
           rediect: "/"
         }
       ]
-    },
-    {
-      path: "/interaction",
-      name: "interaction",
-      component: () => import("./views/Interaction")
     },
     {
       path: "*",
