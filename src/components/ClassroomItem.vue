@@ -6,7 +6,7 @@
             img-top
             tag="article"
             class="mb-2">
-      <b-button href="#" variant="primary">둘러보기</b-button>
+      <b-button variant="primary" @click="goClassRoom()">둘러보기</b-button>
     </b-card>
   </div>
 </template>
@@ -24,6 +24,9 @@ export default {
   methods: {
     showRealName() {
       
+    },
+    goClassRoom() {
+      this.$router.push({path: "/class1"});
     }
   }
 };

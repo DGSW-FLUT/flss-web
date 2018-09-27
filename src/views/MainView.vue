@@ -1,5 +1,5 @@
 <template>
-  <div id="inner-app">
+  <div id="main-view">
     <main-navbar :menus="menus" class="border-bottom" />
     <router-view />
   </div>
@@ -9,7 +9,7 @@
 import MainNavbar from "@/components/MainNavbar";
 
 export default {
-  name: "inner-app",
+  name: "main-view",
   components: {
     MainNavbar
   },
