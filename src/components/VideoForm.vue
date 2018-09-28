@@ -43,12 +43,33 @@
                   tag="article"
                   style= "float:right;"
                   class="mb-2">
-            <p class="m-5">영상을 업로드해주세요.</p>
+            <p class="m-5 text-center">영상을 업로드해주세요.</p>
             <p class="mt-5">
-              <b-button style="float:left; min-width:100px;" href="#" variant="primary">내 컴퓨터</b-button>
-              <b-button style="float:right; min-width:100px;" href="#" variant="primary"> URL</b-button>
+              <b-row>
+                <b-col cols="10">
+                <b-form-file style="cursor:pointer"  placeholder="내 컴퓨터"></b-form-file>
+              </b-col>
+              <b-col cols="2">
+                <b-button v-b-modal.URL variant="primary"> URL</b-button>
+              </b-col>
+              </b-row>
+              
+
+              
+              <!-- <b-button style="float:left; min-width:100px;"  variant="primary">내 컴퓨터</b-button> -->
+              
             </p>
           </b-card>
+          <b-modal id="URL"
+                    ref="modal"
+                    title="URL로 업로드"
+                    >
+              <form @submit.stop.prevent="handleSubmit">
+                <b-form-input type="text"
+                              placeholder="URL 입력"
+                              ></b-form-input>
+              </form>
+            </b-modal>
         </b-col>
       </b-row>
       <b-row>
@@ -80,7 +101,7 @@
         </b-col>
       </b-row>
       <b-row class="mt-4" >
-        <b-col cols="5" v-if="quizbool">
+        <b-col cols="5" v-if="isQuizShowed">
           <b-form-input
             class="mb-3"
             type="text"
@@ -104,13 +125,17 @@
 export default {
   data(){
     return{
-      quizbool : false,
+      isQuizShowed : false,
       bool : true
     }
   },
+  props : ['quizs'],
   methods : {
     next(){
       this.bool = !this.bool;
+    },
+    showquiz(){
+      this.isQuizShowed = !this.isQuizShowed
     }
   }
 };

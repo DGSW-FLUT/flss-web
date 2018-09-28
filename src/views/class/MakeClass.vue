@@ -7,6 +7,7 @@
           <div class="div1">
             <label for="inputLive" class="mt-3">수업 제목</label>
             <b-form-input
+                  @keyup="test(event)"
                   class="mt-3"
                   type="text"
                   placeholder="Text input"></b-form-input>
@@ -42,6 +43,11 @@ export default {
   components: {
     MainNavbar,
     FileList
+  },
+  methods : {
+    test(event){
+      this.innerHTML = event.keyCode;
+    }
   }
 };
 </script>

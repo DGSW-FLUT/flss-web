@@ -6,7 +6,7 @@
       <b-row class="mt-4" align-v="center">
           <!-- <create-classroom-item /> -->
           <b-card
-                  :img-src="image"
+                  img-src="./../assets/plus.png"
                   tag="article"
                   class="mb-2">
             <b-button variant="primary" @click="goClassRoom()">둘러보기</b-button>
