@@ -16,7 +16,7 @@
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-form>
-              <b-button @click="logout()">Log out</b-button>
+              <b-button variant="danger" @click="logout()">Log out</b-button>
             </b-nav-form>
           </b-navbar-nav>
         </b-collapse>
