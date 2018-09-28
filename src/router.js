@@ -41,27 +41,22 @@ const router = new Router({
             {
               path: "/interaction",
               name: "interaction",
-              component: () => import("./views/Interaction")
+              component: () => import("./views/class/Interaction")
             },
             {
               path: "/createvideo",
               name: "createvideo",
-              component: () => import("./views/CreateVideo")
-            },
-            {
-              path: "/showvideo",
-              name: "showvideo",
-              component: () => import("./views/MakeQuiz")
+              component: () => import("./views/class/CreateVideo")
             },
             {
               path: "/makeclass",
               name: "makeclass",
-              component: () => import("./views/MakeClass")
+              component: () => import("./views/class/MakeClass")
             },
             {
               path: "/prize",
               name: "prize",
-              component: () => import("./views/Prize")
+              component: () => import("./views/class/Prize")
             },
             {
               path: '*',

@@ -83,7 +83,7 @@ export default {
         }
       ],
       newClassroom: {},
-      image : "./images/plus.png"
+      image : "./../assets/plus.png"
    }
   },
   created() {
