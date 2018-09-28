@@ -2,7 +2,7 @@
   <div id="create-video">
     <!-- <class-room-navbar :navs="navs"/>  -->
     <b-container>
-      <video-form class="mt-5" :quizs="quizs"/>
+      <video-form class="mt-5"/>
     </b-container>
   </div>
 </template>
@@ -14,9 +14,6 @@ import VideoForm from "@/components/VideoForm";
 
 export default {
   name: "create-video",
-  created() {
-    this.$vuevent.$emit("cnt", this.quizs.length);
-  },
   data() {
     return {};
   },
