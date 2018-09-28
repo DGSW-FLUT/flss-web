@@ -18,35 +18,11 @@ const router = new Router({
       component: () => import("./views/Main")
     },
     {
-      path: "/createvideo",
-      name: "createvideo",
-      component: () => import("./views/CreateVideo")
-    },
-    {
-      path: "/showvideo",
-      name: "showvideo",
-      component: () => import("./views/MakeQuiz")
-    },
-    {
-      path: "/makeclass",
-      name: "makeclass",
-      component: () => import("./views/MakeClass")
-    },
-    {
-      path: "/prize",
-      name: "prize",
-      component: () => import("./views/Prize")
-    },
-    {
       path: "/",
       name: "main-view",
       component: () => import("./views/MainView"),
       children: [
-        {
-          path: "/interaction",
-          name: "interaction",
-          component: () => import("./views/Interaction")
-        },
+        
         {
           path: "/",
           name: "select-class",
@@ -62,15 +38,26 @@ const router = new Router({
               name: "class-home",
               component: () => import("./views/class/ClassHome")
             },
-            // {
-              
-            // },
-            // {
-              
-            // },
-            // {
-              
-            // },
+            {
+              path: "/interaction",
+              name: "interaction",
+              component: () => import("./views/class/Interaction")
+            },
+            {
+              path: "/createvideo",
+              name: "createvideo",
+              component: () => import("./views/class/CreateVideo")
+            },
+            {
+              path: "/makeclass",
+              name: "makeclass",
+              component: () => import("./views/class/MakeClass")
+            },
+            {
+              path: "/prize",
+              name: "prize",
+              component: () => import("./views/class/Prize")
+            },
             {
               path: '*',
               redirect: '/'
@@ -97,5 +84,6 @@ const router = new Router({
 //   }
 //   next("/login");
 // });
+
 
 export default router;

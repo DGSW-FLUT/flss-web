@@ -3,10 +3,19 @@
     <div class="mt-5"></div>
     <b-container>
       <div class="d-inline">가입한 클래스룸 <span class="classroom-number">{{ classrooms.length }}</span></div>
-      <b-row class="mt-4">
+      <b-row class="mt-4" align-v="center">
           <!-- <create-classroom-item /> -->
+          <b-card
+                  :img-src="image"
+                  tag="article"
+                  class="mb-2">
+            <b-button variant="primary" @click="goClassRoom()">둘러보기</b-button>
+          </b-card>
           <classroom-item class="col-md-3 col-sm-4 mb-4" v-for="(classroom, i) in classrooms" :key="i" :classroom="classroom" />
-          <b-button class="col-md-1 ml-4 h-25" variant="success" v-b-modal.modalPrevent>+</b-button>
+          <b-col>
+            <b-button class="col-md-1 ml-4 h-25 center" variant="success" v-b-modal.modalPrevent>+</b-button>
+          </b-col>
+          
           <b-modal id="modalPrevent"
              ref="modal"
              @ok="okCreateClassroom"
@@ -73,7 +82,8 @@ export default {
           name: "클래스 6"
         }
       ],
-      newClassroom: {}
+      newClassroom: {},
+      image : "./../assets/plus.png"
    }
   },
   created() {
@@ -119,4 +129,11 @@ export default {
   font-weight: bold;
   font-size: 15px;
 }
+.center{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
 </style>
