@@ -11,33 +11,38 @@
              ref="modal"
              @ok="okCreateClassroom"
              @shown="clearNewClassroom"
-             title="클래스룸 생성">
-            <form @submit.stop.prevent="submitCreateClassroom">
-              <!-- FIXME: Line 17 ~ 40 b-form-group 활용하여 레이아웃 수정할 것 -->
-              <b-col sm="5"><label :for="`name`">클래스룸 이름 :</label></b-col>
-              <b-col sm="9"><b-form-input :id="newClassroom.name" type="text" placeholder="Enter Name" :state="nameState" v-model.trim="newClassroom.name"></b-form-input>
-              <b-form-invalid-feedback>
-                이름은 최소 4글자 이상이어야 합니다.
-              </b-form-invalid-feedback>
-              </b-col>
-              <b-col sm="4"><label :for="`image`" accept="image/*">이미지 :</label></b-col>
-              <b-col sm="9"><b-form-file v-model="newClassroom.image" placeholder="Choose a file..."></b-form-file></b-col>
-              <b-col sm="4"><label :for="`desc`">설명 :</label></b-col>
-              <b-col sm="9">
-                <b-form-textarea
-                      id="desc"
-                      v-model="newClassroom.desc"
-                      placeholder="Enter Desc"
-                      :rows="3"
-                      :max-rows="9"
-                      :no-resize="true"
-                      :state="descState">
-                </b-form-textarea>
-                <b-form-invalid-feedback>
-                  설명은 공백일 수 없습니다.
-                </b-form-invalid-feedback>
-              </b-col>
-            </form>
+             title="새 학급 만들기">
+            <b-form @submit.stop.prevent="submitCreateClassroom">
+              <b-form-group label="학급 이름: "
+                            label-for="newClassroomName"
+                            :state="nameState"
+                            :invalid-feedback="invalidName" >
+                <b-form-input id="newClassroomName"
+                              v-model.trim="newClassroom.name"
+                              type="text"
+                              placeholder="이름"
+                              :state="nameState" />
+              </b-form-group>
+              <b-form-group label="이미지: "
+                            label-for="newClassroomImage"
+                            accept="image/*" >
+                <b-form-file id="newClassroomImage"
+                             v-model="newClassroom.image"
+                             placeholder="파일 선택.." />
+              </b-form-group>
+              <b-form-group label="설명: "
+                            label-for="newClassroomDesc"
+                            :state="descState"
+                            :invalid-feedback="invalidDesc" >
+                <b-form-textarea id="desc"
+                                 v-model="newClassroom.desc"
+                                 placeholder="설명"
+                                 :rows="3"
+                                 :max-rows="9"
+                                 :no-resize="true"
+                                 :state="descState" />
+              </b-form-group>
+            </b-form>
           </b-modal>
       </b-row>
     </b-container>
@@ -96,6 +101,24 @@ export default {
     },
     descState() {
       return this.newClassroom.desc ? true : false;
+    },
+    invalidName() {
+      if (!this.newClassroom.name) {
+        return "이름을 입력해 주세요.";
+      }
+
+      if (this.newClassroom.name.length > 4) {
+        return "";
+      } else if (this.newClassroom.name.length > 0) {
+        return "이름은 최소 4글자 이상이어야 합니다.";
+      }
+    },
+    invalidDesc() {
+      if (!this.newClassroom.desc) {
+        return "설명을 입력해 주세요.";
+      } else {
+        return "";
+      }
     }
   },
   methods: {

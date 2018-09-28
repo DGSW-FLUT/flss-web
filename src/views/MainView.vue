@@ -24,7 +24,7 @@ export default {
     };
   },
   created() {
-    this.$vuevent.on('logout', () => {
+    this.$vuevent.on("logout", () => {
       this.logout();
     });
   },
