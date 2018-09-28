@@ -20,9 +20,9 @@
                 이름은 최소 4글자 이상이어야 합니다.
               </b-form-invalid-feedback>
               </b-col>
-              <b-col sm="2"><label :for="`image`" accept="image/*">이미지 :</label></b-col>
+              <b-col sm="4"><label :for="`image`" accept="image/*">이미지 :</label></b-col>
               <b-col sm="9"><b-form-file v-model="newClassroom.image" placeholder="Choose a file..."></b-form-file></b-col>
-              <b-col sm="2"><label :for="`desc`">설명 :</label></b-col>
+              <b-col sm="4"><label :for="`desc`">설명 :</label></b-col>
               <b-col sm="9">
                 <b-form-textarea
                       id="desc"

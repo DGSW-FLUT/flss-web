@@ -34,6 +34,7 @@
         <b-col cols="4">
           <label for="inputLive">영상 설명</label>
           <b-form-textarea
+                      v-model="text"
                       style="resize:none"
                       placeholder="Description"
                       rows="6" />
@@ -53,11 +54,6 @@
                 <b-button v-b-modal.URL variant="primary"> URL</b-button>
               </b-col>
               </b-row>
-              
-
-              
-              <!-- <b-button style="float:left; min-width:100px;"  variant="primary">내 컴퓨터</b-button> -->
-              
             </p>
           </b-card>
           <b-modal id="URL"
@@ -106,12 +102,14 @@
             class="mb-3"
             type="text"
             placeholder="문제를 내주세요." />
-            <b-input-group  v-for="(quiz, i) in quizs" :key="i">
+            <b-input-group  v-for="(quiz, i) in this.quizs" :key="i">
               <b-input-group-prepend is-text>
                   <input type="radio" name="quiz" :value="i+1">
               </b-input-group-prepend>
               <b-form-input type="text" :placeholder="quiz" />
             </b-input-group>
+            <b-button style="float:right;" variant="danger" v-if="canAdd" @click="del()">DEL</b-button>
+            <b-button style="float:right;" variant="success" v-if="canDelete" @click="add()">ADD</b-button>
         </b-col>
       </b-row>
       <router-link to="/class1">
@@ -125,17 +123,41 @@
 export default {
   data() {
     return {
+      quizs: ["1번 문항", "2번 문항"],
       isQuizShowed: false,
-      bool: true
+      bool: true,
+      text: "",
+      addbool: this.quizCnt > 5,
+      delbool: this.quizCnt < 2
     };
   },
-  props: ["quizs"],
+  computed: {
+    quizCnt() {
+      return this.quizs.length;
+    },
+    canAdd() {
+      return this.quizCnt > 2;
+      // if (this.quizCnt >= 5 || this.quizCnt < 2) {
+      //   return false;
+      // }
+      // return true;
+    },
+    canDelete() {
+      return this.quizCnt < 5;
+    }
+  },
   methods: {
     next() {
       this.bool = !this.bool;
     },
     showquiz() {
       this.isQuizShowed = !this.isQuizShowed;
+    },
+    add() {
+      this.quizs.push(this.quizCnt + 1 + "번 문항");
+    },
+    del() {
+      this.quizs.splice([this.quizCnt - 1], 1);
     }
   }
 };
