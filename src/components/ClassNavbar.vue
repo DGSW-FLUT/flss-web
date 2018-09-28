@@ -4,7 +4,7 @@
       <b-container>
         <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_text_collapse">
-          <b-nav justified>
+          <b-nav class="w-100" justified>
             <b-container>
               <b-row>
                 <b-col  v-for="(menu, i) in menus" :key="i">

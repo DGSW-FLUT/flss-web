@@ -5,6 +5,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
+  base: process.env.BASE_URL,
   routes: [
     {
       path: "/login",
@@ -27,7 +28,7 @@ const router = new Router({
           component: () => import("./views/SelectClass")
         },
         {
-          path: "/class1",
+          path: "class1",
           name: "class-view",
           component: () => import("./views/class/ClassView"),
           children: [
@@ -37,22 +38,22 @@ const router = new Router({
               component: () => import("./views/class/ClassHome")
             },
             {
-              path: "/interaction",
+              path: "interaction",
               name: "interaction",
               component: () => import("./views/class/Interaction")
             },
             {
-              path: "/createvideo",
+              path: "createvideo",
               name: "createvideo",
               component: () => import("./views/class/CreateVideo")
             },
             {
-              path: "/makeclass",
+              path: "makeclass",
               name: "makeclass",
               component: () => import("./views/class/MakeClass")
             },
             {
-              path: "/prize",
+              path: "prize",
               name: "prize",
               component: () => import("./views/class/Prize")
             },
