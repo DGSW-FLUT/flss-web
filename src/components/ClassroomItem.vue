@@ -2,7 +2,7 @@
   <div class="classroom-item">
     <b-card :title="classroom.showName"
             :img-src="imageSrc"
-            :img-alt="classroom.name"
+            :img-alt="classroom.showName"
             img-top
             tag="article"
             class="mb-2">
@@ -22,11 +22,9 @@ export default {
     }
   },
   methods: {
-    showRealName() {
-      
-    },
+    showRealName() {},
     goClassRoom() {
-      this.$router.push({path: "/class1"});
+      this.$router.push({ path: "/class1" });
     }
   }
 };

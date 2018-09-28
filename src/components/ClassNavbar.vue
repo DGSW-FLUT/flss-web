@@ -36,9 +36,8 @@
 export default {
   name: "class-navbar",
   props: ["menus"]
-}
+};
 </script>
 
 <style lang="scss">
-
 </style>

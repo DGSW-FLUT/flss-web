@@ -102,14 +102,14 @@
 
 <script>
 export default {
-  data(){
-    return{
-      quizbool : false,
-      bool : true
-    }
+  data() {
+    return {
+      quizbool: false,
+      bool: true
+    };
   },
-  methods : {
-    next(){
+  methods: {
+    next() {
       this.bool = !this.bool;
     }
   }

@@ -133,7 +133,7 @@ export default {
 </script>
 
 <style>
-  .right{
-    float:right;
-  }
+.right {
+  float: right;
+}
 </style>

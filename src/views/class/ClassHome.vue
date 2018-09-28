@@ -79,15 +79,12 @@
 </template>
 
 <script>
-
 export default {
   name: "class-home",
   data() {
-    return {
-    };
+    return {};
   },
-  components: {
-  }
+  components: {}
 };
 </script>
 
