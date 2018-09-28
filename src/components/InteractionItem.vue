@@ -6,14 +6,10 @@
 
 <script>
 export default {
-    name: "interaction-item",
-    data() {
-
-    }
-}
+  name: "interaction-item",
+  data() {}
+};
 </script>
 
 <style lang="scss">
-
 </style>
-

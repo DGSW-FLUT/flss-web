@@ -43,7 +43,7 @@ export default {
         {
           link: "/",
           text: "학습 자료"
-        },
+        }
       ]
     };
   },

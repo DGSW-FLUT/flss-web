@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import ClassNavbar from "@/components/ClassNavbar"
+import ClassNavbar from "@/components/ClassNavbar";
 
 export default {
-  name: 'class-view',
+  name: "class-view",
   components: {
     ClassNavbar
   },
@@ -49,11 +49,10 @@ export default {
           text: "학습 자료"
         }
       ]
-    }
+    };
   }
 };
 </script>
 
 <style lang="scss">
-
 </style>

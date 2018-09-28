@@ -36,44 +36,44 @@
 
 <script>
 export default {
-    name: "Interaction",
-    data() {
-        return {
-            newInteraction: {},
-            isadding: true
-        }
+  name: "Interaction",
+  data() {
+    return {
+      newInteraction: {},
+      isadding: true
+    };
+  },
+  methods: {
+    adding() {
+      // if(this.isadding) {
+      //     this.isadding = false;
+      //     return;
+      // }
+      this.isadding = true;
     },
-    methods: {
-        adding() {
-            // if(this.isadding) {
-            //     this.isadding = false;
-            //     return;
-            // }
-            this.isadding = true;
-        },
-        trash() {
-            this.isadding = false
-            this.newInteraction = {}
-        },
-        upload() {
-            alert("업로드됫네요")
-            this.newInteraction = {}
-        }
+    trash() {
+      this.isadding = false;
+      this.newInteraction = {};
+    },
+    upload() {
+      alert("업로드됫네요");
+      this.newInteraction = {};
     }
-}
+  }
+};
 </script>
 
 <style lang="scss">
-    .icons {
-        img {
-            display: inline-block;
-            max-width: 40px;
-            margin: 8px;
-            cursor: pointer;
-        }
+.icons {
+  img {
+    display: inline-block;
+    max-width: 40px;
+    margin: 8px;
+    cursor: pointer;
+  }
 
-        input {
-            display: none;
-        }
-    }
+  input {
+    display: none;
+  }
+}
 </style>

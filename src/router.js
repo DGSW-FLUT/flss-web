@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "./store";
 
 Vue.use(Router);
 
@@ -22,7 +21,6 @@ const router = new Router({
       name: "main-view",
       component: () => import("./views/MainView"),
       children: [
-        
         {
           path: "/",
           name: "select-class",
@@ -59,10 +57,10 @@ const router = new Router({
               component: () => import("./views/class/Prize")
             },
             {
-              path: '*',
-              redirect: '/'
+              path: "*",
+              redirect: "/"
             }
-          ],
+          ]
         },
         {
           path: "*",
@@ -84,6 +82,5 @@ const router = new Router({
 //   }
 //   next("/login");
 // });
-
 
 export default router;
