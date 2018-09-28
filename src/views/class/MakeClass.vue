@@ -44,8 +44,8 @@ export default {
     MainNavbar,
     FileList
   },
-  methods : {
-    test(event){
+  methods: {
+    test(event) {
       this.innerHTML = event.keyCode;
     }
   }

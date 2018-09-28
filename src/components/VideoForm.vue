@@ -123,19 +123,19 @@
 
 <script>
 export default {
-  data(){
-    return{
-      isQuizShowed : false,
-      bool : true
-    }
+  data() {
+    return {
+      isQuizShowed: false,
+      bool: true
+    };
   },
-  props : ['quizs'],
-  methods : {
-    next(){
+  props: ["quizs"],
+  methods: {
+    next() {
       this.bool = !this.bool;
     },
-    showquiz(){
-      this.isQuizShowed = !this.isQuizShowed
+    showquiz() {
+      this.isQuizShowed = !this.isQuizShowed;
     }
   }
 };
