@@ -1,6 +1,6 @@
 <template>
   <div id="class-view">
-    <class-navbar :menus="menus" />
+    <class-navbar :menus="menus" class="border-bottom shadow-sm" />
     <router-view />
   </div>
 </template>
@@ -17,35 +17,35 @@ export default {
     return {
       menus: [
         {
-          link: "/createvideo",
+          link: "/class1/createvideo",
           text: "영상 제작"
         },
         {
-          link: "/makeclass",
+          link: "/class1/makeclass",
           text: "수업 설계"
         },
         {
-          link: "/",
+          link: "/class1",
           text: "수업 자료"
         },
         {
-          link: "/interaction",
+          link: "/class1/interaction",
           text: "상호 작용"
         },
         {
-          link: "/prize",
+          link: "/class1/prize",
           text: "보상 도구"
         },
         {
-          link: "/",
+          link: "/class1",
           text: "지원 도구"
         },
         {
-          link: "/",
+          link: "/class1",
           text: "평가 도구"
         },
         {
-          link: "/",
+          link: "/class1",
           text: "학습 자료"
         }
       ]

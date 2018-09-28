@@ -14,6 +14,11 @@
               </router-link>
             </div>
           </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-form>
+              <b-button variant="danger" @click="logout()">Log out</b-button>
+            </b-nav-form>
+          </b-navbar-nav>
         </b-collapse>
       </b-container>
     </b-navbar>
@@ -23,7 +28,12 @@
 <script>
 export default {
   name: "main-navbar",
-  props: ["menus"]
+  props: ["menus"],
+  methods: {
+    logout() {
+      this.$vuevent.emit("logout");
+    }
+  }
 };
 </script>
 
