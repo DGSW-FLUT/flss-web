@@ -72,7 +72,6 @@ export default {
   list-style-type: none;
   font: {
     family: "Spoqa Han Sans", sans-serif;
-    size: 14px;
   }
   z-index: 0;
   color: #2c3e50;

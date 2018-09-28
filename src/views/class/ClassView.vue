@@ -1,6 +1,6 @@
 <template>
   <div id="class-view">
-    <class-navbar :menus="menus" class="border-bottom" />
+    <class-navbar :menus="menus" class="border-bottom shadow-sm" />
     <router-view />
   </div>
 </template>

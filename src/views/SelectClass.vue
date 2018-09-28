@@ -124,9 +124,4 @@ export default {
   font-weight: bold;
   font-size: 15px;
 }
-.center {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
 </style>

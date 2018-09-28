@@ -1,6 +1,6 @@
 <template>
   <div id="main-view">
-    <main-navbar :menus="menus" class="border-bottom" />
+    <main-navbar :menus="menus" class="border-bottom shadow-sm" />
     <router-view />
   </div>
 </template>
@@ -18,14 +18,15 @@ export default {
       menus: [
         {
           link: "/",
-          text: "영상 제작"
-        },
-        {
-          link: "/",
           text: "메뉴 1"
         }
       ]
     };
+  },
+  created() {
+    this.$vuevent.on('logout', () => {
+      this.logout();
+    });
   },
   methods: {
     logout() {
