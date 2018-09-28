@@ -1,6 +1,5 @@
 <template>
   <div id="create-video">
-    <main-navbar />
     <!-- <class-room-navbar :navs="navs"/>  -->
     <b-container>
       <video-form class="mt-5" />

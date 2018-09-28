@@ -1,11 +1,10 @@
 <template>
   <div id="member-list">
-    <main-navbar />
     <member-list class="mt-5" :memberlist="memberlist" />
     <b-container>
       <b-row>
         <b-col cols="2" offset="10">
-          <b-button class="btn-block" @click="test()">I am a Button</b-button>
+          <b-button class="btn-block" @click="test()">상점주기</b-button>
         </b-col>
       </b-row>
     </b-container>

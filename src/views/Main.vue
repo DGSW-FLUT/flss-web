@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-      <main-navbar />
       <class-room-navbar :navs="navs"/>
       <b-container fluid>
         <b-row class="mt-5">
