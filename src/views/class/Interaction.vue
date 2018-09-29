@@ -13,16 +13,16 @@
           </b-card-body>
           <b-card-footer>
             <div class="icons">
-              <img src="./../../assets/images.png" alt="test" @click="upload">
-              <img src="./../../assets/images.png" alt="test">
-              <img src="./../../assets/images.png" alt="test">
-              <b-input-group>
+              <b-form inline>
+                <img src="./../../assets/images.png" alt="test" @click="upload">
+                <img src="./../../assets/images.png" alt="test">
+                <img src="./../../assets/images.png" alt="test">
                 <label for="file_upload">
                   <img src="./../../assets/images.png" alt="test">
                 </label>
-                <b-input-file id="file_upload" />
-              </b-input-group>
-              <img src="./../../assets/images.png" alt="test" @click="trash">
+                <b-form-file id="file_upload" v-show="false"/>
+                <img src="./../../assets/images.png" alt="test" @click="trash">
+              </b-form>
             </div>
           </b-card-footer>
         </b-card>
