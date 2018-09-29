@@ -1,5 +1,6 @@
 <template>
   <div id="create-video">
+
     <!-- <class-room-navbar :navs="navs"/>  -->
     <b-container>
       <test class="mt-5" :video="video"/>
@@ -13,10 +14,10 @@ import ClassRoomNavbar from "@/components/ClassRoomNavbar";
 import Test from "@/components/Test";
 
 export default {
-  name: "create-video",
+  name: "create-quiz",
   data() {
     return {
-      video: true
+      video: false
     };
   },
   components: {

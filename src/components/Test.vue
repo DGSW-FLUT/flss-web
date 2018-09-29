@@ -31,7 +31,7 @@
         </b-col>
       </b-row>
       <b-row class="mt-4">
-        <b-col cols="4">
+        <b-col cols="4" >
           <label for="inputLive">영상 설명</label>
           <b-form-textarea
                       v-model="text"
@@ -39,12 +39,12 @@
                       placeholder="Description"
                       rows="6" />
         </b-col>
-        <b-col >
+        <b-col v-if="video">
           <b-card
                   tag="article"
                   style= "float:right;"
                   class="mb-2">
-            <p class="m-5 text-center">영상을 업로드해주세요.</p>
+            <p class="m-5 text-center" >영상을 업로드해주세요.</p>
             <p class="mt-5">
               <b-row>
                 <b-col cols="10">
@@ -76,7 +76,7 @@
     </b-container>
     <b-container class="mt-5" v-if="!bool">
       <b-row>
-        <b-col cols="6">
+        <b-col cols="6" v-if="video">
           <label for="inputLive">영상 미리보기</label>
           <b-embed type="iframe"
            aspect="16by9"
@@ -159,6 +159,7 @@ export default {
     del() {
       this.quizs.splice([this.quizCnt - 1], 1);
     }
-  }
+  },
+  props: ["video"]
 };
 </script>

@@ -17,7 +17,7 @@ export default {
     return {
       menus: [
         {
-          link: "/class1/createvideo",
+          link: "/class1/select",
           text: "영상 제작"
         },
         {
