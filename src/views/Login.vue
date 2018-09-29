@@ -9,30 +9,30 @@
 
     <div class="area-box">
       <div class="area-form">
-          <div class="text">FLSS에 로그인하기</div>
-          <div class="form">
-            <div class="input">
-              <input type="text" placeholder="ID">
-            </div>
-            <div class="input">
-              <input type="password" placeholder="Password">
-            </div>
-            <button class="input base" @click="login()">
-              로그인
-            </button>
-            <button class="input classting" @click="loginViaClassting()">
-              Classting으로 로그인
-            </button>
-            <button class="input google">
-              Google+로 로그인
-            </button>
-            <button class="input facebook">
-              Facebook으로 로그인
-            </button>
-            <div class="signup">
-              아이디가 없으신가요?&nbsp;&nbsp;<a>회원 가입</a>
-            </div>
+        <div class="text">FLSS에 로그인하기</div>
+        <div class="form">
+          <div class="input">
+            <input type="text" placeholder="ID">
           </div>
+          <div class="input">
+            <input type="password" placeholder="Password">
+          </div>
+          <button class="input base" @click="login()">
+            로그인
+          </button>
+          <button class="input classting" @click="loginViaClassting()">
+            Classting으로 로그인
+          </button>
+          <button class="input google">
+            Google+로 로그인
+          </button>
+          <button class="input facebook">
+            Facebook으로 로그인
+          </button>
+          <div class="signup">
+            아이디가 없으신가요?&nbsp;&nbsp;<a>회원 가입</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

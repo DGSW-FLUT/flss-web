@@ -4,46 +4,23 @@
     <b-container>
       <div class="d-inline">가입한 학급 <span class="classroom-number">{{ classrooms.length }}</span></div>
       <b-row class="mt-4" align-v="center">
-          <create-classroom-item class="col-md-3 col-sm-4 mb-4" />
-          <classroom-item class="col-md-3 col-sm-4 mb-4" v-for="(classroom, i) in classrooms" :key="i" :classroom="classroom" />
-          
-          <b-modal id="modalPrevent"
-             ref="modal"
-             @ok="okCreateClassroom"
-             @shown="clearNewClassroom"
-             title="새 학급 만들기">
-            <b-form @submit.stop.prevent="submitCreateClassroom">
-              <b-form-group label="학급 이름: "
-                            label-for="newClassroomName"
-                            :state="nameState"
-                            :invalid-feedback="invalidName" >
-                <b-form-input id="newClassroomName"
-                              v-model.trim="newClassroom.name"
-                              type="text"
-                              placeholder="이름"
-                              :state="nameState" />
-              </b-form-group>
-              <b-form-group label="이미지: "
-                            label-for="newClassroomImage"
-                            accept="image/*" >
-                <b-form-file id="newClassroomImage"
-                             v-model="newClassroom.image"
-                             placeholder="파일 선택.." />
-              </b-form-group>
-              <b-form-group label="설명: "
-                            label-for="newClassroomDesc"
-                            :state="descState"
-                            :invalid-feedback="invalidDesc" >
-                <b-form-textarea id="desc"
-                                 v-model="newClassroom.desc"
-                                 placeholder="설명"
-                                 :rows="3"
-                                 :max-rows="9"
-                                 :no-resize="true"
-                                 :state="descState" />
-              </b-form-group>
-            </b-form>
-          </b-modal>
+        <create-classroom-item class="col-md-3 col-sm-4 mb-4" />
+        <classroom-item class="col-md-3 col-sm-4 mb-4" v-for="(classroom, i) in classrooms" :key="i" :classroom="classroom" />
+
+        <b-modal id="modalPrevent" ref="modal" @ok="okCreateClassroom" @shown="clearNewClassroom" title="새 학급 만들기">
+          <b-form @submit.stop.prevent="submitCreateClassroom">
+            <b-form-group label="학급 이름: " label-for="newClassroomName" :state="nameState" :invalid-feedback="invalidName">
+              <b-form-input id="newClassroomName" v-model.trim="newClassroom.name" type="text" placeholder="이름" :state="nameState" />
+            </b-form-group>
+            <b-form-group label="이미지: " label-for="newClassroomImage" accept="image/*">
+              <b-form-file id="newClassroomImage" v-model="newClassroom.image" placeholder="파일 선택.." />
+            </b-form-group>
+            <b-form-group label="설명: " label-for="newClassroomDesc" :state="descState" :invalid-feedback="invalidDesc">
+              <b-form-textarea id="desc" v-model="newClassroom.desc" placeholder="설명" :rows="3" :max-rows="9" :no-resize="true" :state="descState"
+              />
+            </b-form-group>
+          </b-form>
+        </b-modal>
       </b-row>
     </b-container>
   </div>
