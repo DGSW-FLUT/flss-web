@@ -1,6 +1,5 @@
 <template>
   <div id="make-class">
-    <main-navbar /> 
     <b-container class="mt-5">
       <b-row>
         <b-col cols="6">

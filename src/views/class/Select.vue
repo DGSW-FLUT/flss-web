@@ -1,6 +1,5 @@
 <template>
   <div id="create-video">
-
     <!-- <class-room-navbar :navs="navs"/>  -->
     <b-container>
       <b-row class="mt-5">
@@ -8,7 +7,6 @@
           <b-card bg-variant="light"
                 header="사전 영상"
                 @click="goVideo()"
-                :video="video"
                 class="text-center">
             <p class="card-text">바로가기</p>
           </b-card>
@@ -17,11 +15,10 @@
           <b-card bg-variant="light"
                 header="평가 퀴즈"
                 @click="goQuiz()"
-                :video="video"
                 class="text-center">
             <p class="card-text">바로가기</p>
           </b-card>
-        </b-col>
+         </b-col>
       </b-row>
       <!-- <video-form class="mt-5"/> -->
     </b-container>

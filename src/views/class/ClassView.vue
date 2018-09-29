@@ -17,6 +17,10 @@ export default {
     return {
       menus: [
         {
+          link: "/class1",
+          text: "home"
+        },
+        {
           link: "/class1/select",
           text: "영상 제작"
         },
@@ -25,8 +29,8 @@ export default {
           text: "수업 설계"
         },
         {
-          link: "/class1",
-          text: "수업 자료"
+          link: "/class1/library",
+          text: "자료실"
         },
         {
           link: "/class1/interaction",
@@ -38,15 +42,7 @@ export default {
         },
         {
           link: "/class1",
-          text: "지원 도구"
-        },
-        {
-          link: "/class1",
           text: "평가 도구"
-        },
-        {
-          link: "/class1",
-          text: "학습 자료"
         }
       ]
     };

@@ -13,11 +13,6 @@ const router = new Router({
       component: () => import("./views/Login")
     },
     {
-      path: "/main",
-      name: "main",
-      component: () => import("./views/Main")
-    },
-    {
       path: "/",
       name: "main-view",
       component: () => import("./views/MainView"),
@@ -66,6 +61,11 @@ const router = new Router({
               path: "prize",
               name: "prize",
               component: () => import("./views/class/Prize")
+            },
+            {
+              path: "library",
+              name: "library",
+              component: () => import("./views/class/Library")
             },
             {
               path: "*",
