@@ -43,9 +43,19 @@ const router = new Router({
               component: () => import("./views/class/Interaction")
             },
             {
+              path: "select",
+              name: "select",
+              component: () => import("./views/class/Select")
+            },
+            {
               path: "createvideo",
               name: "createvideo",
               component: () => import("./views/class/CreateVideo")
+            },
+            {
+              path: "createquiz",
+              name: "createquiz",
+              component: () => import("./views/class/CreateQuiz")
             },
             {
               path: "makeclass",
