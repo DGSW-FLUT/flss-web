@@ -7,6 +7,7 @@ import Axios from "axios";
 import Vuevent from "vuevent";
 import BootstrapVue from "bootstrap-vue";
 import VueMoment from "vue-moment";
+import VueCharts from "vue-chartjs";
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +19,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 Vue.config.productionTip = false;
 
 Vue.prototype.$http = Axios;
+Vue.prototype.$chart = VueCharts;
 
 library.add(fas);
 

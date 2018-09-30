@@ -68,6 +68,11 @@ const router = new Router({
               component: () => import("./views/class/Library")
             },
             {
+              path: "evaluation",
+              name: "evaluation",
+              component: () => import("./views/class/Evaluation")
+            },
+            {
               path: "*",
               redirect: "/"
             }
