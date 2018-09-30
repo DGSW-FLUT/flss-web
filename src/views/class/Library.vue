@@ -8,8 +8,8 @@
                 >
               <h4 slot="header">{{ file.text }}</h4>
               <b-card-body class="border-bottom">
-                <p class="card-text">
-                    (File Image)
+                <p class="card-text" style="text-align:center">
+                  <font-awesome-icon class="py-2" fas icon="paperclip" size="5x" />
                 </p>
               </b-card-body>
               <b-card-body>

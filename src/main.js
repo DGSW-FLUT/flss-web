@@ -8,6 +8,10 @@ import Vuevent from "vuevent";
 import BootstrapVue from "bootstrap-vue";
 import VueMoment from "vue-moment";
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
@@ -15,9 +19,12 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$http = Axios;
 
+library.add(fas);
+
 Vue.use(Vuevent);
 Vue.use(BootstrapVue);
 Vue.use(VueMoment);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
   router,
