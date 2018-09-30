@@ -1,6 +1,6 @@
 <template>
   <div id="make-class">
-    <b-container class="mt-5">
+      <b-container class="mt-5">
       <b-row>
         <b-col cols="6">
           <div class="div1">

@@ -4,7 +4,7 @@
     <b-container>
       <b-row>
         <b-col cols="2" offset="10">
-          <b-button class="btn-block" @click="test()">상점주기</b-button>
+          <b-button class="btn-block mb-5" @click="test()">상점주기</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -101,9 +101,14 @@ export default {
   },
   methods: {
     test() {
+      let cnt = 0;
       for (let i = 0; i < this.memberlist.length; i++) {
-        this.memberlist[i].selected = false;
+        if (this.memberlist[i].selected == true) {
+          cnt++;
+          this.memberlist[i].selected = false;
+        }
       }
+      alert(cnt + "명의 학생에게 상점을 주었습니다.");
     }
   }
 };
