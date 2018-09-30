@@ -41,7 +41,7 @@ export default {
           text: "보상 도구"
         },
         {
-          link: "/class1",
+          link: "/class1/evaluation",
           text: "평가 도구"
         }
       ]
