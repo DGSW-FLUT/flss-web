@@ -107,26 +107,40 @@
             placeholder="문제를 내주세요." />
             <b-input-group  v-for="(quiz, i) in this.quizs" :key="i">
               <b-input-group-prepend is-text>
-                  <input type="radio" name="quiz" :value="i+1">
+                  <input type="radio" name="quiz" :value="i+1" v-model="answer">
               </b-input-group-prepend>
-              <b-form-input type="text" :placeholder="quiz.idx" v-model="question"/>
+              <b-form-input type="text" :placeholder="quiz.idx" v-model="question[i]"/>
             </b-input-group>
             <b-button style="float:right;" variant="primary" @click="addQuiz()">출제하기</b-button>
             <b-button style="float:right;" variant="danger" v-if="canAdd" @click="del()">문항 삭제</b-button>
             <b-button style="float:right;" variant="success" v-if="canDelete" @click="add()">문항 추가</b-button>
         </b-col>
-        <b-col v-if="isQuizShowed">
+        
+      </b-row>
+      <!-- <b-row>
+        <b-col v-if="isQuizShowed" v-for="(quiz, i) in quizlist" :key="i" cols="4">
           <b-card v-if="isQuiz"
                   title="퀴즈"
-                  style="max-width: 20rem; float : right"
-                  class="mb-2">
-            <p v-for="(quiz, i) in quizlist" :key="i" class="card-text">
-              {{ i+1 + "번 문제" }}
+                  style="max-width: 20rem;"
+                  class="mb-5" >
+             
+              <p>{{ i + 1 + "번"}}</p>
+              <p>문제 :  {{ quiz.title }}</p>
+              <p>항목 : {{ getQuizQuestions(i) }}</p>
+              <span>정답 :  {{ quiz.answer + "번" }}</span>
               <b-button class="ml-4" variant="danger" @click="questionDel(i)">X</b-button>
-            </p>
+              <span @click="showModal(i)" class="card-text my-3"> {{ i+1 + "번 문제" }} </span>
+            <b-modal id="modal1" ref="quizModal" title="Bootstrap-Vue">
+              <p class="my-4">{{ modal.title }}</p>
+              <p class="my-4">{{ modal.answer }}</p>
+                <p class="my-4">{{ quizlist[i].title }}</p>
+                <p class="my-4">{{ getQuizQuestions(i) }}</p>
+                <p class="my-4">{{ quizlist[i].answer }}</p>
+              </b-modal>
+            
           </b-card>
         </b-col>
-      </b-row>
+      </b-row> -->
       <router-link to="/class1">
           <b-button style="float:right; margin-top:20%;" size="lg" variant="success">Upload!</b-button>
       </router-link>
@@ -139,23 +153,26 @@ export default {
   data() {
     return {
       quizlist: [],
-      question: "",
+      question: [],
+      answer : "",
+      newQuestion : {},
       questionTitle: "",
       quizs: [
         {
           idx: "1번 문항",
-          val: this.question
+          val : ''
         },
         {
           idx: "2번 문항",
-          val: this.question
+          val : ''
         }
       ],
       isQuizShowed: false,
       bool: true,
       text: "",
       addbool: this.quizCnt > 5,
-      delbool: this.quizCnt < 2
+      delbool: this.quizCnt < 2,
+      modal: {}
     };
   },
 
@@ -175,9 +192,30 @@ export default {
   },
   methods: {
     addQuiz() {
-      this.quizlist.push(this.quizs);
-      console.log(this.question);
-      console.log(this.quizlist);
+      if(this.questionTitle.trim() == ''){
+        alert('문제를 입력해주세요!')
+        return;
+      }
+      // for(var i = 0; i < this.quizs.length; i++){
+      //   this.quizs[i].val = this.question[i]
+      // }
+      // let test = {
+      //   title : this.questionTitle,
+      //   val : [],
+      //   answer : this.answer
+      // }
+      // test.val.push(this.quizs)
+      // this.quizlist.push(test);
+      for(var i = 0; i < this.quizs.length; i++){
+        this.question[i] = ''
+      }
+      this.questionTitle = ''
+      this.answer = ''
+      alert('문제 제출 성공!')
+    },
+    questionCnt(i){
+      console.log(this.quizlist.length)
+      return this.quizlist[i].length
     },
     questionDel(i) {
       this.quizlist.splice(i, 1);
@@ -189,7 +227,7 @@ export default {
       this.isQuizShowed = !this.isQuizShowed;
     },
     add() {
-      let newQuestion = {
+       let newQuestion = {
         idx: this.quizCnt + 1 + "번 문항",
         val: this.question
       };
@@ -197,6 +235,19 @@ export default {
     },
     del() {
       this.quizs.splice([this.quizCnt - 1], 1);
+    },
+    getQuizQuestions(i) {
+      let string = '';
+      this.quizlist[i].val.forEach(el => {
+        string += `${el.val} `;
+      });
+
+      return string; 
+    },
+    showModal(i) {
+      this.modal.title = this.quizlist[i].title;
+      this.modal.answer = this.quizlist[i].answer;
+      this.$refs.quizModal.show();
     }
   },
   props: ["video"]
