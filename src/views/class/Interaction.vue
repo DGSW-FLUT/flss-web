@@ -1,42 +1,41 @@
 <template>
-  <div id="inter-action">
+  <div id="interaction">
     <div class="mt-5"></div>
     <div class="container">
       <b-container>
-        <b-card v-if="this.isadding === true" no-body class="mb-3">
-          <b-card-header>
-            <b-form-input placeholder="제목" v-model="newInteraction.title"></b-form-input>
-          </b-card-header>
-          <b-card-body>
-            <b-form-textarea id="newInteractionValue" v-model="newInteraction.value" placeholder="내용" :rows="2" :max-rows="4" :no-resize="true">
-            </b-form-textarea>
-          </b-card-body>
-          <b-card-footer>
-            <div class="icons">
-              <b-form inline>
-                <img src="./../../assets/images.png" alt="test" @click="upload">
-                <img src="./../../assets/images.png" alt="test">
-                <img src="./../../assets/images.png" alt="test">
-                <label for="file_upload">
-                  <img src="./../../assets/images.png" alt="test">
-                </label>
-                <b-form-file id="file_upload" v-show="false"/>
-                <img src="./../../assets/images.png" alt="test" @click="trash">
-              </b-form>
-            </div>
-          </b-card-footer>
-        </b-card>
-        <b-card>
-          <b-card-header>
-            hi
-          </b-card-header>
-          <b-card-body>
-            meet
-          </b-card-body>
-          <b-card-footer>
-            bye
-          </b-card-footer>
-        </b-card>
+        <b-row>
+           <b-modal id="modal" ref="modal" @ok="okLink" @shown="clearLink" title="새 학급 만들기">
+             <b-form-input v-model="newInteraction.link"
+                  type="text"
+                  placeholder="E.g. https://youtube.com"></b-form-input>
+          </b-modal>
+          <interaction-item class="col-md-4 col-sm-5 mb-4" v-for="(Interaction, i) in Interactions" :key="i" :InteractionItem="Interaction" />
+          <div class="col-md-4 col-sm-5 mb-4">
+            <b-card v-if="this.isadding === true" no-body class="mb-3">
+              <b-card-header>
+                <b-form-input placeholder="제목" v-model="newInteraction.topic"></b-form-input>
+              </b-card-header>
+              <b-card-body>
+                <b-form-textarea id="newInteractionContent" v-model="newInteraction.content" placeholder="내용" :rows="2" :max-rows="4" :no-resize="true">
+                </b-form-textarea>
+              </b-card-body>
+              <b-card-footer>
+                <div class="icons ml-2">
+                  <b-form inline>
+                    <font-awesome-icon class="py-2 mr-4" fas icon="upload" size="3x" @click="upload"/>
+                    <font-awesome-icon class="py-2 mr-4" fas icon="link" size="3x" v-b-modal.modal/>
+                    <label for="file_upload">
+                     <font-awesome-icon class="py-2 mr-4" fas icon="folder" size="3x"/>
+                    </label>
+                    <b-form-file id="file_upload" v-show="false" />
+                    <font-awesome-icon class="py-2 mr-4" fas icon="trash-alt" size="3x" @click="trash"/>
+                  </b-form>
+                </div>
+              </b-card-footer>
+            </b-card>
+          </div>
+        </b-row>
+        
         <b-button class="float-right fixed-right" variant="success" @click="adding">
           +
         </b-button>
@@ -46,20 +45,21 @@
 </template>
 
 <script>
+import InteractionItem from "@/components/InteractionItem";
+
 export default {
   name: "Interaction",
   data() {
     return {
-      newInteraction: {},
-      isadding: true
+      newInteraction: {
+        type: 2
+      },
+      Interactions: [],
+      isadding: false
     };
   },
   methods: {
     adding() {
-      // if(this.isadding) {
-      //     this.isadding = false;
-      //     return;
-      // }
       this.isadding = true;
     },
     trash() {
@@ -67,19 +67,30 @@ export default {
       this.newInteraction = {};
     },
     upload() {
-      alert("업로드됫네요");
+      console.log(this.Interactions);
+      this.Interactions.push(this.newInteraction);
       this.newInteraction = {};
+      alert("업로드 되었습니다");
+    },
+    okLink(evt) {
+      this.newInteraction.link = "https://youtube.com";
+    },
+    clearLink() {
+
     }
+  },
+  components: {
+    InteractionItem
+  },
+  created() {
+
   }
 };
 </script>
 
 <style lang="scss">
 .icons {
-  img {
-    display: inline-block;
-    max-width: 40px;
-    margin: 8px;
+  font-awesome-icon {
     cursor: pointer;
   }
 
