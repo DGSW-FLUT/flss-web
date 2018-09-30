@@ -4,7 +4,7 @@
     <b-container>
       <b-row>
         <b-col cols="2" offset="10">
-          <b-button class="btn-block mb-5" @click="test()">상점주기</b-button>
+          <b-button class="btn-block mb-5" variant="success" @click="test()">상점주기</b-button>
         </b-col>
       </b-row>
     </b-container>

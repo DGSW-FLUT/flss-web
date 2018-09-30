@@ -18,7 +18,7 @@ export default {
       menus: [
         {
           link: "/class1",
-          text: "home"
+          text: "Home"
         },
         {
           link: "/class1/select",

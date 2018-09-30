@@ -1,5 +1,6 @@
 <template>
   <div role="group">
+    <!-- 영상 설명 부분 -->
     <b-container v-if="bool">
       <b-row>
       <label for="inputLive">영상 제목</label>
@@ -74,6 +75,7 @@
         </b-col>
       </b-row>
     </b-container>
+    <!-- 퀴즈 출제 부분 -->
     <b-container class="mt-5" v-if="!bool">
       <b-row>
         <b-col cols="6" v-if="video">
@@ -91,7 +93,7 @@
                   class="mb-2">
             <p class="m-5">퀴즈를 추가해주세요.</p>
             <p class="mt-5">
-              <b-button style="float:left; min-width:100px;" @click="showquiz()" variant="primary">출제하기</b-button>
+              <b-button style="float:left; min-width:100px;" @click="showquiz()" variant="primary" >출제하기</b-button>
             </p>
           </b-card>
         </b-col>
@@ -101,15 +103,28 @@
           <b-form-input
             class="mb-3"
             type="text"
+            v-model="questionTitle"
             placeholder="문제를 내주세요." />
             <b-input-group  v-for="(quiz, i) in this.quizs" :key="i">
               <b-input-group-prepend is-text>
                   <input type="radio" name="quiz" :value="i+1">
               </b-input-group-prepend>
-              <b-form-input type="text" :placeholder="quiz" />
+              <b-form-input type="text" :placeholder="quiz.idx" v-model="question"/>
             </b-input-group>
-            <b-button style="float:right;" variant="danger" v-if="canAdd" @click="del()">DEL</b-button>
-            <b-button style="float:right;" variant="success" v-if="canDelete" @click="add()">ADD</b-button>
+            <b-button style="float:right;" variant="primary" @click="addQuiz()">출제하기</b-button>
+            <b-button style="float:right;" variant="danger" v-if="canAdd" @click="del()">문항 삭제</b-button>
+            <b-button style="float:right;" variant="success" v-if="canDelete" @click="add()">문항 추가</b-button>
+        </b-col>
+        <b-col v-if="isQuizShowed">
+          <b-card v-if="isQuiz"
+                  title="퀴즈"
+                  style="max-width: 20rem; float : right"
+                  class="mb-2">
+            <p v-for="(quiz, i) in quizlist" :key="i" class="card-text">
+              {{ i+1 + "번 문제" }}
+              <b-button class="ml-4" variant="danger" @click="questionDel(i)">X</b-button>
+            </p>
+          </b-card>
         </b-col>
       </b-row>
       <router-link to="/class1">
@@ -123,7 +138,19 @@
 export default {
   data() {
     return {
-      quizs: ["1번 문항", "2번 문항"],
+      quizlist: [],
+      question: "",
+      questionTitle: "",
+      quizs: [
+        {
+          idx: "1번 문항",
+          val: this.question
+        },
+        {
+          idx: "2번 문항",
+          val: this.question
+        }
+      ],
       isQuizShowed: false,
       bool: true,
       text: "",
@@ -131,22 +158,30 @@ export default {
       delbool: this.quizCnt < 2
     };
   },
+
   computed: {
     quizCnt() {
       return this.quizs.length;
     },
     canAdd() {
       return this.quizCnt > 2;
-      // if (this.quizCnt >= 5 || this.quizCnt < 2) {
-      //   return false;
-      // }
-      // return true;
     },
     canDelete() {
       return this.quizCnt < 5;
+    },
+    isQuiz() {
+      return this.quizlist.length !== 0;
     }
   },
   methods: {
+    addQuiz() {
+      this.quizlist.push(this.quizs);
+      console.log(this.question);
+      console.log(this.quizlist);
+    },
+    questionDel(i) {
+      this.quizlist.splice(i, 1);
+    },
     next() {
       this.bool = !this.bool;
     },
@@ -154,7 +189,11 @@ export default {
       this.isQuizShowed = !this.isQuizShowed;
     },
     add() {
-      this.quizs.push(this.quizCnt + 1 + "번 문항");
+      let newQuestion = {
+        idx: this.quizCnt + 1 + "번 문항",
+        val: this.question
+      };
+      this.quizs.push(newQuestion);
     },
     del() {
       this.quizs.splice([this.quizCnt - 1], 1);
