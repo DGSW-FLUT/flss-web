@@ -4,10 +4,10 @@
     <div class="container">
       <b-container>
         <b-row>
-           <b-modal id="modal" ref="modal" @ok="okLink" @shown="clearLink" title="새 학급 만들기">
-             <b-form-input v-model="newInteraction.link"
-                  type="text"
-                  placeholder="E.g. https://youtube.com"></b-form-input>
+           <b-modal id="modal" ref="modal" @ok="okLink" @shown="clearLink" title="Enter Link">
+             <b-form-group label-for="newInteractionLink" :state="linkState" :invalid-feedback="invalidLink">
+              <b-form-input id="newInteractionLink" v-model.trim="newInteraction.link" type="text" placeholder="E.g. https://youtube.com" :state="linkState" />
+            </b-form-group>
           </b-modal>
           <interaction-item class="col-md-4 col-sm-5 mb-4" v-for="(Interaction, i) in Interactions" :key="i" :InteractionItem="Interaction" />
           <div class="col-md-4 col-sm-5 mb-4">
@@ -20,22 +20,19 @@
                 </b-form-textarea>
               </b-card-body>
               <b-card-footer>
-                <div class="icons ml-2">
-                  <b-form inline>
-                    <font-awesome-icon class="py-2 mr-4" fas icon="upload" size="3x" @click="upload"/>
-                    <font-awesome-icon class="py-2 mr-4" fas icon="link" size="3x" v-b-modal.modal/>
-                    <label for="file_upload">
-                     <font-awesome-icon class="py-2 mr-4" fas icon="folder" size="3x"/>
-                    </label>
-                    <b-form-file id="file_upload" v-show="false" />
-                    <font-awesome-icon class="py-2 mr-4" fas icon="trash-alt" size="3x" @click="trash"/>
-                  </b-form>
-                </div>
+              <b-form inline class="icons ml-3">
+                <font-awesome-icon class="py-2 mr-4" fas icon="upload" size="3x" @click="upload"/>
+                <font-awesome-icon class="py-2 mr-4" fas icon="link" size="3x" v-b-modal.modal/>
+                <label for="file_upload">
+                  <font-awesome-icon class="py-2 mr-4" fas icon="folder" size="3x"/>
+                </label>
+                <b-form-file id="file_upload" v-show="false" />
+                <font-awesome-icon class="py-2 mr-4" fas icon="trash-alt" size="3x" @click="trash"/>
+              </b-form>
               </b-card-footer>
             </b-card>
           </div>
         </b-row>
-        
         <b-button class="float-right fixed-right" variant="success" @click="adding">
           +
         </b-button>
@@ -52,7 +49,7 @@ export default {
   data() {
     return {
       newInteraction: {
-        type: 2
+        type: 1
       },
       Interactions: [],
       isadding: false
@@ -70,17 +67,39 @@ export default {
       console.log(this.Interactions);
       this.Interactions.push(this.newInteraction);
       this.newInteraction = {};
+      this.isadding = false;
       alert("업로드 되었습니다");
     },
     okLink(evt) {
-      this.newInteraction.link = "https://youtube.com";
+
+      if(!this.linkState) {
+        alert("올바르지 않은 입력 형식 입니다.");
+        return;
+      }
+      
+      this.newInteraction.type = 2;
+      this.$refs.modal.hide();
+
     },
     clearLink() {
-
+      // this.newInteraction.link = '';
     }
   },
   components: {
     InteractionItem
+  },
+  computed: {
+    linkState() {
+      const urlreg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+      console.log(urlreg.test(this.newInteraction.link) + " -- "+this.newInteraction.link)
+      return urlreg.test(this.newInteraction.link);
+    },
+    invalidLink() {
+      if(!this.linkState){
+        return "Please enter a valid link"
+      }
+      return "";
+    }
   },
   created() {
 

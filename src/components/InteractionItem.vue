@@ -8,7 +8,7 @@
           {{ InteractionItem.content }}
         </b-card-body>
         <b-card-footer v-if="InteractionItem.type !== 1">
-          <link-prevue url="https://www.youtube.com/watch?v=9iHM6X6uUH8">
+          <link-prevue :url="InteractionItem.link">
             <template slot-scope="props">
               <b-card :title="props.title"
                     :img-src="props.img"
