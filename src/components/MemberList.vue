@@ -6,12 +6,11 @@
           <b-card
             :class="{selected : member.selected}"
             class="mb-4"
-            img-src="https://image.freepik.com/free-icon/male-user-shadow_318-34042.jpg"
-            img-alt="Image"
             img-top
             tag="article"
             @click="test(i)"
-            style="cursor:pointer;">
+            style="text-align:center; cursor:pointer;">
+            <font-awesome-icon class="py-2" fas icon="user" size="5x" />
           <p class="card-text">{{ i+1 + "." }} {{ member.name }} </p>
           </b-card>
         </b-col>
