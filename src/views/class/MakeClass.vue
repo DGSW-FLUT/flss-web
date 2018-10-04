@@ -5,6 +5,7 @@
         <b-col cols="6">
           <div class="div1 border no-scrollbar">
             <label for="inputLive" class="mt-3">수업 제목</label>
+            <b-button variant="success" size="sm" class="float-right mt-3" @click="uploadFile">UPLOAD</b-button>
             <b-form-input
                   @keyup="test(event)"
                   class="mt-3"
@@ -79,6 +80,10 @@ export default {
   methods: {
     addFile(i) {
       this.files.push(this.items[i]);
+    },
+    uploadFile() {
+      this.files = [];
+      alert("업로드 되었습니다");
     }
   }
 };
