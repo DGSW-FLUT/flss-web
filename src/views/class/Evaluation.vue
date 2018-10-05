@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import BarChart from "@/components/BarChart"
+import BarChart from "@/components/BarChart";
 
 export default {
   name: "evaluation",
@@ -22,7 +22,20 @@ export default {
   data() {
     return {
       chartData: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
         datasets: [
           {
             label: "Github Commits",
@@ -31,11 +44,10 @@ export default {
           }
         ]
       }
-    }
+    };
   }
 };
 </script>
 
 <style lang="scss">
-
 </style>

@@ -17,6 +17,10 @@ export default {
     return {
       menus: [
         {
+          link: "/class1/classlist",
+          text: "영상"
+        },
+        {
           link: "/class1",
           text: "Home"
         },

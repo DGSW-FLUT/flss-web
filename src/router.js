@@ -33,6 +33,11 @@ const router = new Router({
               component: () => import("./views/class/ClassHome")
             },
             {
+              path: "classlist",
+              name: "classlist",
+              component: () => import("./views/class/ClassList")
+            },
+            {
               path: "interaction",
               name: "interaction",
               component: () => import("./views/class/Interaction")
@@ -71,6 +76,11 @@ const router = new Router({
               path: "evaluation",
               name: "evaluation",
               component: () => import("./views/class/Evaluation")
+            },
+            {
+              path: "lesson",
+              name: "lesson",
+              component: () => import("./views/class/Lesson")
             },
             {
               path: "*",

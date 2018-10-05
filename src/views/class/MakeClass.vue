@@ -15,7 +15,8 @@
                 <p class="mb-1">
                   {{ file.fileName }}
                 </p>
-                <small>{{ file.date }}</small>
+                <small>{{ file.fileExt }}</small>
+                <small style="float:right">{{ file.date }}</small>
               </b-list-group-item>
             </b-list-group>
 <!--                   
@@ -30,7 +31,9 @@
           </div>
         </b-col>
         <b-col>
-          <label for="inputLive">자료 가져오기</label>
+          <b-table style="cursor:pointer" hover :items="items" @row-clicked="addFile"></b-table>
+
+          <!--<label for="inputLive">자료 가져오기</label>
             <b-card>
               <b-container>
                 <b-row class="p-2" style="font-weight:bold">
@@ -46,8 +49,7 @@
                   </b-col>
                 </b-row>
               </b-container>
-              <!-- <b-table style="cursor:pointer" hover :items="items" @click="addFile()"></b-table> -->
-            </b-card>          
+            </b-card> -->          
         </b-col>
       </b-row>
     </b-container>
@@ -59,7 +61,7 @@ import MainNavbar from "@/components/MainNavbar";
 import FileList from "@/components/FileList";
 const items = [
   { fileName: "1.pptx", date: "2018-08-01" },
-  { fileName: "2.pptx", date: "2018-08-02" },
+  { fileName: "2.hwp", date: "2018-08-02" },
   { fileName: "3.pptx", date: "2018-08-03" },
   { fileName: "4.pptx", date: "2018-08-04" }
 ];
@@ -76,9 +78,13 @@ export default {
     MainNavbar,
     FileList
   },
+  computed: {},
   methods: {
-    addFile(i) {
-      this.files.push(this.items[i]);
+    addFile(record, index) {
+      let name = this.items[index].fileName;
+      let fileExt = name.substring(name.lastIndexOf("."), name.length);
+      this.items[index].fileExt = fileExt;
+      this.files.push(this.items[index]);
     }
   }
 };

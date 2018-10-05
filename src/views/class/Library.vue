@@ -80,6 +80,7 @@ export default {
         fileName: this.file.name,
         date: current
       };
+      console.log(this.file);
       this.files.push(newFile);
     }
   }
