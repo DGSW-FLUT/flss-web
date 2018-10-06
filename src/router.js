@@ -43,6 +43,11 @@ const router = new Router({
               component: () => import("./views/class/Interaction")
             },
             {
+              path: "portfolio",
+              name: "interaction",
+              component: () => import("./views/class/Portfolio")
+            },
+            {
               path: "select",
               name: "select",
               component: () => import("./views/class/Select")
