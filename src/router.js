@@ -68,6 +68,11 @@ const router = new Router({
               component: () => import("./views/class/MakeClass")
             },
             {
+              path : "mypage",
+              name : "mypage",
+              component: () => import('./views/class/MyPage')
+            },
+            {
               path: "prize",
               name: "prize",
               component: () => import("./views/class/Prize")

@@ -12,6 +12,7 @@
             style="text-align:center; cursor:pointer;">
             <font-awesome-icon class="py-2" fas icon="user" size="5x" />
           <p class="card-text">{{ i+1 + "." }} {{ member.name }} </p>
+          <p>{{ "상점 : " +  member.prize }}</p>
           </b-card>
         </b-col>
       </b-row>
