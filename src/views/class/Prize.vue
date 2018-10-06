@@ -26,70 +26,87 @@ export default {
       memberlist: [
         {
           name: "User1",
+          prize : 0,
           selected: false
         },
         {
           name: "User2",
+          prize : 0,
           selected: false
         },
         {
           name: "User3",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         },
         {
           name: "User4",
+          prize : 0,
           selected: false
         }
       ]
@@ -105,6 +122,7 @@ export default {
       for (let i = 0; i < this.memberlist.length; i++) {
         if (this.memberlist[i].selected == true) {
           cnt++;
+          this.memberlist[i].prize += 1;
           this.memberlist[i].selected = false;
         }
       }

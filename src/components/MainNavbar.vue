@@ -15,7 +15,7 @@
             </div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item disabled class="mr-3">민경빈 선생님</b-nav-item>
+            <b-nav-item @click="mypage()" class="mr-3">민경빈 선생님</b-nav-item>
             <b-nav-form>
               <b-button variant="danger" @click="logout()">Log out</b-button>
             </b-nav-form>
