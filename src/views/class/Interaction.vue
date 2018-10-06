@@ -65,7 +65,7 @@
 
 <script>
 import InteractionItem from "@/components/InteractionItem";
-import LinkPrevue from 'link-prevue';
+import LinkPrevue from "link-prevue";
 
 export default {
   name: "Interaction",
@@ -97,9 +97,8 @@ export default {
       alert("업로드 되었습니다");
     },
     okLink(evt) {
-
       evt.preventDefault();
-      if(!this.linkState) {
+      if (!this.linkState) {
         alert("올바르지 않은 입력 형식 입니다.");
         return;
       } else {
@@ -109,14 +108,14 @@ export default {
       }
     },
     clearLink() {
-      this.newInteraction.link = '';
+      this.newInteraction.link = "";
       this.isAttach = false;
     },
     clearFile() {
-      this.newInteraction.file = '';
+      this.newInteraction.file = "";
       this.isAttach = false;
     },
-    addFile(){
+    addFile() {
       this.isAttach = true;
       this.newInteraction.type = 3;
     }
@@ -131,15 +130,13 @@ export default {
       return urlreg.test(this.newInteraction.link);
     },
     invalidLink() {
-      if(!this.linkState){
-        return "Please enter a valid link"
+      if (!this.linkState) {
+        return "Please enter a valid link";
       }
       return "";
     }
   },
-  created() {
-
-  }
+  created() {}
 };
 </script>
 

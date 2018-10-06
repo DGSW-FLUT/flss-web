@@ -35,32 +35,28 @@
 </template>
 
 <script>
-import LinkPrevue from 'link-prevue'
+import LinkPrevue from "link-prevue";
 
 export default {
   name: "interaction-item",
   data() {
-    return {
-
-    }
+    return {};
   },
-  props: ['InteractionItem'],
+  props: ["InteractionItem"],
   components: {
     LinkPrevue
   },
   methods: {
-    downloadFile() {
-
-    }
+    downloadFile() {}
   }
 };
 </script>
 
 <style lang="scss">
-  html {
-    text-decoration: none;
-  }
-  font-awesome-icon {
-    cursor: pointer;
-  }
+html {
+  text-decoration: none;
+}
+font-awesome-icon {
+  cursor: pointer;
+}
 </style>

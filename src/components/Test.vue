@@ -37,16 +37,34 @@
                       placeholder="Description"
                       rows="6" />
         </b-col>
+        
+      </b-row>
+      <b-row>
+        <b-col>
+            <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">Next</b-button>
+        </b-col>
+      </b-row>
+    </b-container>
+    <!-- 퀴즈 출제 부분 -->
+    <b-container class="mt-5" v-if="!bool">
+      <b-row>
         <b-col v-if="video">
           <b-card
                   tag="article"
-                  style= "float:right;"
                   class="mb-2">
             <p class="m-5 text-center" >영상을 업로드해주세요.</p>
             <p class="mt-5">
               <b-row>
-                <b-col cols="10">
-                <b-form-file style="cursor:pointer"  placeholder="내 컴퓨터"></b-form-file>
+              <b-col cols="7">
+                <input type="file" v-on:change="onFileChange" name="file[]" class="file_multi_video" accept="video/*" >
+              </b-col>
+              <b-col cols="3">
+                <b-btn v-if="isVideoUploded" v-b-modal.videopreview>영상 미리보기</b-btn>
+                <b-modal id="videopreview" title="영상 미리보기">
+                  <video width="400" controls >
+                    <source src="mov_bbb.mp4" id="video_here">
+                  </video>
+                </b-modal>
               </b-col>
               <b-col cols="2">
                 <b-button v-b-modal.URL variant="primary"> URL</b-button>
@@ -65,24 +83,7 @@
               </form>
             </b-modal>
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-            <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">Next</b-button>
-        </b-col>
-      </b-row>
-    </b-container>
-    <!-- 퀴즈 출제 부분 -->
-    <b-container class="mt-5" v-if="!bool">
-      <b-row>
-        <b-col cols="6" v-if="video">
-          <label for="inputLive">영상 미리보기</label>
-          <b-embed type="iframe"
-           aspect="16by9"
-           src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
-           allowfullscreen
-          ></b-embed>
-        </b-col>
+        
         <b-col class="mt-5" cols="5" v-if="!isQuiz">
           <b-form-input
             class="mb-3"
@@ -115,6 +116,11 @@
           </b-card>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col class="mt-4">
+          
+        </b-col>
+      </b-row>
       <router-link to="/class1">
           <b-button style="float:right; margin-top:20%;" size="lg" variant="success">Upload!</b-button>
       </router-link>
@@ -123,9 +129,20 @@
 </template>
 
 <script>
+var $source;
+var efg = false;
+
+$(document).on("change", ".file_multi_video", function(evt) {
+  $source = $("#video_here");
+  $source[0].src = URL.createObjectURL(this.files[0]);
+  $source.parent()[0].load();
+  efg = true;
+});
+
 export default {
   data() {
     return {
+      abc: $source,
       subjectOption: ["국어", "수학", "사회", "과학", "영어"],
       gradeOption: ["1학년", "2학년", "3학년", "4학년", "5학년", "6학년"],
       semesterOption: ["1학기", "2학기"],
@@ -142,7 +159,9 @@ export default {
         }
       ],
       bool: true,
-      text: ""
+      text: "",
+      file: "",
+      isVideoUploded: false
     };
   },
 
@@ -174,20 +193,22 @@ export default {
         alert("문제를 입력해주세요!");
         return;
       }
-
-      console.log(this.question);
-      console.log(this.quizs);
-
       this.test = {
         title: this.questionTitle,
         quiz: this.question,
         answer: this.answer
       };
-
       this.questionTitle = "";
       this.question = [];
       this.answer = "";
       alert("문제 제출 성공!");
+    },
+
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (files.length) {
+        this.isVideoUploded = true;
+      }
     },
 
     next() {
