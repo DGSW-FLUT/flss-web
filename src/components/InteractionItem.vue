@@ -39,9 +39,6 @@ import LinkPrevue from "link-prevue";
 
 export default {
   name: "interaction-item",
-  data() {
-    return {};
-  },
   props: ["InteractionItem"],
   components: {
     LinkPrevue
