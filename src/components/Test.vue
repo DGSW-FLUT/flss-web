@@ -226,7 +226,10 @@ export default {
     },
 
     removeQuiz() {
-      this.test = [];
+      var quizDel = confirm("퀴즈를 다시 내시겠습니까?")
+      if(quizDel === true){
+        this.test = [];
+      }
     }
   },
   props: ["video"]

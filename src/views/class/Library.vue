@@ -1,20 +1,17 @@
 <template>
   <div id="library">
     <b-container>
-      <b-row class="mt-5">
-        <b-col v-for="(file, i) in files" :key="i" cols="3">
-              <b-card no-body
-                  style="max-width: 20rem;"
-                >
-              <h4 slot="header">{{ file.text }}</h4>
-              <b-card-body class="border-bottom">
-                <p class="card-text" style="text-align:center">
-                  <font-awesome-icon class="py-2" fas icon="paperclip" size="5x" />
-                </p>
-              </b-card-body>
+      <b-row class="mt-5" v-for="(file, i) in files" :key="i">
+        <b-col>
+              <b-card no-body>
+              <h4 slot="header">{{ file.title }}</h4>
+              <div class="border-bottom">
+                  <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
+                  {{ file.fileName }}
+              </div>
               <b-card-body>
                 <p class="card-text">
-                  {{ file.fileName }}
+                  <pre>{{ file.article }}</pre>
                 </p>
               </b-card-body>
               <b-card-footer>{{ file.date }}</b-card-footer>
@@ -33,7 +30,13 @@
           <b-button style="float:right" v-b-modal.modal1>Add</b-button>
           <b-modal id="modal1" title="파일 추가하기" @ok="addFile()" @shown="clear()">
             <b-input-group prepend="제목">
-              <b-form-input v-model="text"></b-form-input>
+              <b-form-input v-model="title" />
+            </b-input-group>
+            <b-input-group class="mt-4" prepend="본문">
+              <b-form-textarea
+                    style="resize:none"
+                     v-model="article"
+                     :rows="3" />
             </b-input-group>
             <b-form-file class="mt-4" v-model="file" ref="fileRef" placeholder="Choose a file..."></b-form-file>
           </b-modal>
@@ -50,12 +53,14 @@ export default {
     return {
       files: [
         {
-          text: "제목1",
+          title: "참고1",
+          article : "참고할 만한 자료를 올려두었어요.",
           fileName: "flut.pptx",
           date: ""
         }
       ],
-      text: "",
+      title: "",
+      article : "",
       file: ""
     };
   },
@@ -76,7 +81,8 @@ export default {
     addFile() {
       let current = this.$moment().format("YYYY-MM-DD H:mm:ss");
       let newFile = {
-        text: this.text,
+        title: this.title,
+        article : this.article,
         fileName: this.file.name,
         date: current
       };
