@@ -15,7 +15,44 @@ export default {
   },
   data() {
     return {
+
+      //선생용 메뉴
       menus: [
+        {
+          link: "/class1/classlist",
+          text: "영상"
+        },
+        {
+          link: "/class1",
+          text: "Home"
+        },
+        {
+          link: "/class1/select",
+          text: "사전영상/평가"
+        },
+        {
+          link: "/class1/makeclass",
+          text: "수업 설계"
+        },
+        {
+          link: "/class1/library",
+          text: "교사 자료실"
+        },
+        {
+          link: "/class1/interaction",
+          text: "상호 작용 도구"
+        },
+        {
+          link: "/class1/prize",
+          text: "보상 도구"
+        },
+        {
+          link: "/class1/evaluation",
+          text: "평가 도구"
+        }
+      ],
+      //학생용 메뉴
+      menussss: [
         {
           link: "/class1/classlist",
           text: "영상"
