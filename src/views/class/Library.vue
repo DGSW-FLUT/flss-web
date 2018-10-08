@@ -3,7 +3,7 @@
     <b-container>
       <b-row class="mt-5" v-for="(file, i) in files" :key="i">
         <b-col>
-              <b-card no-body>
+            <b-card no-body>
               <h4 slot="header">{{ file.title }}</h4>
               <div class="border-bottom">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />

@@ -34,14 +34,15 @@ export default {
     },
     created() {
         this.$vuevent.on("idx", idx => {
-            if(this.portfolio[idx].selected) {
+            if(this.portfolios[idx].selected) {
                 this.selected.forEach((el,i)  => {
-                    if(el === portfolio[idx]) {
-                        selected.splice(i,1);
+                    if(el === this.portfolios[idx]) {
+                        this.selected.splice(i,1);
                     }
                 })
+            } else {
+                this.selected.push(this.portfolios[idx]);
             }
-            console.log("this.portfolios[idx].selected : "+this.portfolios[idx].selected);
             this.portfolios[idx].selected = !this.portfolios[idx].selected;
         });
     },
