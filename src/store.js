@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import createPersistedstate from "vuex-persistedstate";
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -88,7 +90,8 @@ const store = new Vuex.Store({
       return state.lesson = payload
     }
   },
-  actions: {}
+  actions: {},
+  plugins: [createPersistedstate()]
 });
 
 export default store;
