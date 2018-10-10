@@ -15,12 +15,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import BarChart from "@/components/BarChart";
-=======
 import BarChart from "@/components/BarChart"
 import DoughnutChart from "@/components/DoughnutChart"
->>>>>>> feature/chart_page
 
 export default {
   name: "evaluation",
@@ -30,23 +26,6 @@ export default {
   },
   data() {
     return {
-<<<<<<< HEAD
-      chartData: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-=======
       studentData: [
         {
           name: "김호진",
@@ -152,7 +131,6 @@ export default {
       ],
       barChartData: {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
->>>>>>> feature/chart_page
         datasets: [
           {
             label: "Github Commits",
@@ -170,10 +148,6 @@ export default {
           }
         ]
       }
-<<<<<<< HEAD
-    };
-  }
-=======
     }
   },
   computed: {
@@ -210,7 +184,6 @@ export default {
       return data;
     }
   },
->>>>>>> feature/chart_page
 };
 </script>
 
