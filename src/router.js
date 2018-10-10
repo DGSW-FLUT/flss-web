@@ -13,6 +13,11 @@ const router = new Router({
       component: () => import("./views/Login")
     },
     {
+      path: "/classting_handle",
+      name: "classting-handle",
+      component: () => import("./views/handler/ClasstingHandler")
+    },
+    {
       path: "/",
       name: "main-view",
       component: () => import("./views/MainView"),
@@ -68,9 +73,9 @@ const router = new Router({
               component: () => import("./views/class/MakeClass")
             },
             {
-              path : "mypage",
-              name : "mypage",
-              component: () => import('./views/class/MyPage')
+              path: "mypage",
+              name: "mypage",
+              component: () => import("./views/class/MyPage")
             },
             {
               path: "prize",

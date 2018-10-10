@@ -2,11 +2,11 @@
   <div id="lesson">
     <b-container>
       <b-card 
-              title="숫자의 덧셈과 뺄셈"
+              :title="this.$store.getters.getLesson.LessonName"
               tag="article"
               class="mt-3 mb-2">
         <p class="card-text">
-          (설명)
+          {{ this.$store.getters.getLesson.Explain }}
         </p>              
         <b-embed type="iframe"
                 aspect="16by9"
@@ -30,9 +30,9 @@ export default {
   name: "lesson",
   data() {
     return {
-      title : "3+3의 결과로 알맞은 것은?",
-      quizs : ["1", "2", "3", "4", "6"],
-      answer : ""
+      title: "3+3의 결과로 알맞은 것은?",
+      quizs: ["1", "2", "3", "4", "6"],
+      answer: ""
     };
   },
   created() {

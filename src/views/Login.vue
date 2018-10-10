@@ -50,15 +50,32 @@ export default {
       this.$router.push({ name: "select-class" });
     },
     loginViaClassting() {
-      this.$http
-        .get("http://localhost:3000/auth/classting")
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      let redirectUri = `http://${location.host}/classting_handle`;
+      let string = `https://oauth.classting.com/v1/oauth2/authorize?client_id=31f1b0011be18bf840dfdef3e78261b8&redirect_uri=${redirectUri}&response_type=token`;
+      console.log("uri", string);
+      window.location = string;
     }
+    // async loginViaClassting() {
+    //   try {
+    //     let tokenResponse = await this.$http.get(
+    //       "http://flss.kr/api/auth/classting"
+    //     ); 
+    //     window.location = tokenResponse.request.responseURL;
+
+    //     let test = await this.$http.get(tokenResponse.request.responseURL);
+    //     console.log("토큰 : " + test)
+        
+    //     this.$store.state.token = tokenResponse.access_token;
+    //     let userinfoResponse = await this.$http.get(
+    //       `http://flss.kr/api/auth/userinfo?token=${this.$store.state.token}`
+    //     );
+    //     console.log(userinfoResponse);
+    //     this.$store.state.uid = userinfoResponse.id;
+    //     this.$store.state.classtingUid = userinfoResponse.uid;
+    //   } catch (ex) {
+    //     console.log(ex);
+    //   }
+    // }
   }
 };
 </script>

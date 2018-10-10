@@ -6,15 +6,15 @@
 
 <script>
 export default {
-    name: "portfolio-item",
-    props: ["portfolio","i"],
-    methods: {
-        add(i) {
-            console.log(i);
-            this.$vuevent.$emit("idx", i);
-        }
+  name: "portfolio-item",
+  props: ["portfolio", "i"],
+  methods: {
+    add(i) {
+      console.log(i);
+      this.$vuevent.$emit("idx", i);
+    }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -22,4 +22,3 @@ export default {
   border: 1px solid red;
 }
 </style>
-

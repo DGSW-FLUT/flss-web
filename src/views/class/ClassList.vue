@@ -21,39 +21,31 @@
 <script>
 export default {
   name: "class-list",
+  created(){
+    this.$http.get(`http://flss.kr/api/lesson/list?cid=${this.$store.getters.getThisClass.cid}`)
+    .then(res =>{
+      this.board = res.data
+      console.log(res.data)
+      for(var i = 0; i<res.data.length; i++){
+        let item = {
+          "제목" : res.data[i].LessonName,
+          "학년" : res.data[i].Syear,
+          "과목" : res.data[i].SubjectName,
+          "날짜" : res.data[i].AddTime
+        }
+        this.items.push(item)
+      }
+    })
+  },
   data() {
     return {
-      items: [
-        {
-          제목: "시 짓기",
-          학년: "1학년",
-          과목: "국어",
-          날짜: "2018-07-12:01:30:12"
-        },
-        {
-          제목: "동사와 명사",
-          학년: "2학년",
-          과목: "영어",
-          날짜: "2018-07-12:01:30:12"
-        },
-        {
-          제목: "곱셈과 나눗셈",
-          학년: "5학년",
-          과목: "수학",
-          날짜: "2018-07-12:01:30:12"
-        },
-        {
-          제목: "여러가지 원소들",
-          학년: "6학년",
-          과목: "과학",
-          날짜: "2018-07-12:01:30:12"
-        }
-      ]
+      items: [],
+      board : []
     };
   },
   methods: {
     clickevent(record, index) {
-      console.log(record.제목);
+      this.$store.commit('setLesson', this.board[index])
       this.$vuevent.$emit("test", "hello");
       this.$router.push({ path: "./lesson" });
     }

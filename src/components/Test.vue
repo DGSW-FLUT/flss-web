@@ -6,25 +6,26 @@
       <label for="inputLive">영상 제목</label>
         <b-form-input id="inputLive"
                       type="text"
+                      v-model="title"
                       aria-describedby="inputLiveHelp inputLiveFeedback"
                       placeholder="제목을 입력해주세요."></b-form-input>
       </b-row>
       <b-row class="mt-5">
         <b-col cols="2">
           <label for="inputLive">관련 과목</label>
-          <b-form-select class="mb-3" :options="subjectOption" />
+          <b-form-select class="mb-3" v-model="subject" :options="subjectOption" />
         </b-col>
         <b-col cols="2">
           <label for="inputLive">관련 학년</label>
-          <b-form-select class="mb-3" :options="gradeOption"/>
+          <b-form-select class="mb-3" v-model="grade" :options="gradeOption"/>
         </b-col>
         <b-col cols="2">
           <label for="inputLive">관련 학기</label>
-          <b-form-select class="mb-3" :options="semesterOption"/>
+          <b-form-select class="mb-3" v-model="semester" :options="semesterOption"/>
         </b-col>
         <b-col cols="3">
           <label for="inputLive">관련 단원</label>
-          <b-form-input></b-form-input>
+          <b-form-input v-model="chapter"></b-form-input>
         </b-col>
         
       </b-row>
@@ -32,22 +33,11 @@
         <b-col cols="4" >
           <label for="inputLive">영상 설명</label>
           <b-form-textarea
-                      v-model="text"
+                      v-model="description"
                       style="resize:none"
                       placeholder="Description"
                       rows="6" />
         </b-col>
-        
-      </b-row>
-      <b-row>
-        <b-col>
-            <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">Next</b-button>
-        </b-col>
-      </b-row>
-    </b-container>
-    <!-- 퀴즈 출제 부분 -->
-    <b-container class="mt-5" v-if="!bool">
-      <b-row>
         <b-col v-if="video">
           <b-card
                   tag="article"
@@ -83,6 +73,17 @@
               </form>
             </b-modal>
         </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+            <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">Next</b-button>
+        </b-col>
+      </b-row>
+    </b-container>
+    <!-- 퀴즈 출제 부분 -->
+    <b-container class="mt-5" v-if="!bool">
+      <b-row>
+        
         
         <b-col class="mt-5" cols="5" v-if="!isQuiz">
           <b-form-input
@@ -131,9 +132,11 @@
 <script>
 var $source;
 var efg = false;
+var link;
 
 $(document).on("change", ".file_multi_video", function(evt) {
   $source = $("#video_here");
+  link = URL.createObjectURL(this.files[0]);
   $source[0].src = URL.createObjectURL(this.files[0]);
   $source.parent()[0].load();
   efg = true;
@@ -159,12 +162,17 @@ export default {
         }
       ],
       bool: true,
+      title: "",
+      subject: "",
+      grade: "",
+      semester: "",
+      chapter: "",
+      description: "",
       text: "",
       file: "",
       isVideoUploded: false
     };
   },
-
   computed: {
     quizCnt() {
       return this.quizs.length;
@@ -198,6 +206,27 @@ export default {
         quiz: this.question,
         answer: this.answer
       };
+
+      let quizForm = {
+        lno : this.$store.getters.getLessonNum,
+        item : this.question,
+        ranswer : this.answer,
+        question : this.questionTitle,
+        type : "before"
+      }
+
+      console.log(quizForm)
+
+      this.$http.post("http://flss.kr/api/lesson/addQuiz", {
+        lno : quizForm.lno.Lno,
+        item : quizForm.item,
+        ranswer : quizForm.ranswer,
+        question : quizForm.question,
+        type : quizForm.type
+      }).then(res =>{
+        console.log("status" + res.data.status)
+      })
+
       this.questionTitle = "";
       this.question = [];
       this.answer = "";
@@ -212,7 +241,29 @@ export default {
     },
 
     next() {
-      this.bool = !this.bool;
+      console.log(link)
+      this.$http
+        .post("http://flss.kr/api/lesson/add", {
+          uid: this.$store.getters.getUserInfo.uid,
+          cid: this.$store.getters.getThisClass.cid,
+          title: this.title,
+          subject: this.subject,
+          grade: this.grade,
+          semester: this.semester,
+          unit: this.chapter,
+          chapter: this.chapter,
+          explain: this.description,
+          link: link
+        })
+        .then(res => {
+          this.$store.commit('setLessonNum', res.data)
+          if(res.status == 200){
+            this.bool = !this.bool;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     add() {
@@ -226,8 +277,8 @@ export default {
     },
 
     removeQuiz() {
-      var quizDel = confirm("퀴즈를 다시 내시겠습니까?")
-      if(quizDel === true){
+      var quizDel = confirm("퀴즈를 다시 내시겠습니까?");
+      if (quizDel === true) {
         this.test = [];
       }
     }

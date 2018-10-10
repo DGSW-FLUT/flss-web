@@ -6,15 +6,12 @@
 
 <script>
 export default {
-  name : "my-page",
-  data(){
-    return{
-
-    }
+  name: "my-page",
+  data() {
+    return {};
   }
-}
+};
 </script>
 
 <style>
-
 </style>

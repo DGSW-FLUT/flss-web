@@ -14,8 +14,8 @@
         </b-col>
         <b-col cols="6">
           <div>
-            <b-card overlay img-src="https://picsum.photos/900/250/?image=25" img-alt="Card Image" text-variant="white" title="북삼초 1학년 1반"
-              sub-title="멤버 : 2명">
+            <b-card overlay img-src="https://picsum.photos/900/250/?image=25" img-alt="Card Image" text-variant="white" :title="className"
+              :sub-title="member+'명'">
             </b-card>
           </div>
         </b-col>
@@ -61,8 +61,19 @@
 <script>
 export default {
   name: "class-home",
+  created(){
+    this.$http.get(`http://flss.kr/api/class/member?cid=${this.$store.getters.getThisClass.id}&token=${this.$store.getters.getToken}`)
+    .then(res =>{
+      this.$store.commit('setMemberList', res.data);
+      this.member = this.$store.getters.getMemberList.length;
+    })
+    this.className = this.$store.getters.getThisClass.name
+  },
   data() {
-    return {};
+    return {
+      className : "",
+      member : ""
+    };
   },
   components: {}
 };

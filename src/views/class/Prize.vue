@@ -17,6 +17,10 @@ import MemberList from "@/components/MemberList";
 export default {
   name: "prize",
   created() {
+    this.$http.get(`http://flss.kr/api/reward/getUser?token=${this.$store.getters.getToken}&cid=${this.$store.getters.getThisClass.id}`)
+    .then(res => {
+      this.memberlist = res.data
+    })
     this.$vuevent.on("idx", idx => {
       this.memberlist[idx].selected = !this.memberlist[idx].selected;
     });
@@ -26,87 +30,87 @@ export default {
       memberlist: [
         {
           name: "User1",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User2",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User3",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         },
         {
           name: "User4",
-          prize : 0,
+          prize: 0,
           selected: false
         }
       ]

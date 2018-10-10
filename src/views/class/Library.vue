@@ -54,13 +54,13 @@ export default {
       files: [
         {
           title: "참고1",
-          article : "참고할 만한 자료를 올려두었어요.",
+          article: "참고할 만한 자료를 올려두었어요.",
           fileName: "flut.pptx",
           date: ""
         }
       ],
       title: "",
-      article : "",
+      article: "",
       file: ""
     };
   },
@@ -82,7 +82,7 @@ export default {
       let current = this.$moment().format("YYYY-MM-DD H:mm:ss");
       let newFile = {
         title: this.title,
-        article : this.article,
+        article: this.article,
         fileName: this.file.name,
         date: current
       };
