@@ -8,11 +8,11 @@
             class="mb-4"
             img-top
             tag="article"
-            @click="test(i)"
+            @click="addCount(i)"
             style="text-align:center; cursor:pointer;">
             <font-awesome-icon class="py-2" fas icon="user" size="5x" />
-          <p class="card-text">{{ i+1 + "." }} {{ member.name }} </p>
-          <p>{{ "상점 : " +  member.prize }}</p>
+          <p class="card-text">{{ i+1 + "." }} {{ member.Name }} </p>
+          <p>{{ "상점 : " +  member.Count }}</p>
           </b-card>
         </b-col>
       </b-row>
@@ -25,8 +25,11 @@ export default {
   name: "member-list",
   props: ["memberlist"],
   methods: {
-    test(i) {
-      this.$vuevent.$emit("idx", i);
+    addCount(i){
+      this.$http.get(`http://flss.kr/api/reward/addPoint?uid=${this.memberlist[i].Uid}&point=${this.memberlist[i].Count}`)
+      .then(res =>{
+        
+      })
     }
   }
 };

@@ -215,7 +215,7 @@ export default {
         type : this.$store.getters.getType
       }
 
-      console.log(quizForm)
+      console.log("quizForm" + quizForm)
 
       this.$http.post("http://flss.kr/api/lesson/addQuiz", {
         lno : quizForm.lno,

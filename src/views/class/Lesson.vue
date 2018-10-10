@@ -2,7 +2,7 @@
   <div id="lesson">
     <b-container>
       <b-card 
-              :title="title"
+              :title="this.$store.getters.getLesson.LessonName"
               tag="article"
               class="mt-3 mb-2">
         <p class="card-text">
@@ -36,12 +36,12 @@ export default {
     };
   },
   created() {
-    this.$http.get(`http://flss.kr/api/lesson/showQuestion?lno=${this.$store.getters.getLessonNum}&type=${this.$store.getters.getType}`)
+    this.$http.get(`http://flss.kr/api/lesson/showQuestion?lno=${this.$store.getters.getLesson.Lno}&type=${this.$store.getters.getType}`)
     .then(res =>{
       this.title = res.data[0].Title
       this.answer = res.data[0].Ranswer
     })
-    this.$http.get(`http://flss.kr/api/lesson/showQuiz?lno=${this.$store.getters.getLessonNum}&type=${this.$store.getters.getType}`)
+    this.$http.get(`http://flss.kr/api/lesson/showQuiz?lno=${this.$store.getters.getLesson.Lno}&type=${this.$store.getters.getType}`)
     .then(res =>{
       this.quizs = res.data
       console.log("quiz" + this.quizs)
