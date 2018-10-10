@@ -1,6 +1,21 @@
 <template>
-    <div class="portfolio-item" @click="add(key)">
-        {{portfolio.writer}} {{portfolio.file.name}} {{portfolio.file.date}}
+    <div class="portfolio-item">
+        <b-card 
+            no-body 
+            @click="add(i)"
+            :class="{selected: portfolio.selected}">
+            <h4 slot="header">{{ file.title }}</h4>
+            <div class="border-bottom">
+                <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
+                {{ file.fileName }}
+            </div>
+            <b-card-body>
+            <p class="card-text">
+                <pre>{{ file.article }}</pre>
+            </p>
+            </b-card-body>
+            <b-card-footer>{{ file.date }}</b-card-footer>
+        </b-card>
     </div>
 </template>
 
