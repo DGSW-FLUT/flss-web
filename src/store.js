@@ -17,7 +17,8 @@ const store = new Vuex.Store({
     memberlist : [],
     lessonNum : "",
     lesson : [],
-    quiz : []
+    quiz : [],
+    type : ""
   },
   getters: {
     isAuthenticated(state) {
@@ -46,6 +47,9 @@ const store = new Vuex.Store({
     },
     getQuiz(state){
       return state.quiz
+    },
+    getType(state){
+      return state.type
     }
   },
   mutations: {
@@ -73,8 +77,8 @@ const store = new Vuex.Store({
     setLesson(state, payload){
       return state.lesson = payload
     },
-    setQuiz(state, payload){
-      return state.lesson.payload
+    setType(state, payload){
+      return state.type = payload
     }
   },
   actions: {}

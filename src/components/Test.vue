@@ -212,13 +212,13 @@ export default {
         item : this.question,
         ranswer : this.answer,
         question : this.questionTitle,
-        type : "before"
+        type : this.$store.getters.getType
       }
 
       console.log(quizForm)
 
       this.$http.post("http://flss.kr/api/lesson/addQuiz", {
-        lno : quizForm.lno.Lno,
+        lno : quizForm.lno,
         item : quizForm.item,
         ranswer : quizForm.ranswer,
         question : quizForm.question,
@@ -256,7 +256,7 @@ export default {
           link: link
         })
         .then(res => {
-          this.$store.commit('setLessonNum', res.data)
+          this.$store.commit('setLessonNum', res.data.Lno)
           if(res.status == 200){
             this.bool = !this.bool;
           }

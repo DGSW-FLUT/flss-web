@@ -2,7 +2,7 @@
   <div id="lesson">
     <b-container>
       <b-card 
-              :title="this.$store.getters.getLesson.LessonName"
+              :title="title"
               tag="article"
               class="mt-3 mb-2">
         <p class="card-text">
@@ -15,7 +15,7 @@
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
               <b-form-radio name="answer" :value="i+1" v-model="answer">
-                <p>{{ i+1 + "." + quiz}}</p>
+                <p>{{ i+1 + "." + quiz.Content}}</p>
               </b-form-radio>
             </div>
             <b-button variant="primary">제출</b-button> 
@@ -30,12 +30,22 @@ export default {
   name: "lesson",
   data() {
     return {
-      title: "3+3의 결과로 알맞은 것은?",
-      quizs: ["1", "2", "3", "4", "6"],
-      answer: ""
+      quizs : [],
+      title : "",
+      answer : ""
     };
   },
   created() {
+    this.$http.get(`http://flss.kr/api/lesson/showQuestion?lno=${this.$store.getters.getLessonNum}&type=${this.$store.getters.getType}`)
+    .then(res =>{
+      this.title = res.data[0].Title
+      this.answer = res.data[0].Ranswer
+    })
+    this.$http.get(`http://flss.kr/api/lesson/showQuiz?lno=${this.$store.getters.getLessonNum}&type=${this.$store.getters.getType}`)
+    .then(res =>{
+      this.quizs = res.data
+      console.log("quiz" + this.quizs)
+    })
     this.$vuevent.$on("test", function(text) {
       console.log(text);
     });
