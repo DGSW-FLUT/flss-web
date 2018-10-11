@@ -211,7 +211,7 @@ export default {
         lno: this.$store.getters.getLessonNum,
         item: this.question,
         ranswer: this.answer,
-        question: this.questionTitle,
+        question: this.questionTitle
       };
 
       console.log("quizForm" + quizForm);
@@ -221,7 +221,7 @@ export default {
           lno: quizForm.lno,
           item: quizForm.item,
           ranswer: quizForm.ranswer,
-          question: quizForm.question,
+          question: quizForm.question
         })
         .then(res => {
           console.log("status" + res.data.status);
@@ -244,27 +244,28 @@ export default {
 
     next() {
       let data = new FormData();
-      if(this.file) {
-        data.append('video', this.file);
+      if (this.file) {
+        data.append("video", this.file);
         console.log("hi!");
       }
-      data.append('uid', this.$store.getters.getUserInfo.uid);
-      data.append('cid', this.$store.getters.getThisClass.cid);
-      data.append('title', this.title);
-      data.append('subject', this.subject);
-      data.append('grade', this.grade);
-      data.append('semester', this.semester);
-      data.append('unit', this.chapter);
-      data.append('chapter', this.chapter);
-      data.append('explain', this.description);
-      console.log(data)
+      data.append("uid", this.$store.getters.getUserInfo.uid);
+      data.append("cid", this.$store.getters.getThisClass.cid);
+      data.append("title", this.title);
+      data.append("subject", this.subject);
+      data.append("grade", this.grade);
+      data.append("semester", this.semester);
+      data.append("unit", this.chapter);
+      data.append("chapter", this.chapter);
+      data.append("explain", this.description);
+      console.log(data);
       this.$http
-        .post("http://flss.kr/api/lesson/add", data,
-        { headers: {'Content-Type': 'multipart/form-data' }})
+        .post("http://flss.kr/api/lesson/add", data, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
         .then(res => {
-          console.log(res.data)
-          console.log("res num : "+res.data.Lno);
-          console.log("test : "+ data);
+          console.log(res.data);
+          console.log("res num : " + res.data.Lno);
+          console.log("test : " + data);
           this.$store.commit("setLessonNum", res.data.Lno);
           if (res.status == 200) {
             this.bool = !this.bool;

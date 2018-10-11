@@ -21,20 +21,26 @@ export default {
     return {
       portfolios: [],
       selected: [],
-      studentName: ''
+      studentName: ""
     };
   },
   methods: {
     search() {
       this.selected = [];
-      this.$http.get('http://flss.kr/api/data/getPostByName?cid='+this.$store.getters.getThisClass.cid+'&name='+this.studentName)
-      .then(res => {
-        this.portfolios = res.data;
-      })
-      .catch(err => {
-        this.portfolios = [];
-        console.log(err.message);
-      })
+      this.$http
+        .get(
+          "http://flss.kr/api/data/getPostByName?cid=" +
+            this.$store.getters.getThisClass.cid +
+            "&name=" +
+            this.studentName
+        )
+        .then(res => {
+          this.portfolios = res.data;
+        })
+        .catch(err => {
+          this.portfolios = [];
+          console.log(err.message);
+        });
     }
   },
   created() {

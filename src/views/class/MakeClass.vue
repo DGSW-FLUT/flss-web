@@ -24,8 +24,12 @@
         </b-col>
         <b-col cols="4">
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
-          <b-modal ref="myModalRef" hide-footer title="Using Component Methods">
-
+          <b-modal ref="myModalRef" hide-footer :title="title">
+            <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
+              <b-card @click="loadFile(file.File)">
+                {{ file.File }}
+              </b-card>
+            </div>
           </b-modal>
         </b-col>
         <b-col cols="4">
@@ -49,13 +53,15 @@ export default {
   name: "make-class",
   data() {
     return {
+      title : "",
       fileItems: [],
       items: [],
       files: [],
       classList: [],
       title: "",
       List: [],
-      did: ""
+      did: "",
+      fileList : []
       //["PC 자료", "웹 주소", "FLSS 검색", "내 즐겨찾기"]
     };
   },
@@ -91,7 +97,7 @@ export default {
         this.fileItems = res.data;
       });
 
-    await console.log("fileItems" + this.fileItems[1].Mid)
+    await console.log("fileItems" + this.fileItems[1].Mid);
     await console.log(this.classList);
     await console.log(this.items);
   },
@@ -112,14 +118,14 @@ export default {
         });
     },
     addFile(record, index) {
-      console.log(this.List[index]);
-      console.log(this.did);
+      console.log("MID" + this.fileItems[index].Mid);
+      console.log("CID" + this.$store.getters.getThisClass.cid);
+      console.log("did" + this.did);
       this.$http
         .post("http://flss.kr/api/design/addFile", {
           did: this.did,
-          name: this.List[index].Name,
+          Mid : this.fileItems[index].Mid,
           cid: this.$store.getters.getThisClass.cid,
-          file: this.List[index].File
         })
         .then(res => {
           console.log("데이터" + res.data);
@@ -131,14 +137,21 @@ export default {
       this.files.push(this.items[index]);
     },
     getFile(record, index) {
-      console.log(this.List[index].Did)
+      this.title = this.List[index].Title
       this.$http
-        .get(`http://flss.kr/api/design/oneDesign?${this.List[index].Did}`)
+        .get(`http://flss.kr/api/design/oneDesign?did=${this.List[index].Did}`)
         .then(res => {
           console.log("res.data" + res.data);
+          this.fileList = res.data
         });
       this.$refs.myModalRef.show();
       console.log("List" + this.List[index]);
+      console.log("fileList" + this.fileList)
+      
+    },
+    loadFile(file){
+      var url = `http://flss.kr/video/${file}`
+      window.open(url)
     }
   }
 };
