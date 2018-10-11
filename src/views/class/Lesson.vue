@@ -37,22 +37,21 @@ export default {
       userAnswer: ""
     };
   },
-  created() {
-    this.$http
+  async created() {
+    await this.$http
       .get(
         `http://flss.kr/api/lesson/showQuestion?lno=${
-          this.$store.getters.getLesson.Lno
-        }&type=${this.$store.getters.getType}`
+          this.$store.getters.getLesson.Lno}`
       )
       .then(res => {
         this.title = res.data[0].Title;
         this.answer = res.data[0].Ranswer;
       });
-    this.$http
+    await this.$http
       .get(
         `http://flss.kr/api/lesson/showQuiz?lno=${
           this.$store.getters.getLesson.Lno
-        }&type=${this.$store.getters.getType}`
+        }`
       )
       .then(res => {
         this.quizs = res.data;

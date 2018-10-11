@@ -52,18 +52,18 @@ export default {
   name: "library",
   data() {
     return {
-      content: '',
-      file: '',
-      title: '',
+      content: "",
+      file: "",
+      title: "",
       posts: [],
-      currentPage: ''
-    }
+      currentPage: ""
+    };
   },
   computed: {
     getPosts() {
       let tempPosts = [];
-      for(let i = (this.currentPage-1)*5; i < this.currentPage*5; i++) {
-        if(this.posts[i]) {
+      for (let i = (this.currentPage - 1) * 5; i < this.currentPage * 5; i++) {
+        if (this.posts[i]) {
           console.log(this.posts[i]);
           tempPosts.push(this.posts[i]);
         }
@@ -73,14 +73,24 @@ export default {
   },
   // 가짜 시간 함수: 나중에 삭제
   created() {
-    console.log(this.$store.getters.getThisClass.cid+"&"+this.$store.getters.getUserInfo.role);
-    this.$http.get('http://flss.kr/api/data/getPostList?cid='+this.$store.getters.getThisClass.cid+"&readOnly="+this.$store.getters.getUserInfo.role)
-    .then(res => {
-      this.posts = res.data
-    })
-    .catch(err => {
-      console.log("error : "+err.message);
-    })
+    console.log(
+      this.$store.getters.getThisClass.cid +
+        "&" +
+        this.$store.getters.getUserInfo.role
+    );
+    this.$http
+      .get(
+        "http://flss.kr/api/data/getPostList?cid=" +
+          this.$store.getters.getThisClass.cid +
+          "&readOnly=" +
+          this.$store.getters.getUserInfo.role
+      )
+      .then(res => {
+        this.posts = res.data;
+      })
+      .catch(err => {
+        console.log("error : " + err.message);
+      });
     // this.files.forEach(file => {
     //   let past = this.$moment("20180928 2:31:12", "YYYYMMDD H:mm:ss").format(
     //     "YYYY-MM-DD H:mm:ss"
@@ -95,25 +105,26 @@ export default {
     },
     addFile() {
       let newFile = new FormData();
-      newFile.append('cid', this.$store.getters.getThisClass.cid);
-      newFile.append('title', this.title);
-      newFile.append('uid', this.$store.getters.getUserInfo.uid);
-      newFile.append('content', this.content);
-      newFile.append('readOnly', this.$store.getters.getUserInfo.role);
-      newFile.append('name', this.file.name);
-      newFile.append('video', this.file);
+      newFile.append("cid", this.$store.getters.getThisClass.cid);
+      newFile.append("title", this.title);
+      newFile.append("uid", this.$store.getters.getUserInfo.uid);
+      newFile.append("content", this.content);
+      newFile.append("readOnly", this.$store.getters.getUserInfo.role);
+      newFile.append("name", this.file.name);
+      newFile.append("video", this.file);
 
       this.$http
-        .post("http://flss.kr/api/data/addPost", newFile,
-      { headers: {'Content-Type': 'multipart/form-data' }})
-      .then(res => {
-        console.log('Success');
-        location.reload();
-        return;
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+        .post("http://flss.kr/api/data/addPost", newFile, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(res => {
+          console.log("Success");
+          location.reload();
+          return;
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 };

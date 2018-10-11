@@ -30,16 +30,18 @@ export default {
         .get(
           `http://flss.kr/api/reward/addPoint?uid=${
             this.memberlist[i].Uid
-          }&point=${this.memberlist[i].Count+1}`
+          }&point=${this.memberlist[i].Count + 1}`
         )
         .then(res => {
-          this.$http.get(
+          this.$http
+            .get(
               `http://flss.kr/api/reward/getUser?token=${
                 this.$store.getters.getToken
               }&cid=${this.$store.getters.getThisClass.id}`
-            ).then(res =>{
-              this.$vuevent.emit('memberlist', res.data)
-            })
+            )
+            .then(res => {
+              this.$vuevent.emit("memberlist", res.data);
+            });
         });
     }
   }

@@ -24,9 +24,9 @@ export default {
     this.$vuevent.on("idx", idx => {
       this.memberlist[idx].selected = !this.memberlist[idx].selected;
     });
-    this.$vuevent.on('memberlist', memberlist =>{
-      this.memberlist = memberlist
-    })
+    this.$vuevent.on("memberlist", memberlist => {
+      this.memberlist = memberlist;
+    });
   },
   data() {
     return {
@@ -39,9 +39,9 @@ export default {
   },
   methods: {
     test() {
-      this.$vuevent.on('memberlist', memberlist =>{
-        this.memberlist = memberlist
-      })
+      this.$vuevent.on("memberlist", memberlist => {
+        this.memberlist = memberlist;
+      });
       // let cnt = 0;
       // for (let i = 0; i < this.memberlist.length; i++) {
       //   if (this.memberlist[i].selected == true) {

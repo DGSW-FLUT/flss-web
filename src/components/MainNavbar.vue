@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.commit('LogOut')
+      this.$store.commit("LogOut");
       this.$vuevent.emit("logout");
     }
   }

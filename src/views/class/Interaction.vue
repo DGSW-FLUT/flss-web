@@ -70,7 +70,7 @@
 import InteractionItem from "@/components/InteractionItem";
 import LinkPrevue from "link-prevue";
 import io from "socket.io-client";
-const client = io(location.origin.replace(':'+location.port, '') + ':3030');
+const client = io(location.origin.replace(":" + location.port, "") + ":3030");
 
 export default {
   name: "Interaction",
@@ -98,12 +98,12 @@ export default {
     },
     removeAll() {
       this.Interactions = [];
-      client.emit('deleteAll');
+      client.emit("deleteAll");
     },
     upload(e) {
       this.Interactions.push(this.newInteraction);
       console.log(JSON.stringify(this.newInteraction));
-      client.emit('upload', this.newInteraction)
+      client.emit("upload", this.newInteraction);
       this.newInteraction = {};
       this.isAdding = false;
       this.isAttach = false;
@@ -134,16 +134,20 @@ export default {
     }
   },
   mounted() {
-    client.emit('join', { name : this.$store.getters.getThisClass.cid }, (data) => {
-      this.Interactions = data
-    });
-    
-    client.on('upload', (data) => {
+    client.emit(
+      "join",
+      { name: this.$store.getters.getThisClass.cid },
+      data => {
+        this.Interactions = data;
+      }
+    );
+
+    client.on("upload", data => {
       this.Interactions.push(data);
-    })
-    client.on('deleteAll', (data) => {
-      this.remove()
-    })
+    });
+    client.on("deleteAll", data => {
+      this.remove();
+    });
   },
   components: {
     LinkPrevue,

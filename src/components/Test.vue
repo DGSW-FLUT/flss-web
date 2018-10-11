@@ -212,7 +212,6 @@ export default {
         item: this.question,
         ranswer: this.answer,
         question: this.questionTitle,
-        type: this.$store.getters.getType
       };
 
       console.log("quizForm" + quizForm);
@@ -223,7 +222,6 @@ export default {
           item: quizForm.item,
           ranswer: quizForm.ranswer,
           question: quizForm.question,
-          type: quizForm.type
         })
         .then(res => {
           console.log("status" + res.data.status);
@@ -256,12 +254,14 @@ export default {
       data.append('unit', this.chapter);
       data.append('chapter', this.chapter);
       data.append('explain', this.description);
+      console.log(data)
       this.$http
         .post("http://flss.kr/api/lesson/add", data,
         { headers: {'Content-Type': 'multipart/form-data' }})
         .then(res => {
+          console.log(res.data)
           console.log("res num : "+res.data.Lno);
-          console.log("test : "+data);
+          console.log("test : "+ data);
           this.$store.commit("setLessonNum", res.data.Lno);
           if (res.status == 200) {
             this.bool = !this.bool;

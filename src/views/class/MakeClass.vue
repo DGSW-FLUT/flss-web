@@ -13,7 +13,7 @@
                   placeholder="Text input"></b-form-input>
             <b-list-group>
               <b-list-group-item class="flex-column align-items-start mt-3" v-for="(file, i) in files" :key="i">
-                <p class="mb-1">
+                <p class="mb-1" style="overflow:hidden">
                   {{ file.fileName }}
                 </p>
                 <small>{{ file.fileExt }}</small>
@@ -49,41 +49,51 @@ export default {
   name: "make-class",
   data() {
     return {
-      fileItems : [],
-      items : [],
+      fileItems: [],
+      items: [],
       files: [],
-      classList : [],
+      classList: [],
       title: "",
-      List : [],
-      did : "",
+      List: [],
+      did: ""
       //["PC 자료", "웹 주소", "FLSS 검색", "내 즐겨찾기"]
     };
   },
-    async created(){
+  async created() {
     await this.$http
-      .get(`http://flss.kr/api/design/designList?cid=${this.$store.getters.getThisClass.cid}`)
+      .get(
+        `http://flss.kr/api/design/designList?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
       .then(res => {
-        for(var i = 0; i<res.data.length; i++){
+        for (var i = 0; i < res.data.length; i++) {
           let singleClass = {
-            "수업 리스트" : res.data[i].Title
-          }
-          this.classList.push(singleClass)
+            "수업 리스트": res.data[i].Title
+          };
+          this.classList.push(singleClass);
         }
-        this.List = res.data
-      })
-    await this.$http.
-      get(`http://flss.kr/api/data/getDataList?cid=${this.$store.getters.getThisClass.cid}&role=${this.$store.getters.getUserInfo.role}`)
-      .then(res =>{
-        for(var i = 0; i<res.data.length; i++){
+        this.List = res.data;
+      });
+    await this.$http
+      .get(
+        `http://flss.kr/api/data/getDataList?cid=${
+          this.$store.getters.getThisClass.cid
+        }&role=${this.$store.getters.getUserInfo.role}`
+      )
+      .then(res => {
+        for (var i = 0; i < res.data.length; i++) {
           let items = {
-            "fileName" : res.data[i].File
-          }
-          this.items.push(items)
+            fileName: res.data[i].File
+          };
+          this.items.push(items);
         }
-        this.fileItems = res.data
-      })
-      await console.log(this.classList)
-      await console.log(this.items)
+        this.fileItems = res.data;
+      });
+
+    await console.log("fileItems" + this.fileItems[1].Mid)
+    await console.log(this.classList);
+    await console.log(this.items);
   },
   components: {
     MainNavbar,
@@ -91,39 +101,44 @@ export default {
   },
   computed: {},
   methods: {
-    makeClass(){
-      this.$http.post("http://flss.kr/api/design/addDesign", {
-        title : this.title,
-        cid : this.$store.getters.getThisClass.cid
-      }).then(res =>{
-        this.did = res.data.Did
-      })
+    makeClass() {
+      this.$http
+        .post("http://flss.kr/api/design/addDesign", {
+          title: this.title,
+          cid: this.$store.getters.getThisClass.cid
+        })
+        .then(res => {
+          this.did = res.data.Did;
+        });
     },
     addFile(record, index) {
-      console.log(this.List[index])
-      console.log(this.did)
-      this.$http.post("http://flss.kr/api/design/addFile", {
-        did : this.did,
-        name : this.List[index].Name,
-        cid : this.$store.getters.getThisClass.cid,
-        file : this.List[index].File
-      }).then(res =>{
-        console.log("데이터" + res.data)
-      })
-      console.log(this.fileItems[index])
+      console.log(this.List[index]);
+      console.log(this.did);
+      this.$http
+        .post("http://flss.kr/api/design/addFile", {
+          did: this.did,
+          name: this.List[index].Name,
+          cid: this.$store.getters.getThisClass.cid,
+          file: this.List[index].File
+        })
+        .then(res => {
+          console.log("데이터" + res.data);
+        });
+      console.log(this.fileItems[index]);
       let name = this.items[index].fileName;
       let fileExt = name.substring(name.lastIndexOf("."), name.length);
       this.items[index].fileExt = fileExt;
       this.files.push(this.items[index]);
     },
-    getFile(record, index){
+    getFile(record, index) {
+      console.log(this.List[index].Did)
       this.$http
         .get(`http://flss.kr/api/design/oneDesign?${this.List[index].Did}`)
-        .then(res =>{
-          console.log(res.data)
-        })
-      this.$refs.myModalRef.show()
-      console.log(this.List[index])
+        .then(res => {
+          console.log("res.data" + res.data);
+        });
+      this.$refs.myModalRef.show();
+      console.log("List" + this.List[index]);
     }
   }
 };
