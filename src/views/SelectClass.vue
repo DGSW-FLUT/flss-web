@@ -65,14 +65,16 @@ export default {
   created() {
     this.$http
       .get(
-        `http://flss.kr/api/class/joined?uid=${this.$store.getters.getUserInfo.id}&token=${this.$store.getters.getToken}`
+        `http://flss.kr/api/class/joined?uid=${
+          this.$store.getters.getUserInfo.id
+        }&token=${this.$store.getters.getToken}`
       )
       .then(res => {
-        this.$store.commit('setClass', res.data)
-        console.log("클래스 : " + this.$store.getters.getClass)
-        this.classes = this.$store.getters.getClass
-        
-        console.log("클래스 목록 : " + this.classes)
+        this.$store.commit("setClass", res.data);
+        console.log("클래스 : " + this.$store.getters.getClass);
+        this.classes = this.$store.getters.getClass;
+
+        console.log("클래스 목록 : " + this.classes);
       })
       .catch(err => {
         console.log(err);

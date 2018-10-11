@@ -59,12 +59,12 @@ export default {
     //   try {
     //     let tokenResponse = await this.$http.get(
     //       "http://flss.kr/api/auth/classting"
-    //     ); 
+    //     );
     //     window.location = tokenResponse.request.responseURL;
 
     //     let test = await this.$http.get(tokenResponse.request.responseURL);
     //     console.log("토큰 : " + test)
-        
+
     //     this.$store.state.token = tokenResponse.access_token;
     //     let userinfoResponse = await this.$http.get(
     //       `http://flss.kr/api/auth/userinfo?token=${this.$store.state.token}`

@@ -30,24 +30,24 @@
 export default {
   name: "main-navbar",
   props: ["menus"],
-  data(){
-    return{
-      userName : "",
-      role : ""
-    }
+  data() {
+    return {
+      userName: "",
+      role: ""
+    };
   },
-  created(){
-    switch(this.$store.getters.getUserInfo.role){
+  created() {
+    switch (this.$store.getters.getUserInfo.role) {
       case "student":
-        this.role = "학생"
+        this.role = "학생";
         break;
       case "teacher":
-        this.role = "선생님"
+        this.role = "선생님";
         break;
     }
-    this.userName = this.$store.getters.getUserInfo.name
-    console.log(this.userName)
-    console.log(this.role)
+    this.userName = this.$store.getters.getUserInfo.name;
+    console.log(this.userName);
+    console.log(this.role);
   },
   methods: {
     logout() {

@@ -2,23 +2,23 @@
   <div id="lesson">
     <b-container>
       <b-card 
-              :title="this.$store.getters.getLesson.LessonName"
-              tag="article"
+            tag="article"
               class="mt-3 mb-2">
+        <h3>{{ this.$store.getters.getLesson.LessonName }}</h3>
         <p class="card-text">
           {{ this.$store.getters.getLesson.Explain }}
         </p>              
-        <b-embed type="iframe"
-                aspect="16by9"
-                src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
-                allowfullscreen/>
+        <video>
+          <source :src="this.$store.getters.getLesson.Link" controls>
+        </video>
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
-              <b-form-radio name="answer" :value="i+1" v-model="answer">
-                <p>{{ i+1 + "." + quiz.Content}}</p>
-              </b-form-radio>
+              <div>
+                <input type="radio" name="answer" :value="i+1" v-model="userAnswer">
+                <span>{{ i+1 + "." + quiz.Content}}</span>
+              </div>
             </div>
-            <b-button variant="primary">제출</b-button> 
+            <b-button variant="primary" @click="checkAnswer()">제출</b-button> 
         </b-card>
       </b-card>
     </b-container>
@@ -30,25 +30,59 @@ export default {
   name: "lesson",
   data() {
     return {
-      quizs : [],
-      title : "",
-      answer : ""
+      quizs: [],
+      title: "",
+      answer: "",
+      userAnswer: ""
     };
   },
   created() {
-    this.$http.get(`http://flss.kr/api/lesson/showQuestion?lno=${this.$store.getters.getLesson.Lno}&type=${this.$store.getters.getType}`)
-    .then(res =>{
-      this.title = res.data[0].Title
-      this.answer = res.data[0].Ranswer
-    })
-    this.$http.get(`http://flss.kr/api/lesson/showQuiz?lno=${this.$store.getters.getLesson.Lno}&type=${this.$store.getters.getType}`)
-    .then(res =>{
-      this.quizs = res.data
-      console.log("quiz" + this.quizs)
-    })
+    this.$http
+      .get(
+        `http://flss.kr/api/lesson/showQuestion?lno=${
+          this.$store.getters.getLesson.Lno
+        }&type=${this.$store.getters.getType}`
+      )
+      .then(res => {
+        this.title = res.data[0].Title;
+        this.answer = res.data[0].Ranswer;
+      });
+    this.$http
+      .get(
+        `http://flss.kr/api/lesson/showQuiz?lno=${
+          this.$store.getters.getLesson.Lno
+        }&type=${this.$store.getters.getType}`
+      )
+      .then(res => {
+        this.quizs = res.data;
+        console.log("quiz" + this.quizs);
+      });
     this.$vuevent.$on("test", function(text) {
       console.log(text);
     });
+  },
+  methods: {
+    checkAnswer() {
+      console.log(this.quizs[0].Qid);
+      console.log(this.userAnswer);
+      console.log(this.$store.getters.getUserInfo.uid);
+      this.$http
+        .post("http://flss.kr/api/lesson/solveQuiz", {
+          qid: this.quizs[0].Qid,
+          answer: this.userAnswer,
+          uid: this.$store.getters.getUserInfo.uid
+        })
+        .then(res => {
+          if (res.data === 1) {
+            alert("정답입니다!");
+          } else if (res.data === 0) {
+            alert("오답이네요...");
+          } else {
+            alert("이미 푼 문제입니다..");
+            return;
+          }
+        });
+    }
   }
 };
 </script>

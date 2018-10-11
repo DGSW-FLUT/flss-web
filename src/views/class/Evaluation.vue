@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import BarChart from "@/components/BarChart"
-import DoughnutChart from "@/components/DoughnutChart"
+import BarChart from "@/components/BarChart";
+import DoughnutChart from "@/components/DoughnutChart";
 
 export default {
   name: "evaluation",
@@ -130,7 +130,20 @@ export default {
         }
       ],
       barChartData: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
         datasets: [
           {
             label: "Github Commits",
@@ -148,7 +161,7 @@ export default {
           }
         ]
       }
-    }
+    };
   },
   computed: {
     getStatisticData() {
@@ -163,11 +176,9 @@ export default {
         student.questions.forEach(question => {
           if (question.isCorrect) {
             questionData.correct++;
-          }
-          else if (question.isCorrect === false) {
+          } else if (question.isCorrect === false) {
             questionData.wrong++;
-          }
-          else {
+          } else {
             questionData.notSubmitted++;
           }
         });
@@ -177,13 +188,17 @@ export default {
       data.datasets = [
         {
           backgroundColor: ["green", "red", "#d6d6d6"],
-          data: [questionData.correct, questionData.wrong, questionData.notSubmitted]
+          data: [
+            questionData.correct,
+            questionData.wrong,
+            questionData.notSubmitted
+          ]
         }
       ];
 
       return data;
     }
-  },
+  }
 };
 </script>
 

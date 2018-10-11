@@ -24,7 +24,7 @@ export default {
   methods: {
     showRealName() {},
     goClassRoom() {
-      this.$store.commit("setThisClass", this.classlist)
+      this.$store.commit("setThisClass", this.classlist);
       this.$router.push({ path: "/class1" });
     }
   }

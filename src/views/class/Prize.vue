@@ -17,10 +17,15 @@ import MemberList from "@/components/MemberList";
 export default {
   name: "prize",
   created() {
-    this.$http.get(`http://flss.kr/api/reward/getUser?token=${this.$store.getters.getToken}&cid=${this.$store.getters.getThisClass.id}`)
-    .then(res => {
-      this.memberlist = res.data
-    })
+    this.$http
+      .get(
+        `http://flss.kr/api/reward/getUser?token=${
+          this.$store.getters.getToken
+        }&cid=${this.$store.getters.getThisClass.id}`
+      )
+      .then(res => {
+        this.memberlist = res.data;
+      });
     this.$vuevent.on("idx", idx => {
       this.memberlist[idx].selected = !this.memberlist[idx].selected;
     });

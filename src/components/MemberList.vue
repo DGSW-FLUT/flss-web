@@ -25,11 +25,14 @@ export default {
   name: "member-list",
   props: ["memberlist"],
   methods: {
-    addCount(i){
-      this.$http.get(`http://flss.kr/api/reward/addPoint?uid=${this.memberlist[i].Uid}&point=${this.memberlist[i].Count}`)
-      .then(res =>{
-        
-      })
+    addCount(i) {
+      this.$http
+        .get(
+          `http://flss.kr/api/reward/addPoint?uid=${
+            this.memberlist[i].Uid
+          }&point=${this.memberlist[i].Count}`
+        )
+        .then(res => {});
     }
   }
 };

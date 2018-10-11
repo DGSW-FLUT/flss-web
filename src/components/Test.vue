@@ -208,24 +208,26 @@ export default {
       };
 
       let quizForm = {
-        lno : this.$store.getters.getLessonNum,
-        item : this.question,
-        ranswer : this.answer,
-        question : this.questionTitle,
-        type : this.$store.getters.getType
-      }
+        lno: this.$store.getters.getLessonNum,
+        item: this.question,
+        ranswer: this.answer,
+        question: this.questionTitle,
+        type: this.$store.getters.getType
+      };
 
-      console.log("quizForm" + quizForm)
+      console.log("quizForm" + quizForm);
 
-      this.$http.post("http://flss.kr/api/lesson/addQuiz", {
-        lno : quizForm.lno,
-        item : quizForm.item,
-        ranswer : quizForm.ranswer,
-        question : quizForm.question,
-        type : quizForm.type
-      }).then(res =>{
-        console.log("status" + res.data.status)
-      })
+      this.$http
+        .post("http://flss.kr/api/lesson/addQuiz", {
+          lno: quizForm.lno,
+          item: quizForm.item,
+          ranswer: quizForm.ranswer,
+          question: quizForm.question,
+          type: quizForm.type
+        })
+        .then(res => {
+          console.log("status" + res.data.status);
+        });
 
       this.questionTitle = "";
       this.question = [];
@@ -241,7 +243,7 @@ export default {
     },
 
     next() {
-      console.log(link)
+      console.log(link);
       this.$http
         .post("http://flss.kr/api/lesson/add", {
           uid: this.$store.getters.getUserInfo.uid,
@@ -256,8 +258,8 @@ export default {
           link: link
         })
         .then(res => {
-          this.$store.commit('setLessonNum', res.data.Lno)
-          if(res.status == 200){
+          this.$store.commit("setLessonNum", res.data.Lno);
+          if (res.status == 200) {
             this.bool = !this.bool;
           }
         })

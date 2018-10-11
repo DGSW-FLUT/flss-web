@@ -61,18 +61,23 @@
 <script>
 export default {
   name: "class-home",
-  created(){
-    this.$http.get(`http://flss.kr/api/class/member?cid=${this.$store.getters.getThisClass.id}&token=${this.$store.getters.getToken}`)
-    .then(res =>{
-      this.$store.commit('setMemberList', res.data);
-      this.member = this.$store.getters.getMemberList.length;
-    })
-    this.className = this.$store.getters.getThisClass.name
+  created() {
+    this.$http
+      .get(
+        `http://flss.kr/api/class/member?cid=${
+          this.$store.getters.getThisClass.id
+        }&token=${this.$store.getters.getToken}`
+      )
+      .then(res => {
+        this.$store.commit("setMemberList", res.data);
+        this.member = this.$store.getters.getMemberList.length;
+      });
+    this.className = this.$store.getters.getThisClass.name;
   },
   data() {
     return {
-      className : "",
-      member : ""
+      className: "",
+      member: ""
     };
   },
   components: {}
