@@ -236,7 +236,8 @@ export default {
     },
 
     onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
+      let files = e.target.files || e.dataTransfer.files;
+      console.log(files);
       if (files.length) {
         this.file = files[0];
         this.isVideoUploded = true;
@@ -255,7 +256,6 @@ export default {
       data.append('unit', this.chapter);
       data.append('chapter', this.chapter);
       data.append('explain', this.description);
-      console.log(link);
       this.$http
         .post("http://flss.kr/api/lesson/add", data,
         { headers: {'Content-Type': 'multipart/form-data' }})
