@@ -30,7 +30,7 @@ export default {
         .get(
           `http://flss.kr/api/reward/addPoint?uid=${
             this.memberlist[i].Uid
-          }&point=${this.memberlist[i].Count}`
+          }&point=${this.memberlist[i].Count+1}`
         )
         .then(res => {});
     }

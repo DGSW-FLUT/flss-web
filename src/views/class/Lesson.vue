@@ -8,12 +8,13 @@
         <p class="card-text">
           {{ this.$store.getters.getLesson.Explain }}
         </p>              
-        <video>
-          <source :src="this.$store.getters.getLesson.Link" controls>
-        </video>
+        <b-embed type="iframe"
+                aspect="16by9"
+                src=""
+                allowfullscreen/>
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
-              <div>
+              <div class="mt-3 mb-3">
                 <input type="radio" name="answer" :value="i+1" v-model="userAnswer">
                 <span>{{ i+1 + "." + quiz.Content}}</span>
               </div>

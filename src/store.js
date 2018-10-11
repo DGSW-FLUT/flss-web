@@ -10,8 +10,6 @@ const store = new Vuex.Store({
     authenticated: false,
     token: "",
     classtingUid: "",
-    uid: "",
-    cid: "",
     classtingCid: "",
     userinfo: {},
     class: [],
@@ -88,6 +86,17 @@ const store = new Vuex.Store({
     },
     setThisLesson(state, payload) {
       return (state.lesson = payload);
+    },
+    LogOut(state){
+      state.token = "";
+      state.userinfo = ""
+      state.class = ""
+      state.thisClass = ""
+      state.memberlist = ""
+      state.lessonNum = ""
+      state.lesson = ""
+      state.type = ""
+      state.lesson = ""
     }
   },
   actions: {},
