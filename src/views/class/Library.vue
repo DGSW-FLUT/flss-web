@@ -5,9 +5,9 @@
         <b-col>
             <b-card no-body>
               <h4 slot="header">{{ post.Title }}</h4>
-              <div class="border-bottom">
+              <div class="border-bottom post-name" @click="download(post.File,post.Name)">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
-                  {{ post.FileName }}
+                  {{ post.Name }}
               </div>
               <b-card-body>
                 <p class="card-text">
@@ -73,6 +73,7 @@ export default {
   },
   // 가짜 시간 함수: 나중에 삭제
   created() {
+    console.log('http://flss.kr/api/data/getPostList?cid='+this.$store.getters.getThisClass.cid+"&readOnly="+this.$store.getters.getUserInfo.role);
     this.$http.get('http://flss.kr/api/data/getPostList?cid='+this.$store.getters.getThisClass.cid+"&readOnly="+this.$store.getters.getUserInfo.role)
     .then(res => {
       this.posts = res.data
@@ -114,10 +115,32 @@ export default {
         .catch(err => {
           console.log(err.message);
         });
+    },
+    download(fileName,name) {
+      console.log('http://flss.kr/video/'+fileName);
+      this.$http
+      .get('http://flss.kr/video/'+fileName,
+            {responseType: 'blob'})
+      .then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', name);
+        document.body.appendChild(link);
+        link.click();
+        console.log("Download Success");
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+  .post-name {
+    cursor: pointer;
+  }
 </style>
+

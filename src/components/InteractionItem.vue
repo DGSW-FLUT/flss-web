@@ -24,10 +24,9 @@
               </template>
             </link-prevue>
           </a>
-          <div v-else-if="InteractionItem.file">
+          <div v-else-if="InteractionItem.file" class="interactionFile">
             <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
-            {{ InteractionItem.file.name }}
-            <font-awesome-icon class="py-1 float-right" fas icon="download" size="2x" @click="downloadFile"/>
+            {{ InteractionItem.file.name }} 
           </div>
         </b-card-footer>
       </b-card>
@@ -53,7 +52,7 @@ export default {
 html {
   text-decoration: none;
 }
-font-awesome-icon {
+.interactionFile {
   cursor: pointer;
 }
 </style>

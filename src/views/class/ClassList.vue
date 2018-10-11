@@ -1,20 +1,37 @@
 <template>
   <div id="class-list">
     <b-container>
-      <b-row>
-        <b-table class="mt-4" hover :items="items" @row-clicked="clickevent">
-        </b-table>
-        <!-- <b-card tag="article"
-                style="max-width: 20rem;"
-                class="mb-2">
-          <p class="card-text">
-            Title : 123
-          </p>
-          <b-button href="#" variant="primary">Go somewhere</b-button>
-        </b-card> -->
-      </b-row>
+    <b-tabs>
+      <b-tab title="사전 영상" active>
+          <b-row>
+            <b-table class="mt-4" hover :items="lessons" @row-clicked="clickevent">
+            </b-table>
+            <!-- <b-card tag="article"
+                    style="max-width: 20rem;"
+                    class="mb-2">
+              <p class="card-text">
+                Title : 123
+              </p>
+              <b-button href="#" variant="primary">Go somewhere</b-button>
+            </b-card> -->
+          </b-row>
+      </b-tab>
+        <b-tab title="평가 문제" active>
+            <b-row>
+              <b-table class="mt-4" hover :items="tests" @row-clicked="clickevent">
+              </b-table>
+              <!-- <b-card tag="article"
+                      style="max-width: 20rem;"
+                      class="mb-2">
+                <p class="card-text">
+                  Title : 123
+                </p>
+                <b-button href="#" variant="primary">Go somewhere</b-button>
+              </b-card> -->
+            </b-row>
+        </b-tab>
+      </b-tabs>
     </b-container>
-    
   </div>
 </template>
 
@@ -38,13 +55,34 @@ export default {
             과목: res.data[i].SubjectName,
             날짜: res.data[i].AddTime
           };
-          this.items.push(item);
+          this.lessons.push(item);
+        }
+      });
+
+    this.$http
+      .get(
+        `http://flss.kr/api/lesson/testList?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
+      .then(res => {
+        this.board = res.data;
+        console.log(res.data);
+        for (var i = 0; i < res.data.length; i++) {
+          let item = {
+            제목: res.data[i].LessonName,
+            학년: res.data[i].Syear,
+            과목: res.data[i].SubjectName,
+            날짜: res.data[i].AddTime
+          };
+          this.tests.push(item);
         }
       });
   },
   data() {
     return {
-      items: [],
+      lessons: [],
+      tests: [],
       board: []
     };
   },
