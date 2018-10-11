@@ -73,13 +73,19 @@ export default {
   },
   // 가짜 시간 함수: 나중에 삭제
   created() {
-    this.$http.get('http://flss.kr/api/data/getPostList?cid='+this.$store.getters.getThisClass.cid+"&readOnly="+this.$store.getters.getUserInfo.role)
-    .then(res => {
-      this.posts = res.data
-    })
-    .catch(err => {
-      console.log("error : "+err.message);
-    })
+    this.$http
+      .get(
+        "http://flss.kr/api/data/getPostList?cid=" +
+          this.$store.getters.getThisClass.cid +
+          "&readOnly=" +
+          this.$store.getters.getUserInfo.role
+      )
+      .then(res => {
+        this.posts = res.data;
+      })
+      .catch(err => {
+        console.log("error : " + err.message);
+      });
     // this.files.forEach(file => {
     //   let past = this.$moment("20180928 2:31:12", "YYYYMMDD H:mm:ss").format(
     //     "YYYY-MM-DD H:mm:ss"

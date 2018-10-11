@@ -41,7 +41,8 @@ export default {
     await this.$http
       .get(
         `http://flss.kr/api/lesson/showQuestion?lno=${
-          this.$store.getters.getLesson.Lno}`
+          this.$store.getters.getLesson.Lno
+        }`
       )
       .then(res => {
         this.title = res.data[0].Title;
