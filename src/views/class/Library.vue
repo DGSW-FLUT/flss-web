@@ -42,7 +42,7 @@
           </b-modal>
         </b-col>
       </b-row>
-      <b-pagination-nav base-url="#" :number-of-pages="parseInt(posts.length/5) + (posts.length%5 == 0 ? 0 : 1)" v-model="currentPage" />
+      <b-pagination-nav v-if="posts.length !== 0" base-url="#" :number-of-pages="Math.ceil(posts.length/5)" v-model="currentPage"/>
     </b-container>
   </div>
 </template>
@@ -73,7 +73,7 @@ export default {
   },
   // 가짜 시간 함수: 나중에 삭제
   created() {
-    console.log(this.$store.getters.getThisClass.cid+"&"+this.$store.getters.getUserInfo.role);
+    console.log(this.posts.length);
     this.$http.get('http://flss.kr/api/data/getPostList?cid='+this.$store.getters.getThisClass.cid+"&readOnly="+this.$store.getters.getUserInfo.role)
     .then(res => {
       this.posts = res.data

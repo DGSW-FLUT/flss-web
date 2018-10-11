@@ -246,7 +246,10 @@ export default {
 
     next() {
       let data = new FormData();
-      data.append('video', this.file)
+      if(this.file) {
+        data.append('video', this.file);
+        console.log("hi!");
+      }
       data.append('uid', this.$store.getters.getUserInfo.uid);
       data.append('cid', this.$store.getters.getThisClass.cid);
       data.append('title', this.title);
