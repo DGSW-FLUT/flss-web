@@ -8,9 +8,10 @@
         <p class="card-text">
           {{ this.$store.getters.getLesson.Explain }}
         </p>              
-        <video>
-          <source :src="this.$store.getters.getLesson.Link" controls>
-        </video>
+        <embed  v-if="this.$store.getters.getLesson.File"
+               :src="'http://flss.kr/video/'+this.$store.getters.getLesson.File" controls allowfullscreen
+                width="1000"
+                height="565">
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
               <div>
