@@ -4,17 +4,17 @@
             no-body 
             @click="add(i)"
             :class="{selected: portfolio.selected}">
-            <h4 slot="header">{{ file.title }}</h4>
+            <h4 slot="header">{{ portfolio.Title }}</h4>
             <div class="border-bottom">
                 <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
-                {{ file.fileName }}
+                {{ portfolio.File }}
             </div>
             <b-card-body>
             <p class="card-text">
-                <pre>{{ file.article }}</pre>
+                <pre>{{ portfolio.Content}}</pre>
             </p>
             </b-card-body>
-            <b-card-footer>{{ file.date }}</b-card-footer>
+            <b-card-footer>{{ portfolio.AddTime }}</b-card-footer>
         </b-card>
     </div>
 </template>
@@ -25,8 +25,8 @@ export default {
   props: ["portfolio", "i"],
   methods: {
     add(i) {
-      console.log(i);
       this.$vuevent.$emit("idx", i);
+      console.log(this.portfolio.selected);
     }
   }
 };

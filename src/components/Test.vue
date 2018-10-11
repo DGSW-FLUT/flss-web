@@ -212,7 +212,6 @@ export default {
         item: this.question,
         ranswer: this.answer,
         question: this.questionTitle,
-        type: this.$store.getters.getType
       };
 
       console.log("quizForm" + quizForm);
@@ -223,7 +222,6 @@ export default {
           item: quizForm.item,
           ranswer: quizForm.ranswer,
           question: quizForm.question,
-          type: quizForm.type
         })
         .then(res => {
           console.log("status" + res.data.status);
@@ -236,28 +234,37 @@ export default {
     },
 
     onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
+      let files = e.target.files || e.dataTransfer.files;
+      console.log(files);
       if (files.length) {
+        this.file = files[0];
         this.isVideoUploded = true;
       }
     },
 
     next() {
-      console.log(link);
+      let data = new FormData();
+      if(this.file) {
+        data.append('video', this.file);
+        console.log("hi!");
+      }
+      data.append('uid', this.$store.getters.getUserInfo.uid);
+      data.append('cid', this.$store.getters.getThisClass.cid);
+      data.append('title', this.title);
+      data.append('subject', this.subject);
+      data.append('grade', this.grade);
+      data.append('semester', this.semester);
+      data.append('unit', this.chapter);
+      data.append('chapter', this.chapter);
+      data.append('explain', this.description);
+      console.log(data)
       this.$http
-        .post("http://flss.kr/api/lesson/add", {
-          uid: this.$store.getters.getUserInfo.uid,
-          cid: this.$store.getters.getThisClass.cid,
-          title: this.title,
-          subject: this.subject,
-          grade: this.grade,
-          semester: this.semester,
-          unit: this.chapter,
-          chapter: this.chapter,
-          explain: this.description,
-          link: link
-        })
+        .post("http://flss.kr/api/lesson/add", data,
+        { headers: {'Content-Type': 'multipart/form-data' }})
         .then(res => {
+          console.log(res.data)
+          console.log("res num : "+res.data.Lno);
+          console.log("test : "+ data);
           this.$store.commit("setLessonNum", res.data.Lno);
           if (res.status == 200) {
             this.bool = !this.bool;

@@ -8,10 +8,10 @@
         <p class="card-text">
           {{ this.$store.getters.getLesson.Explain }}
         </p>              
-        <b-embed type="iframe"
-                aspect="16by9"
-                src=""
-                allowfullscreen/>
+        <embed  v-if="this.$store.getters.getLesson.File"
+               :src="'http://flss.kr/video/'+this.$store.getters.getLesson.File" controls allowfullscreen
+                width="1000"
+                height="565">
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
               <div class="mt-3 mb-3">
@@ -37,22 +37,21 @@ export default {
       userAnswer: ""
     };
   },
-  created() {
-    this.$http
+  async created() {
+    await this.$http
       .get(
         `http://flss.kr/api/lesson/showQuestion?lno=${
-          this.$store.getters.getLesson.Lno
-        }&type=${this.$store.getters.getType}`
+          this.$store.getters.getLesson.Lno}`
       )
       .then(res => {
         this.title = res.data[0].Title;
         this.answer = res.data[0].Ranswer;
       });
-    this.$http
+    await this.$http
       .get(
         `http://flss.kr/api/lesson/showQuiz?lno=${
           this.$store.getters.getLesson.Lno
-        }&type=${this.$store.getters.getType}`
+        }`
       )
       .then(res => {
         this.quizs = res.data;

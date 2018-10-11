@@ -1,20 +1,20 @@
 <template>
   <div id="library">
     <b-container>
-      <b-row class="mt-5" v-for="(file, i) in files" :key="i">
+      <b-row class="mt-5" v-for="(post, i) in getPosts" :key="i">
         <b-col>
             <b-card no-body>
-              <h4 slot="header">{{ file.title }}</h4>
+              <h4 slot="header">{{ post.Title }}</h4>
               <div class="border-bottom">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
-                  {{ file.fileName }}
+                  {{ post.FileName }}
               </div>
               <b-card-body>
                 <p class="card-text">
-                  <pre>{{ file.article }}</pre>
+                  <pre>{{ post.Content }}</pre>
                 </p>
               </b-card-body>
-              <b-card-footer>{{ file.date }}</b-card-footer>
+              <b-card-footer>{{ post.UploadTime }}</b-card-footer>
           </b-card>
           <!--<b-card style="cursor:pointer"
                   :header="file.text"
@@ -35,13 +35,14 @@
             <b-input-group class="mt-4" prepend="본문">
               <b-form-textarea
                     style="resize:none"
-                     v-model="article"
+                     v-model="content"
                      :rows="3" />
             </b-input-group>
             <b-form-file class="mt-4" v-model="file" ref="fileRef" placeholder="Choose a file..."></b-form-file>
           </b-modal>
         </b-col>
       </b-row>
+      <b-pagination-nav v-if="posts.length !== 0" base-url="#" :number-of-pages="Math.ceil(posts.length/5)" v-model="currentPage"/>
     </b-container>
   </div>
 </template>
@@ -51,27 +52,40 @@ export default {
   name: "library",
   data() {
     return {
-      files: [
-        {
-          title: "참고1",
-          article: "참고할 만한 자료를 올려두었어요.",
-          fileName: "flut.pptx",
-          date: ""
-        }
-      ],
+      content: "",
+      file: "",
       title: "",
-      article: "",
-      file: ""
+      posts: [],
+      currentPage: ""
     };
+  },
+  computed: {
+    getPosts() {
+      let tempPosts = [];
+      for (let i = (this.currentPage - 1) * 5; i < this.currentPage * 5; i++) {
+        if (this.posts[i]) {
+          console.log(this.posts[i]);
+          tempPosts.push(this.posts[i]);
+        }
+      }
+      return tempPosts;
+    }
   },
   // 가짜 시간 함수: 나중에 삭제
   created() {
-    this.files.forEach(file => {
-      let past = this.$moment("20180928 2:31:12", "YYYYMMDD H:mm:ss").format(
-        "YYYY-MM-DD H:mm:ss"
-      );
-      file.date = past;
-    });
+    this.$http.get('http://flss.kr/api/data/getPostList?cid='+this.$store.getters.getThisClass.cid+"&readOnly="+this.$store.getters.getUserInfo.role)
+    .then(res => {
+      this.posts = res.data
+    })
+    .catch(err => {
+      console.log("error : "+err.message);
+    })
+    // this.files.forEach(file => {
+    //   let past = this.$moment("20180928 2:31:12", "YYYYMMDD H:mm:ss").format(
+    //     "YYYY-MM-DD H:mm:ss"
+    //   );
+    //   file.date = past;
+    // });
   },
   methods: {
     clear() {
@@ -79,15 +93,27 @@ export default {
       this.$refs.fileRef.reset();
     },
     addFile() {
-      let current = this.$moment().format("YYYY-MM-DD H:mm:ss");
-      let newFile = {
-        title: this.title,
-        article: this.article,
-        fileName: this.file.name,
-        date: current
-      };
-      console.log(this.file);
-      this.files.push(newFile);
+      let newFile = new FormData();
+      newFile.append("cid", this.$store.getters.getThisClass.cid);
+      newFile.append("title", this.title);
+      newFile.append("uid", this.$store.getters.getUserInfo.uid);
+      newFile.append("content", this.content);
+      newFile.append("readOnly", this.$store.getters.getUserInfo.role);
+      newFile.append("name", this.file.name);
+      newFile.append("video", this.file);
+
+      this.$http
+        .post("http://flss.kr/api/data/addPost", newFile, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(res => {
+          console.log("Success");
+          location.reload();
+          return;
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 };
