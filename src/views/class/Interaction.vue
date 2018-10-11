@@ -150,7 +150,7 @@ export default {
     });
   },
   destroyed() {
-    client.disconnect()
+    client.disconnect();
   },
   components: {
     LinkPrevue,

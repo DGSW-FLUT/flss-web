@@ -53,7 +53,7 @@ export default {
   name: "make-class",
   data() {
     return {
-      title : "",
+      title: "",
       fileItems: [],
       items: [],
       files: [],
@@ -61,7 +61,7 @@ export default {
       title: "",
       List: [],
       did: "",
-      fileList : []
+      fileList: []
       //["PC 자료", "웹 주소", "FLSS 검색", "내 즐겨찾기"]
     };
   },
@@ -124,8 +124,8 @@ export default {
       this.$http
         .post("http://flss.kr/api/design/addFile", {
           did: this.did,
-          Mid : this.fileItems[index].Mid,
-          cid: this.$store.getters.getThisClass.cid,
+          Mid: this.fileItems[index].Mid,
+          cid: this.$store.getters.getThisClass.cid
         })
         .then(res => {
           console.log("데이터" + res.data);
@@ -137,21 +137,20 @@ export default {
       this.files.push(this.items[index]);
     },
     getFile(record, index) {
-      this.title = this.List[index].Title
+      this.title = this.List[index].Title;
       this.$http
         .get(`http://flss.kr/api/design/oneDesign?did=${this.List[index].Did}`)
         .then(res => {
           console.log("res.data" + res.data);
-          this.fileList = res.data
+          this.fileList = res.data;
         });
       this.$refs.myModalRef.show();
       console.log("List" + this.List[index]);
-      console.log("fileList" + this.fileList)
-      
+      console.log("fileList" + this.fileList);
     },
-    loadFile(file){
-      var url = `http://flss.kr/video/${file}`
-      window.open(url)
+    loadFile(file) {
+      var url = `http://flss.kr/video/${file}`;
+      window.open(url);
     }
   }
 };

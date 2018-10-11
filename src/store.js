@@ -8,7 +8,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     authenticated: false,
-    test : [],
+    test: [],
     token: "",
     userinfo: {},
     class: [],
@@ -86,8 +86,8 @@ const store = new Vuex.Store({
     setThisLesson(state, payload) {
       return (state.lesson = payload);
     },
-    setTest(state, payload){
-      return (state.test = payload)
+    setTest(state, payload) {
+      return (state.test = payload);
     },
     LogOut(state) {
       state.token = "";
