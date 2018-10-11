@@ -70,7 +70,7 @@
 import InteractionItem from "@/components/InteractionItem";
 import LinkPrevue from "link-prevue";
 import io from "socket.io-client";
-const client = io(location.origin.replace(':'+location.port, '') + ':3030');
+const client = io(`${location.origin}:3030`);
 
 export default {
   name: "Interaction",
@@ -144,6 +144,9 @@ export default {
     client.on('deleteAll', (data) => {
       this.remove()
     })
+  },
+  destroyed() {
+    client.disconnect()
   },
   components: {
     LinkPrevue,
