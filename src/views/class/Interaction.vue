@@ -149,6 +149,9 @@ export default {
       this.remove();
     });
   },
+  destroyed() {
+    client.disconnect()
+  },
   components: {
     LinkPrevue,
     InteractionItem
