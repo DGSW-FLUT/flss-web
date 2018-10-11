@@ -8,13 +8,20 @@
         <p class="card-text">
           {{ this.$store.getters.getLesson.Explain }}
         </p>              
+<<<<<<< HEAD
         <embed  v-if="this.$store.getters.getLesson.File"
                :src="'http://flss.kr/video/'+this.$store.getters.getLesson.File" controls allowfullscreen
                 width="1000"
                 height="565">
+=======
+        <b-embed type="iframe"
+                aspect="16by9"
+                src=""
+                allowfullscreen/>
+>>>>>>> d9101f8aaaf843d6c7c5e28b21af1ebd2b8ae0a0
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
-              <div>
+              <div class="mt-3 mb-3">
                 <input type="radio" name="answer" :value="i+1" v-model="userAnswer">
                 <span>{{ i+1 + "." + quiz.Content}}</span>
               </div>

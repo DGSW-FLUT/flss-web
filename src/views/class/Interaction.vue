@@ -58,6 +58,9 @@
         <b-button class="float-right fixed-right" variant="success" @click="adding">
           +
         </b-button>
+        <b-button class="float-right fixed-right" variant="danger" @click="removeAll">
+          <font-awesome-icon fas icon="trash" size="1x"/>
+        </b-button>
       </b-container>
     </div>
   </div>
@@ -66,6 +69,8 @@
 <script>
 import InteractionItem from "@/components/InteractionItem";
 import LinkPrevue from "link-prevue";
+import io from "socket.io-client";
+const client = io(location.origin.replace(':'+location.port, '') + ':3030');
 
 export default {
   name: "Interaction",
@@ -88,13 +93,21 @@ export default {
       this.isAttach = false;
       this.newInteraction = {};
     },
-    upload() {
+    remove() {
+      this.Interactions = [];
+    },
+    removeAll() {
+      this.Interactions = [];
+      client.emit('deleteAll');
+    },
+    upload(e) {
       this.Interactions.push(this.newInteraction);
-      console.log(JSON.stringify(this.Interactions));
+      console.log(JSON.stringify(this.newInteraction));
+      client.emit('upload', this.newInteraction)
       this.newInteraction = {};
       this.isAdding = false;
       this.isAttach = false;
-      alert("업로드 되었습니다");
+      // alert("업로드 되었습니다");
     },
     okLink(evt) {
       evt.preventDefault();
@@ -119,6 +132,18 @@ export default {
       this.isAttach = true;
       this.newInteraction.type = 3;
     }
+  },
+  mounted() {
+    client.emit('join', { name : this.$store.getters.getThisClass.cid }, (data) => {
+      this.Interactions = data
+    });
+    
+    client.on('upload', (data) => {
+      this.Interactions.push(data);
+    })
+    client.on('deleteAll', (data) => {
+      this.remove()
+    })
   },
   components: {
     LinkPrevue,
