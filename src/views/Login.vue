@@ -23,10 +23,10 @@
           <button class="input classting" @click="loginViaClassting()">
             Classting으로 로그인
           </button>
-          <button class="input google">
+          <button class="input google" @click="login()">
             Google+로 로그인
           </button>
-          <button class="input facebook">
+          <button class="input facebook" @click="login()">
             Facebook으로 로그인
           </button>
           <div class="signup">
@@ -46,8 +46,7 @@ export default {
   },
   methods: {
     login() {
-      this.$store.commit("setAuthenticated", true);
-      this.$router.push({ name: "select-class" });
+      alert("이 메뉴는 현재 준비중입니다. 클래스팅을 통한 로그인을 이용해주세요.");
     },
     loginViaClassting() {
       let redirectUri = `http://${location.host}/classting_handle`;
@@ -55,27 +54,6 @@ export default {
       console.log("uri", string);
       window.location = string;
     }
-    // async loginViaClassting() {
-    //   try {
-    //     let tokenResponse = await this.$http.get(
-    //       "http://flss.kr/api/auth/classting"
-    //     );
-    //     window.location = tokenResponse.request.responseURL;
-
-    //     let test = await this.$http.get(tokenResponse.request.responseURL);
-    //     console.log("토큰 : " + test)
-
-    //     this.$store.state.token = tokenResponse.access_token;
-    //     let userinfoResponse = await this.$http.get(
-    //       `http://flss.kr/api/auth/userinfo?token=${this.$store.state.token}`
-    //     );
-    //     console.log(userinfoResponse);
-    //     this.$store.state.uid = userinfoResponse.id;
-    //     this.$store.state.classtingUid = userinfoResponse.uid;
-    //   } catch (ex) {
-    //     console.log(ex);
-    //   }
-    // }
   }
 };
 </script>
