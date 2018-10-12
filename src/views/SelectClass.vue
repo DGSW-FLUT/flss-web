@@ -2,10 +2,10 @@
   <div id="select-class">
     <div class="mt-5"></div>
     <b-container>
-      <div class="d-inline">가입한 학급 <span class="classroom-number">{{ classrooms.length }}</span></div>
+      <div class="d-inline">가입한 학급 <span class="classroom-number">{{ classes.length }}</span></div>
       <b-row class="mt-4" align-v="center">
         <create-classroom-item class="col-md-3 col-sm-4 mb-4" />
-        <classroom-item class="col-md-3 col-sm-4 mb-4" v-for="(classroom, i) in classrooms" :key="i" :classroom="classroom" />
+        <classroom-item class="col-md-3 col-sm-4 mb-4" v-for="(classlist, i) in classes" :key="i" :classlist="classlist" /> <!-- classroom -> class -->
 
         <b-modal id="modalPrevent" ref="modal" @ok="okCreateClassroom" @shown="clearNewClassroom" title="새 학급 만들기">
           <b-form @submit.stop.prevent="submitCreateClassroom">
@@ -58,10 +58,28 @@ export default {
           name: "클래스 6"
         }
       ],
+      classes: [],
       newClassroom: {}
     };
   },
   created() {
+    this.$http
+      .get(
+        `http://flss.kr/api/class/joined?uid=${
+          this.$store.getters.getUserInfo.id
+        }&token=${this.$store.getters.getToken}`
+      )
+      .then(res => {
+        this.$store.commit("setClass", res.data);
+        console.log("클래스 : " + this.$store.getters.getClass);
+        this.classes = this.$store.getters.getClass;
+
+        console.log("클래스 목록 : " + this.classes);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
     this.classrooms.forEach(classroom => {
       if (classroom.name.length >= 12) {
         classroom.showName = classroom.name.slice(0, 8) + "...";

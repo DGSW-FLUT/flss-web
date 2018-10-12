@@ -9,12 +9,13 @@ import BootstrapVue from "bootstrap-vue";
 import VueMoment from "vue-moment";
 import VueCharts from "vue-chartjs";
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "expose-loader?$!expose-loader?jQuery!jquery";
 
 Vue.config.productionTip = false;
 
@@ -26,7 +27,7 @@ library.add(fas);
 Vue.use(Vuevent);
 Vue.use(BootstrapVue);
 Vue.use(VueMoment);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 new Vue({
   router,

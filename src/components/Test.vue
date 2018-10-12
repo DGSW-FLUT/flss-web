@@ -6,36 +6,34 @@
       <label for="inputLive">영상 제목</label>
         <b-form-input id="inputLive"
                       type="text"
+                      v-model="title"
                       aria-describedby="inputLiveHelp inputLiveFeedback"
                       placeholder="제목을 입력해주세요."></b-form-input>
       </b-row>
       <b-row class="mt-5">
         <b-col cols="2">
           <label for="inputLive">관련 과목</label>
-          <b-form-select class="mb-3" />
+          <b-form-select class="mb-3" v-model="subject" :options="subjectOption" />
         </b-col>
         <b-col cols="2">
           <label for="inputLive">관련 학년</label>
-          <b-form-select class="mb-3" />
+          <b-form-select class="mb-3" v-model="grade" :options="gradeOption"/>
         </b-col>
         <b-col cols="2">
           <label for="inputLive">관련 학기</label>
-          <b-form-select class="mb-3" />
+          <b-form-select class="mb-3" v-model="semester" :options="semesterOption"/>
         </b-col>
         <b-col cols="3">
           <label for="inputLive">관련 단원</label>
-          <b-form-select class="mb-3" />
+          <b-form-input v-model="chapter"></b-form-input>
         </b-col>
-        <b-col cols="3">
-          <label for="inputLive">관련 차시</label>
-          <b-form-select class="mb-3" />
-        </b-col>
+        
       </b-row>
       <b-row class="mt-4">
         <b-col cols="4" >
           <label for="inputLive">영상 설명</label>
           <b-form-textarea
-                      v-model="text"
+                      v-model="description"
                       style="resize:none"
                       placeholder="Description"
                       rows="6" />
@@ -43,13 +41,20 @@
         <b-col v-if="video">
           <b-card
                   tag="article"
-                  style= "float:right;"
                   class="mb-2">
             <p class="m-5 text-center" >영상을 업로드해주세요.</p>
             <p class="mt-5">
               <b-row>
-                <b-col cols="10">
-                <b-form-file style="cursor:pointer"  placeholder="내 컴퓨터"></b-form-file>
+              <b-col cols="7">
+                <input type="file" v-on:change="onFileChange" name="file[]" class="file_multi_video" accept="video/*" >
+              </b-col>
+              <b-col cols="3">
+                <b-btn v-if="isVideoUploded" v-b-modal.videopreview>영상 미리보기</b-btn>
+                <b-modal id="videopreview" title="영상 미리보기">
+                  <video width="400" controls >
+                    <source src="mov_bbb.mp4" id="video_here">
+                  </video>
+                </b-modal>
               </b-col>
               <b-col cols="2">
                 <b-button v-b-modal.URL variant="primary"> URL</b-button>
@@ -78,28 +83,9 @@
     <!-- 퀴즈 출제 부분 -->
     <b-container class="mt-5" v-if="!bool">
       <b-row>
-        <b-col cols="6" v-if="video">
-          <label for="inputLive">영상 미리보기</label>
-          <b-embed type="iframe"
-           aspect="16by9"
-           src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"
-           allowfullscreen
-          ></b-embed>
-        </b-col>
-        <b-col class="mt-4">
-          <b-card
-                  tag="article"
-                  style= "float:right;"
-                  class="mb-2">
-            <p class="m-5">퀴즈를 추가해주세요.</p>
-            <p class="mt-5">
-              <b-button style="float:left; min-width:100px;" @click="showquiz()" variant="primary" >출제하기</b-button>
-            </p>
-          </b-card>
-        </b-col>
-      </b-row>
-      <b-row class="mt-4" >
-        <b-col cols="5" v-if="isQuizShowed">
+        
+        
+        <b-col class="mt-5" cols="5" v-if="!isQuiz">
           <b-form-input
             class="mb-3"
             type="text"
@@ -115,32 +101,27 @@
             <b-button style="float:right;" variant="danger" v-if="canAdd" @click="del()">문항 삭제</b-button>
             <b-button style="float:right;" variant="success" v-if="canDelete" @click="add()">문항 추가</b-button>
         </b-col>
-        
-      </b-row>
-      <!-- <b-row>
-        <b-col v-if="isQuizShowed" v-for="(quiz, i) in quizlist" :key="i" cols="4">
-          <b-card v-if="isQuiz"
-                  title="퀴즈"
-                  style="max-width: 20rem;"
-                  class="mb-5" >
-             
-              <p>{{ i + 1 + "번"}}</p>
-              <p>문제 :  {{ quiz.title }}</p>
-              <p>항목 : {{ getQuizQuestions(i) }}</p>
-              <span>정답 :  {{ quiz.answer + "번" }}</span>
-              <b-button class="ml-4" variant="danger" @click="questionDel(i)">X</b-button>
-              <span @click="showModal(i)" class="card-text my-3"> {{ i+1 + "번 문제" }} </span>
-            <b-modal id="modal1" ref="quizModal" title="Bootstrap-Vue">
-              <p class="my-4">{{ modal.title }}</p>
-              <p class="my-4">{{ modal.answer }}</p>
-                <p class="my-4">{{ quizlist[i].title }}</p>
-                <p class="my-4">{{ getQuizQuestions(i) }}</p>
-                <p class="my-4">{{ quizlist[i].answer }}</p>
-              </b-modal>
-            
+        <b-col class="mt-5" v-if="isQuiz">
+          <b-card 
+                  tag="article"
+                  style="min-width: 20rem; float:right"
+                  class="mb-2">
+            <p class="card-text">
+              {{ this.test.title }}
+              <b-button style="float:right" variant="danger" @click="removeQuiz()">X</b-button>
+            </p>
+            <p v-for="(test, i) in this.test.quiz" :key="i">
+              {{ i+1 + ". " + test }}
+            </p>
+            <p>정답 : {{ this.test.answer }}</p>
           </b-card>
         </b-col>
-      </b-row> -->
+      </b-row>
+      <b-row>
+        <b-col class="mt-4">
+          
+        </b-col>
+      </b-row>
       <router-link to="/class1">
           <b-button style="float:right; margin-top:20%;" size="lg" variant="success">Upload!</b-button>
       </router-link>
@@ -149,33 +130,49 @@
 </template>
 
 <script>
+var $source;
+var efg = false;
+var link;
+
+$(document).on("change", ".file_multi_video", function(evt) {
+  $source = $("#video_here");
+  link = URL.createObjectURL(this.files[0]);
+  $source[0].src = URL.createObjectURL(this.files[0]);
+  $source.parent()[0].load();
+  efg = true;
+});
+
 export default {
   data() {
     return {
-      quizlist: [],
+      abc: $source,
+      subjectOption: ["국어", "수학", "사회", "과학", "영어"],
+      gradeOption: ["1학년", "2학년", "3학년", "4학년", "5학년", "6학년"],
+      semesterOption: ["1학기", "2학기"],
       question: [],
-      answer : "",
-      newQuestion : {},
+      answer: "",
+      test: [],
       questionTitle: "",
       quizs: [
         {
-          idx: "1번 문항",
-          val : ''
+          idx: "1번 문항"
         },
         {
-          idx: "2번 문항",
-          val : ''
+          idx: "2번 문항"
         }
       ],
-      isQuizShowed: false,
       bool: true,
+      title: "",
+      subject: "",
+      grade: "",
+      semester: "",
+      chapter: "",
+      description: "",
       text: "",
-      addbool: this.quizCnt > 5,
-      delbool: this.quizCnt < 2,
-      modal: {}
+      file: "",
+      isVideoUploded: false
     };
   },
-
   computed: {
     quizCnt() {
       return this.quizs.length;
@@ -187,67 +184,113 @@ export default {
       return this.quizCnt < 5;
     },
     isQuiz() {
-      return this.quizlist.length !== 0;
+      return this.test.length !== 0;
+    },
+    isQuizFilled() {
+      for (let i = 0; i < this.test.quiz; i++) {
+        if (this.test.quiz[i].trim() == "") {
+          return false;
+        }
+      }
     }
   },
   methods: {
     addQuiz() {
-      if(this.questionTitle.trim() == ''){
-        alert('문제를 입력해주세요!')
+      console.log(this.isQuizFilled);
+      if (this.questionTitle.trim() == "" || this.isQuizFilled) {
+        alert("문제를 입력해주세요!");
         return;
       }
-      // for(var i = 0; i < this.quizs.length; i++){
-      //   this.quizs[i].val = this.question[i]
-      // }
-      // let test = {
-      //   title : this.questionTitle,
-      //   val : [],
-      //   answer : this.answer
-      // }
-      // test.val.push(this.quizs)
-      // this.quizlist.push(test);
-      for(var i = 0; i < this.quizs.length; i++){
-        this.question[i] = ''
+      this.test = {
+        title: this.questionTitle,
+        quiz: this.question,
+        answer: this.answer
+      };
+
+      let quizForm = {
+        lno: this.$store.getters.getLessonNum,
+        item: this.question,
+        ranswer: this.answer,
+        question: this.questionTitle
+      };
+
+      console.log("quizForm" + quizForm);
+
+      this.$http
+        .post("http://flss.kr/api/lesson/addQuiz", {
+          lno: quizForm.lno,
+          item: quizForm.item,
+          ranswer: quizForm.ranswer,
+          question: quizForm.question
+        })
+        .then(res => {
+          console.log("status" + res.data.status);
+        });
+
+      this.questionTitle = "";
+      this.question = [];
+      this.answer = "";
+      alert("문제 제출 성공!");
+    },
+
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files;
+      console.log(files);
+      if (files.length) {
+        this.file = files[0];
+        this.isVideoUploded = true;
       }
-      this.questionTitle = ''
-      this.answer = ''
-      alert('문제 제출 성공!')
     },
-    questionCnt(i){
-      console.log(this.quizlist.length)
-      return this.quizlist[i].length
-    },
-    questionDel(i) {
-      this.quizlist.splice(i, 1);
-    },
+
     next() {
-      this.bool = !this.bool;
+      let data = new FormData();
+      if (this.file) {
+        data.append("video", this.file);
+        console.log("hi!");
+      }
+      data.append("uid", this.$store.getters.getUserInfo.uid);
+      data.append("cid", this.$store.getters.getThisClass.cid);
+      data.append("title", this.title);
+      data.append("subject", this.subject);
+      data.append("grade", this.grade);
+      data.append("semester", this.semester);
+      data.append("unit", this.chapter);
+      data.append("chapter", this.chapter);
+      data.append("explain", this.description);
+      console.log(data);
+      this.$http
+        .post("http://flss.kr/api/lesson/add", data, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(res => {
+          console.log(res.data);
+          console.log("res num : " + res.data.Lno);
+          console.log("test : " + data);
+          this.$store.commit("setLessonNum", res.data.Lno);
+          if (res.status == 200) {
+            this.bool = !this.bool;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
-    showquiz() {
-      this.isQuizShowed = !this.isQuizShowed;
-    },
+
     add() {
-       let newQuestion = {
-        idx: this.quizCnt + 1 + "번 문항",
-        val: this.question
+      let newQuestion = {
+        idx: this.quizCnt + 1 + "번 문항"
       };
       this.quizs.push(newQuestion);
     },
     del() {
       this.quizs.splice([this.quizCnt - 1], 1);
     },
-    getQuizQuestions(i) {
-      let string = '';
-      this.quizlist[i].val.forEach(el => {
-        string += `${el.val} `;
-      });
 
-      return string; 
-    },
-    showModal(i) {
-      this.modal.title = this.quizlist[i].title;
-      this.modal.answer = this.quizlist[i].answer;
-      this.$refs.quizModal.show();
+    removeQuiz() {
+      var quizDel = confirm("퀴즈를 다시 내시겠습니까?");
+      if (quizDel === true) {
+        this.test = [];
+      }
     }
   },
   props: ["video"]

@@ -1,8 +1,8 @@
 <template>
   <div class="classroom-item">
-    <b-card :title="classroom.showName"
-            :img-src="imageSrc"
-            :img-alt="classroom.showName"
+    <!-- line 5 classroom -> class -->
+    <b-card :title="classlist.name"
+            :img-src="classlist.profile_image"
             img-top
             tag="article"
             class="mb-2">
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "classroom-item",
-  props: ["classroom"],
+  props: ["classlist"],
   computed: {
     imageSrc() {
       let random = Math.floor(Math.random() * 25);
@@ -24,6 +24,7 @@ export default {
   methods: {
     showRealName() {},
     goClassRoom() {
+      this.$store.commit("setThisClass", this.classlist);
       this.$router.push({ path: "/class1" });
     }
   }

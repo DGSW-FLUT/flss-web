@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store";
 
 Vue.use(Router);
 
@@ -11,6 +12,11 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: () => import("./views/Login")
+    },
+    {
+      path: "/classting_handle",
+      name: "classting-handle",
+      component: () => import("./views/handler/ClasstingHandler")
     },
     {
       path: "/",
@@ -33,9 +39,19 @@ const router = new Router({
               component: () => import("./views/class/ClassHome")
             },
             {
+              path: "classlist",
+              name: "classlist",
+              component: () => import("./views/class/ClassList")
+            },
+            {
               path: "interaction",
               name: "interaction",
               component: () => import("./views/class/Interaction")
+            },
+            {
+              path: "portfolio",
+              name: "interaction",
+              component: () => import("./views/class/Portfolio")
             },
             {
               path: "select",
@@ -58,6 +74,11 @@ const router = new Router({
               component: () => import("./views/class/MakeClass")
             },
             {
+              path: "mypage",
+              name: "mypage",
+              component: () => import("./views/class/MyPage")
+            },
+            {
               path: "prize",
               name: "prize",
               component: () => import("./views/class/Prize")
@@ -71,6 +92,16 @@ const router = new Router({
               path: "evaluation",
               name: "evaluation",
               component: () => import("./views/class/Evaluation")
+            },
+            {
+              path: "lesson",
+              name: "lesson",
+              component: () => import("./views/class/Lesson")
+            },
+            {
+              path: "design-list",
+              name: "designlist",
+              component: () => import("./views/class/DesignClassList")
             },
             {
               path: "*",
@@ -91,12 +122,13 @@ const router = new Router({
   ]
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (store.getters.isAuthenticated || to.path === "/login") {
-//     next();
-//     return;
-//   }
-//   next("/login");
-// });
+router.beforeEach((to, from, next) => {
+  if (store.getters.getToken !== "" || to.path === "/login") {
+    next();
+    return;
+  }
+  alert("정의되지 않은 동작입니다.");
+  next("/login");
+});
 
 export default router;

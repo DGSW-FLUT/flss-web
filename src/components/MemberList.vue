@@ -8,10 +8,11 @@
             class="mb-4"
             img-top
             tag="article"
-            @click="test(i)"
+            @click="addCount(i)"
             style="text-align:center; cursor:pointer;">
             <font-awesome-icon class="py-2" fas icon="user" size="5x" />
-          <p class="card-text">{{ i+1 + "." }} {{ member.name }} </p>
+          <p class="card-text">{{ i+1 + "." }} {{ member.Name }} </p>
+          <p>{{ "상점 : " +  member.Count }}</p>
           </b-card>
         </b-col>
       </b-row>
@@ -24,8 +25,27 @@ export default {
   name: "member-list",
   props: ["memberlist"],
   methods: {
-    test(i) {
-      this.$vuevent.$emit("idx", i);
+    addCount(i) {
+      if (this.$store.getters.getUserInfo.role === "teacher") {
+        this.$http
+          .get(
+            `http://flss.kr/api/reward/addPoint?uid=${
+              this.memberlist[i].Uid
+            }&point=${this.memberlist[i].Count + 1}`
+          )
+          .then(res => {
+            this.$http
+              .get(
+                `http://flss.kr/api/reward/getUser?token=${
+                  this.$store.getters.getToken
+                }&cid=${this.$store.getters.getThisClass.id}`
+              )
+              .then(res => {
+                this.$vuevent.emit("memberlist", res.data);
+              });
+          });
+      }
+      console.log(this.$store.getters.getUserInfo.role);
     }
   }
 };

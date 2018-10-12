@@ -15,7 +15,7 @@
             </div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item disabled class="mr-3">민경빈 선생님</b-nav-item>
+            <b-nav-item @click="mypage()" class="mr-3">{{ userName + " " + role }}</b-nav-item>
             <b-nav-form>
               <b-button variant="danger" @click="logout()">Log out</b-button>
             </b-nav-form>
@@ -30,8 +30,28 @@
 export default {
   name: "main-navbar",
   props: ["menus"],
+  data() {
+    return {
+      userName: "",
+      role: ""
+    };
+  },
+  created() {
+    switch (this.$store.getters.getUserInfo.role) {
+      case "student":
+        this.role = "학생";
+        break;
+      case "teacher":
+        this.role = "선생님";
+        break;
+    }
+    this.userName = this.$store.getters.getUserInfo.name;
+    console.log(this.userName);
+    console.log(this.role);
+  },
   methods: {
     logout() {
+      this.$store.commit("LogOut");
       this.$vuevent.emit("logout");
     }
   }

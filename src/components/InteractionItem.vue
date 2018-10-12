@@ -8,41 +8,51 @@
           {{ InteractionItem.content }}
         </b-card-body>
         <b-card-footer v-if="InteractionItem.type !== 1">
-          <link-prevue url="https://www.youtube.com/watch?v=9iHM6X6uUH8">
-            <template slot-scope="props">
-              <b-card :title="props.title"
-                    :img-src="props.img"
-                    :img-alt="props.title"
-                    img-top
-                    style="max-width: 20rem;"
-                    class="mb-2">
-              <small class="text-muted">
-                {{ props.description }}
-              </small>
-            </b-card>
-            </template>
-          </link-prevue>
+          <a :href="InteractionItem.link" v-if="InteractionItem.link">
+            <link-prevue :url="InteractionItem.link">
+              <template slot-scope="props">
+                <b-card :title="props.title"
+                      :img-src="props.img"
+                      :img-alt="props.title"
+                      img-top
+                      style="max-width: 20rem;"
+                      class="mb-2">
+                <small class="text-muted">
+                  {{ props.description }}
+                </small>
+              </b-card>
+              </template>
+            </link-prevue>
+          </a>
+          <div v-else-if="InteractionItem.file" class="interactionFile">
+            <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
+            {{ InteractionItem.file.name }} 
+          </div>
         </b-card-footer>
       </b-card>
     </div>
 </template>
 
 <script>
-import LinkPrevue from 'link-prevue'
+import LinkPrevue from "link-prevue";
 
 export default {
   name: "interaction-item",
-  data() {
-    return {
-
-    }
-  },
-  props: ['InteractionItem'],
+  props: ["InteractionItem"],
   components: {
     LinkPrevue
+  },
+  methods: {
+    downloadFile() {}
   }
 };
 </script>
 
 <style lang="scss">
+html {
+  text-decoration: none;
+}
+.interactionFile {
+  cursor: pointer;
+}
 </style>

@@ -23,10 +23,10 @@
           <button class="input classting" @click="loginViaClassting()">
             Classting으로 로그인
           </button>
-          <button class="input google">
+          <button class="input google" @click="login()">
             Google+로 로그인
           </button>
-          <button class="input facebook">
+          <button class="input facebook" @click="login()">
             Facebook으로 로그인
           </button>
           <div class="signup">
@@ -46,18 +46,13 @@ export default {
   },
   methods: {
     login() {
-      this.$store.commit("setAuthenticated", true);
-      this.$router.push({ name: "select-class" });
+      alert("이 메뉴는 현재 준비중입니다. 클래스팅을 통한 로그인을 이용해주세요.");
     },
     loginViaClassting() {
-      this.$http
-        .get("http://localhost:3000/auth/classting")
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      let redirectUri = `http://${location.host}/classting_handle`;
+      let string = `https://oauth.classting.com/v1/oauth2/authorize?client_id=31f1b0011be18bf840dfdef3e78261b8&redirect_uri=${redirectUri}&response_type=token`;
+      console.log("uri", string);
+      window.location = string;
     }
   }
 };
