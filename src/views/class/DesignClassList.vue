@@ -5,8 +5,8 @@
         <b-col cols="12">
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
           <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
-            <div style="cursor:pointer" v-if="fileList" v-for="(file, i) in fileList" :key="i">
-              <b-card @click="loadFile(file.File)">
+            <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
+              <b-card @click="download(file.File, file.Name)">
                 {{ file.Name }}
               </b-card>
             </div>
@@ -57,9 +57,22 @@ export default {
       console.log("List" + this.List[index]);
       console.log("fileList" + this.fileList);
     },
-    loadFile(file) {
-      var url = `http://flss.kr/video/${file}`;
-      window.open(url);
+    download(uploadName, originalName) {
+      console.log("http://flss.kr/video/" + uploadName);
+      this.$http
+        .get("http://flss.kr/video/" + uploadName, { responseType: "blob" })
+        .then(res => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", originalName);
+          document.body.appendChild(link);
+          link.click();
+          console.log("Download Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 };
