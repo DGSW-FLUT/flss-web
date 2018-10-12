@@ -121,16 +121,16 @@ export default {
           console.log(err.message);
         });
     },
-    download(fileName,name) {
-      console.log('http://flss.kr/video/'+fileName);
+    download(uploadName,originalName) {
+      console.log('http://flss.kr/video/'+uploadName);
       this.$http
-      .get('http://flss.kr/video/'+fileName,
+      .get('http://flss.kr/video/'+uploadName,
             {responseType: 'blob'})
       .then(res => {
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', name);
+        link.setAttribute('download', originalName);
         document.body.appendChild(link);
         link.click();
         console.log("Download Success");

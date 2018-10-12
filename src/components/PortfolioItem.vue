@@ -1,13 +1,14 @@
 <template>
     <div class="portfolio-item">
         <b-card 
+            class="mb-4"
+            :class="{selected: portfolio.selected}"
             no-body 
-            @click="add(i)"
-            :class="{selected: portfolio.selected}">
+            @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
             <div class="border-bottom">
                 <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
-                {{ portfolio.File }}
+                {{ portfolio.Name }}
             </div>
             <b-card-body>
             <p class="card-text">
@@ -35,5 +36,9 @@ export default {
 <style lang="scss">
 .selected {
   border: 1px solid red;
+}
+
+.portfolio-item {
+    cursor: pointer;
 }
 </style>
