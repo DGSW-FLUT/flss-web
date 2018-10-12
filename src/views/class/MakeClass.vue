@@ -50,7 +50,17 @@
           </b-modal>
         </b-col> -->
         <b-col v-if="did" cols="6">
-          <div class="div1 border no-scrollbar" style="max-width:100%">
+          <b-nav>
+              <b-nav-item active @click="pc()">PC자료</b-nav-item>
+              <b-nav-item active @click="web()">웹 주소</b-nav-item>
+              <b-nav-item active @click="search()">FLSS 검색</b-nav-item>
+              <b-nav-item active @click="like()">내 즐겨찾기</b-nav-item>
+          </b-nav>
+          <div  class="div1 border no-scrollbar" style="min-width:100%">
+            <span class="center" v-if="!items.length"> 
+              <font-awesome-icon class="py-2 ml-5 mr-5" fas icon="exclamation-circle" size="4x"/><br>
+              등록된 파일이 없습니다
+            </span>
             <b-table style="cursor:pointer" hover :items="items" @row-clicked="addFile"></b-table>      
             </div>
         </b-col>
@@ -81,6 +91,7 @@ export default {
       title: "",
       List: [],
       did: "",
+      flssItems : [],
       fileList: []
       //["PC 자료", "웹 주소", "FLSS 검색", "내 즐겨찾기"]
     };
@@ -112,7 +123,7 @@ export default {
           let items = {
             fileName: res.data[i].Name
           };
-          this.items.push(items);
+          this.flssItems.push(items);
         }
         this.fileItems = res.data;
       });
@@ -178,11 +189,25 @@ export default {
     },
     completeMakeClass() {
       if (this.files.length) alert("수업 설계 완료");
-      else alert("파일을 추가해 주세요.");
-      return;
+        else{
+          alert("파일을 추가해 주세요.");
+          return;
+        } 
       this.title = "";
       this.did = "";
       this.files = [];
+    },
+    pc(){
+      this.items = []
+    },
+    web(){
+      this.items = []
+    },
+    search(){
+      this.items = this.flssItems
+    },
+    like(){
+      this.items = []
     }
   }
 };
@@ -221,4 +246,11 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.center{
+  position: relative;
+  left: 35%;
+  transform: translateX(-50%);
+}
+
 </style>

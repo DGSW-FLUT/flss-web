@@ -3,6 +3,10 @@
     <b-container>
       <b-row>
         <b-col cols="12">
+          <span class="center" v-if="!classList.length"> 
+              <font-awesome-icon class="py-2 ml-5 mr-5" fas icon="exclamation-circle" size="10x"/><br>
+              <span style="font-size:2em">등록된 파일이 없습니다.</span>
+          </span>
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
           <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
             <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
@@ -79,4 +83,9 @@ export default {
 </script>
 
 <style>
+  .aligncenter{
+  transform: translateX(-50%);
+  left:50%;
+  position: relative;
+  }
 </style>

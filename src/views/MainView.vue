@@ -16,10 +16,7 @@ export default {
   data() {
     return {
       menus: [
-        {
-          link: "/",
-          text: "메뉴 1"
-        }
+        
       ]
     };
   },
