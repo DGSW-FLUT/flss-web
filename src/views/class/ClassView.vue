@@ -20,6 +20,10 @@ export default {
         break;
       case "teacher":
         this.menus = this.teacherMenu;
+        break;
+      default:
+        this.menus = this.teacherMenu;
+        break;
     }
   },
   data() {
@@ -89,10 +93,6 @@ export default {
         {
           link: "/class1/prize",
           text: "보상 도구"
-        },
-        {
-          link: "/class1/evaluation",
-          text: "평가 도구"
         },
         {
           link: "/class1/portfolio",
