@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       quizs: [],
+      quizTitle : "",
       title: "",
       answer: "",
       userAnswer: ""
