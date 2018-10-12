@@ -98,6 +98,11 @@ const router = new Router({
               component: () => import("./views/class/Lesson")
             },
             {
+              path: "design-list",
+              name: "designlist",
+              component: () => import("./views/class/DesignClassList")
+            },
+            {
               path: "*",
               redirect: "/"
             }

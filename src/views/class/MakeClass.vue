@@ -2,10 +2,11 @@
   <div id="make-class">
       <b-container class="mt-5">
       <b-row>
-        <b-col cols="4">
-          <div class="div1 border no-scrollbar">
+        <b-col cols="6" >
+          <div class="div1 border no-scrollbar" style="max-width:100%">
             <label for="inputLive" class="mt-3">수업 제목</label>
-            <b-button variant="success" size="sm" class="float-right mt-3" @click="makeClass">UPLOAD</b-button>
+            <b-button v-if="!did" variant="success" size="sm" class="float-right mt-3" @click="makeClass()">Make</b-button>
+            <b-button v-if="did" variant="danger" size="sm" class="float-right mt-3" @click="completeMakeClass()">Finish</b-button>
             <b-form-input
                   v-model="title"
                   class="mt-3"
@@ -13,7 +14,7 @@
                   placeholder="Text input"></b-form-input>
             <b-list-group>
               <b-list-group-item class="flex-column align-items-start mt-3" v-for="(file, i) in files" :key="i">
-                <p class="mb-1" style="overflow:hidden">
+                <p class="mb-1" style="text-overflow: ellipsis; overflow: hidden">
                   {{ file.fileName }}
                 </p>
                 <small>{{ file.fileExt }}</small>
@@ -22,18 +23,20 @@
             </b-list-group>
           </div>
         </b-col>
-        <b-col cols="4">
+        <!-- <b-col cols="4">
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
-          <b-modal ref="myModalRef" hide-footer :title="title">
+          <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
             <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
               <b-card @click="loadFile(file.File)">
                 {{ file.File }}
               </b-card>
             </div>
           </b-modal>
-        </b-col>
-        <b-col cols="4">
-          <b-table style="cursor:pointer" hover :items="items" @row-clicked="addFile"></b-table>       
+        </b-col> -->
+        <b-col v-if="did" cols="6">
+          <div class="div1 border no-scrollbar" style="max-width:100%">
+            <b-table style="cursor:pointer" hover :items="items" @row-clicked="addFile"></b-table>      
+            </div>
         </b-col>
       </b-row>
     </b-container>
@@ -53,6 +56,7 @@ export default {
   name: "make-class",
   data() {
     return {
+      lessonTitle: "",
       title: "",
       fileItems: [],
       items: [],
@@ -90,7 +94,7 @@ export default {
       .then(res => {
         for (var i = 0; i < res.data.length; i++) {
           let items = {
-            fileName: res.data[i].File
+            fileName: res.data[i].Name
           };
           this.items.push(items);
         }
@@ -137,7 +141,7 @@ export default {
       this.files.push(this.items[index]);
     },
     getFile(record, index) {
-      this.title = this.List[index].Title;
+      this.lessonTitle = this.List[index].Title;
       this.$http
         .get(`http://flss.kr/api/design/oneDesign?did=${this.List[index].Did}`)
         .then(res => {
@@ -151,6 +155,14 @@ export default {
     loadFile(file) {
       var url = `http://flss.kr/video/${file}`;
       window.open(url);
+    },
+    completeMakeClass() {
+      if (this.files.length) alert("수업 설계 완료");
+      else alert("파일을 추가해 주세요.");
+      return;
+      this.title = "";
+      this.did = "";
+      this.files = [];
     }
   }
 };

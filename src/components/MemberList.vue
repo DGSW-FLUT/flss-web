@@ -26,23 +26,26 @@ export default {
   props: ["memberlist"],
   methods: {
     addCount(i) {
-      this.$http
-        .get(
-          `http://flss.kr/api/reward/addPoint?uid=${
-            this.memberlist[i].Uid
-          }&point=${this.memberlist[i].Count + 1}`
-        )
-        .then(res => {
-          this.$http
-            .get(
-              `http://flss.kr/api/reward/getUser?token=${
-                this.$store.getters.getToken
-              }&cid=${this.$store.getters.getThisClass.id}`
-            )
-            .then(res => {
-              this.$vuevent.emit("memberlist", res.data);
-            });
-        });
+      if (this.$store.getters.getUserInfo.role === "teacher") {
+        this.$http
+          .get(
+            `http://flss.kr/api/reward/addPoint?uid=${
+              this.memberlist[i].Uid
+            }&point=${this.memberlist[i].Count + 1}`
+          )
+          .then(res => {
+            this.$http
+              .get(
+                `http://flss.kr/api/reward/getUser?token=${
+                  this.$store.getters.getToken
+                }&cid=${this.$store.getters.getThisClass.id}`
+              )
+              .then(res => {
+                this.$vuevent.emit("memberlist", res.data);
+              });
+          });
+      }
+      console.log(this.$store.getters.getUserInfo.role);
     }
   }
 };

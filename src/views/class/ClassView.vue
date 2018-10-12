@@ -1,6 +1,6 @@
 <template>
   <div id="class-view">
-    <class-navbar :menus="menus" class="border-bottom shadow-sm" />
+    <class-navbar :menus="menus" class="border-bottom; shadow-sm;" />
     <router-view />
   </div>
 </template>
@@ -13,14 +13,20 @@ export default {
   components: {
     ClassNavbar
   },
+  created() {
+    switch (this.$store.getters.getUserInfo.role) {
+      case "student":
+        this.menus = this.teacherMenu;
+        break;
+      case "teacher":
+        this.menus = this.teacherMenu;
+    }
+  },
   data() {
     return {
+      menus: [],
       //선생용 메뉴
-      menus: [
-        {
-          link: "/class1/classlist",
-          text: "영상"
-        },
+      teacherMenu: [
         {
           link: "/class1",
           text: "Home"
@@ -30,8 +36,16 @@ export default {
           text: "사전영상/평가"
         },
         {
+          link: "/class1/classlist",
+          text: "영상"
+        },
+        {
           link: "/class1/makeclass",
           text: "수업 설계"
+        },
+        {
+          link: "/class1/design-list",
+          text: "수업설계 목록"
         },
         {
           link: "/class1/library",
@@ -55,22 +69,14 @@ export default {
         }
       ],
       //학생용 메뉴
-      menussss: [
-        {
-          link: "/class1/classlist",
-          text: "영상"
-        },
+      studentMenu: [
         {
           link: "/class1",
           text: "Home"
         },
         {
-          link: "/class1/select",
-          text: "영상 제작"
-        },
-        {
-          link: "/class1/makeclass",
-          text: "수업 설계"
+          link: "/class1/classlist",
+          text: "영상"
         },
         {
           link: "/class1/library",
