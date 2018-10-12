@@ -91,10 +91,6 @@ export default {
           text: "보상 도구"
         },
         {
-          link: "/class1/evaluation",
-          text: "평가 도구"
-        },
-        {
           link: "/class1/portfolio",
           text: "포트폴리오"
         }
