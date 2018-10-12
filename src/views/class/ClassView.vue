@@ -37,11 +37,11 @@ export default {
         },
         {
           link: "/class1/select",
-          text: "사전영상/평가목록"
+          text: "사전영상/평가"
         },
         {
           link: "/class1/classlist",
-          text: "영상 목록"
+          text: "사전영상/평가 목록"
         },
         {
           link: "/class1/makeclass",
@@ -69,7 +69,7 @@ export default {
         },
         {
           link: "/class1/portfolio",
-          text: "포트폴리오"
+          text: "학습게시판"
         }
       ],
       //학생용 메뉴
@@ -80,11 +80,11 @@ export default {
         },
         {
           link: "/class1/select",
-          text: "사전영상/평가목록"
+          text: "사전영상/평가"
         },
         {
           link: "/class1/classlist",
-          text: "영상 목록"
+          text: "사전영상/평가 목록"
         },
         {
           link: "/class1/library",
@@ -100,7 +100,7 @@ export default {
         },
         {
           link: "/class1/portfolio",
-          text: "포트폴리오"
+          text: "학습게시판"
         }
       ]
     };
