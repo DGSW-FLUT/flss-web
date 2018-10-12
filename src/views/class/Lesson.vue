@@ -64,9 +64,9 @@ export default {
   },
   methods: {
     checkAnswer() {
-      console.log(this.quizs[0].Qid);
-      console.log(this.userAnswer);
-      console.log(this.$store.getters.getUserInfo.uid);
+      console.log("qid" + this.quizs[0].Qid);
+      console.log("answer" + this.userAnswer);
+      console.log("uid" + this.$store.getters.getUserInfo.uid);
       this.$http
         .post("http://flss.kr/api/lesson/solveQuiz", {
           qid: this.quizs[0].Qid,
