@@ -15,9 +15,7 @@ export default {
   },
   data() {
     return {
-      menus: [
-        
-      ]
+      menus: []
     };
   },
   created() {
