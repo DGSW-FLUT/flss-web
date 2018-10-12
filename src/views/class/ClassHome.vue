@@ -14,8 +14,10 @@
         </b-col>
         <b-col cols="6">
           <div>
-            <b-card overlay img-src="https://picsum.photos/900/250/?image=25" img-alt="Card Image" text-variant="white" :title="className"
-              :sub-title="member+'명'">
+            <b-card overlay img-src="http://flss.kr/video/classBg.png" img-alt="Card Image" text-variant="white" :title="className">
+              <p class="card-text">
+                {{ `학생 ${member} 명` }}
+              </p>
             </b-card>
           </div>
         </b-col>
