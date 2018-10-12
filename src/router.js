@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store";
 
 Vue.use(Router);
 
@@ -121,12 +122,13 @@ const router = new Router({
   ]
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (store.getters.isAuthenticated || to.path === "/login") {
-//     next();
-//     return;
-//   }
-//   next("/login");
-// });
+router.beforeEach((to, from, next) => {
+  if (store.getters.getToken !== "" || to.path === "/login") {
+    next();
+    return;
+  }
+  alert("정의되지 않은 동작입니다.");
+  next("/login");
+});
 
 export default router;
