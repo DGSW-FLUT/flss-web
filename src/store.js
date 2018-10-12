@@ -24,6 +24,9 @@ const store = new Vuex.Store({
     isAuthenticated(state) {
       return !!state.authenticated;
     },
+    isTeacher(state) {
+      return !!(state.userinfo.role === "teacher");
+    },
     getToken(state) {
       return state.token.toString();
     },

@@ -6,14 +6,14 @@
             <b-card no-body>
               <b-row class="m-4">
                 <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
-                <!-- <div slot="header" class="col-md-4">
-                  <b-dropdown :text="getReadOnly" class="float-right" variant="primary">
-                    <b-dropdown-item>전체보기</b-dropdown-item>
-                    <b-dropdown-item>선생님만</b-dropdown-item>
+                <div slot="header" class="col-md-4">
+                  <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
+                    <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
+                    <b-dropdown-item @click="changeReadOnlyToTeacher(i)">선생님만</b-dropdown-item>
                   </b-dropdown>
-                </div> -->
+                </div>
               </b-row>
-              <div class="border-bottom">
+              <div class="border-bottom"> 
                 <div class="post-name" @click="download(post.File,post.Name)">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
                   {{ post.Name }}
@@ -79,14 +79,8 @@ export default {
       }
       return tempPosts;
     },
-    getReadOnly() {
-      console.log(i);
-      console.log(this.posts[0]);
-      if (this.posts[0].ReadOnly === "teacher") {
-        return "선생님만"
-      } else {
-        return "전체보기"
-      }
+    isTeacherVuex() {
+      return this.$store.getters.isTeacher;
     }
   },
   // 가짜 시간 함수: 나중에 삭제
@@ -140,7 +134,6 @@ export default {
         });
     },
     download(uploadName, originalName) {
-      console.log("http://flss.kr/video/" + uploadName);
       this.$http
         .get("http://flss.kr/video/" + uploadName, { responseType: "blob" })
         .then(res => {
@@ -155,6 +148,48 @@ export default {
         .catch(err => {
           console.log(err.message);
         });
+    },
+    changeReadOnlyToStudent(i) {
+      let data = {
+        pid: this.posts[i].Pid,
+        readOnly: "student"
+      }
+
+      if (this.posts[i].ReadOnly === 'student'){
+        console.log("already student");
+        return;
+      }
+
+      this.$http
+      .post('http://flss.kr/api/data/changeReadOnly',data)
+      .then(res => {
+        this.posts[i].ReadOnly = "student";
+        console.log("Change ReadOnly Success");
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    },
+    changeReadOnlyToTeacher(i) {
+      let data = {
+        pid: this.posts[i].Pid,
+        readOnly: "teacher"
+      }
+      
+      if (this.posts[i].ReadOnly === 'teacher'){
+        console.log("already teacher");
+        return;
+      }
+
+      this.$http
+      .post('http://flss.kr/api/data/changeReadOnly',data)
+      .then(res => {
+        this.posts[i].ReadOnly = "teacher";
+        console.log("Change ReadOnly Success");
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
     }
   }
 };
