@@ -20,6 +20,10 @@ export default {
         break;
       case "teacher":
         this.menus = this.teacherMenu;
+        break;
+      default:
+        this.menus = this.teacherMenu;
+        break;
     }
   },
   data() {

@@ -128,6 +128,10 @@ export default {
   computed: {},
   methods: {
     makeClass() {
+      if (this.title.trim() === "") {
+        alert("입력해주세요.");
+        return;
+      }
       this.$http
         .post("http://flss.kr/api/design/addDesign", {
           title: this.title,

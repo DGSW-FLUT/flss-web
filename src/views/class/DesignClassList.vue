@@ -5,7 +5,7 @@
         <b-col cols="12">
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
           <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
-            <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
+            <div style="cursor:pointer" v-if="fileList" v-for="(file, i) in fileList" :key="i">
               <b-card @click="loadFile(file.File)">
                 {{ file.Name }}
               </b-card>
