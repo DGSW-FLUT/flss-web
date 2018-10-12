@@ -4,10 +4,20 @@
       <b-row class="mt-5" v-for="(post, i) in getPosts" :key="i">
         <b-col>
             <b-card no-body>
-              <h4 slot="header">{{ post.Title }}</h4>
-              <div class="border-bottom post-name" @click="download(post.File,post.Name)">
+              <b-row class="m-4">
+                <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
+                <!-- <div slot="header" class="col-md-4">
+                  <b-dropdown :text="getReadOnly" class="float-right" variant="primary">
+                    <b-dropdown-item>전체보기</b-dropdown-item>
+                    <b-dropdown-item>선생님만</b-dropdown-item>
+                  </b-dropdown>
+                </div> -->
+              </b-row>
+              <div class="border-bottom">
+                <div class="post-name" @click="download(post.File,post.Name)">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
                   {{ post.Name }}
+                </div>
               </div>
               <b-card-body>
                 <p class="card-text">
@@ -64,11 +74,19 @@ export default {
       let tempPosts = [];
       for (let i = (this.currentPage - 1) * 5; i < this.currentPage * 5; i++) {
         if (this.posts[i]) {
-          console.log(this.posts[i]);
           tempPosts.push(this.posts[i]);
         }
       }
       return tempPosts;
+    },
+    getReadOnly() {
+      console.log(i);
+      console.log(this.posts[0]);
+      if (this.posts[0].ReadOnly === "teacher") {
+        return "선생님만"
+      } else {
+        return "전체보기"
+      }
     }
   },
   // 가짜 시간 함수: 나중에 삭제
@@ -145,5 +163,6 @@ export default {
 <style lang="scss">
 .post-name {
   cursor: pointer;
+  display: inline-block;
 }
 </style>

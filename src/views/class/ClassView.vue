@@ -37,11 +37,11 @@ export default {
         },
         {
           link: "/class1/select",
-          text: "사전영상/평가"
+          text: "사전영상/평가목록"
         },
         {
           link: "/class1/classlist",
-          text: "영상"
+          text: "영상 목록"
         },
         {
           link: "/class1/makeclass",
@@ -79,8 +79,12 @@ export default {
           text: "Home"
         },
         {
+          link: "/class1/select",
+          text: "사전영상/평가목록"
+        },
+        {
           link: "/class1/classlist",
-          text: "영상"
+          text: "영상 목록"
         },
         {
           link: "/class1/library",

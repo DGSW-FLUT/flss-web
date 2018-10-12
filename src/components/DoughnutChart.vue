@@ -9,7 +9,7 @@ export default {
   props: ["chart-data", "options"],
   mounted() {
     this.renderChart(this.chartData);
-    this.$vuevent.on('chartChange', () => {
+    this.$vuevent.on("chartChange", () => {
       this.renderChart(this.chartData);
     });
   }
