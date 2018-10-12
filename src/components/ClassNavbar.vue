@@ -1,13 +1,13 @@
 <template>
   <div class="class-navbar">
     <b-navbar toggleable type="light" variant="light">
-      <b-container>
+      <b-container fluid class="col-10">
         <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
         <b-collapse is-nav id="nav_text_collapse">
           <b-nav class="w-100" justified>
-            <b-container>
+            <b-container fluid>
               <b-row>
-                <b-col  v-for="(menu, i) in menus" :key="i">
+                <b-col v-for="(menu, i) in menus" :key="i">
                     <b-nav-item>
                       <router-link :to="menu.link">
                         <b-nav-text>{{menu.text}}</b-nav-text>

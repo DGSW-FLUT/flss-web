@@ -83,9 +83,9 @@ export default {
 </script>
 
 <style>
-  .aligncenter{
+.aligncenter {
   transform: translateX(-50%);
-  left:50%;
+  left: 50%;
   position: relative;
-  }
+}
 </style>

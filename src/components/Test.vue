@@ -3,7 +3,7 @@
     <!-- 영상 설명 부분 -->
     <b-container v-if="bool">
       <b-row>
-      <label for="inputLive">영상 제목</label>
+      <label for="inputLive">{{ getType }} 제목</label>
         <b-form-input id="inputLive"
                       type="text"
                       v-model="title"
@@ -31,7 +31,7 @@
       </b-row>
       <b-row class="mt-4">
         <b-col cols="4" >
-          <label for="inputLive">영상 설명</label>
+          <label for="inputLive">{{ getType }} 설명</label>
           <b-form-textarea
                       v-model="description"
                       style="resize:none"
@@ -75,8 +75,8 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col cols="1">공유하기</b-col>
-        <b-col cols="2">
+        <b-col class="mt-4" cols="1">공유하기</b-col>
+        <b-col class="mt-4" cols="2">
           <label class="switch">
             <input type="checkbox">
             <span class="slider round"></span>
@@ -201,6 +201,13 @@ export default {
           return false;
         }
       }
+    },
+    getType(){
+      if(this.video === true){
+        return "영상"
+      } else if(this.video === false){
+        return "평가"
+      }
     }
   },
   methods: {
@@ -313,7 +320,9 @@ export default {
   height: 34px;
 }
 
-.switch input {display:none;}
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -323,8 +332,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -335,16 +344,16 @@ export default {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -362,4 +371,3 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 </style>
-

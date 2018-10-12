@@ -42,36 +42,46 @@ export default {
       studentData: [],
       chart: {
         labels: ["정답", "오답", "미제출"],
-        datasets: [{
-          backgroundColor: ["green", "red", "#d6d6d6"],
-          data: [0, 0, 0]
-        }]
+        datasets: [
+          {
+            backgroundColor: ["green", "red", "#d6d6d6"],
+            data: [0, 0, 0]
+          }
+        ]
       },
       cardRender: false
     };
   },
   async created() {
-    this.lessons = await this.$http.get(`http://flss.kr/api/lesson/list?cid=${this.$store.getters.getThisClass.cid}`);
+    this.lessons = await this.$http.get(
+      `http://flss.kr/api/lesson/list?cid=${
+        this.$store.getters.getThisClass.cid
+      }`
+    );
     this.lessons = await this.lessons.data;
-    this.studentData = this.$store.getters.getMemberList.filter(student => student.role !== "teacher");
+    this.studentData = this.$store.getters.getMemberList.filter(
+      student => student.role !== "teacher"
+    );
     this.studentData.forEach(student => {
       student.answerStatus = "";
     });
   },
-  computed: {
-    
-  },
+  computed: {},
   methods: {
     async getLessonResult(Lno) {
       try {
         this.cardRender = false;
 
         let Qid = -1;
-        Qid = await this.$http.get(`http://flss.kr/api/lesson/showQuiz?lno=${Lno}&type=before`);
+        Qid = await this.$http.get(
+          `http://flss.kr/api/lesson/showQuiz?lno=${Lno}&type=before`
+        );
         Qid = await Qid.data[0].Qid;
 
         let userData = [];
-        userData = await this.$http.get(`http://flss.kr/api/lesson/resultQuiz?qid=${Qid}`);
+        userData = await this.$http.get(
+          `http://flss.kr/api/lesson/resultQuiz?qid=${Qid}`
+        );
         userData = await userData.data;
 
         this.chart.datasets[0].data[0] = 0;
@@ -89,8 +99,7 @@ export default {
             });
             this.chart.datasets[0].data[0]++;
             this.chart.datasets[0].data[2]--;
-          }
-          else if (data.Choice !== data.Ranswer) {
+          } else if (data.Choice !== data.Ranswer) {
             this.studentData.forEach(student => {
               if (student.id === data.Cid) student.answerStatus = "오답";
             });
@@ -98,11 +107,10 @@ export default {
             this.chart.datasets[0].data[2]--;
           }
         });
-        await this.$vuevent.emit('chartChange');
+        await this.$vuevent.emit("chartChange");
         await console.log(this.studentData);
 
         this.cardRender = true;
-
       } catch (ex) {
         alert("데이터를 찾을 수 없습니다!");
       }

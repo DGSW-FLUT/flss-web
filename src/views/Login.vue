@@ -46,7 +46,9 @@ export default {
   },
   methods: {
     login() {
-      alert("이 메뉴는 현재 준비중입니다. 클래스팅을 통한 로그인을 이용해주세요.");
+      alert(
+        "이 메뉴는 현재 준비중입니다. 클래스팅을 통한 로그인을 이용해주세요."
+      );
     },
     loginViaClassting() {
       let redirectUri = `http://${location.host}/classting_handle`;

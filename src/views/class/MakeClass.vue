@@ -91,7 +91,7 @@ export default {
       title: "",
       List: [],
       did: "",
-      flssItems : [],
+      flssItems: [],
       fileList: []
       //["PC 자료", "웹 주소", "FLSS 검색", "내 즐겨찾기"]
     };
@@ -189,25 +189,25 @@ export default {
     },
     completeMakeClass() {
       if (this.files.length) alert("수업 설계 완료");
-        else{
-          alert("파일을 추가해 주세요.");
-          return;
-        } 
+      else {
+        alert("파일을 추가해 주세요.");
+        return;
+      }
       this.title = "";
       this.did = "";
       this.files = [];
     },
-    pc(){
-      this.items = []
+    pc() {
+      this.items = [];
     },
-    web(){
-      this.items = []
+    web() {
+      this.items = [];
     },
-    search(){
-      this.items = this.flssItems
+    search() {
+      this.items = this.flssItems;
     },
-    like(){
-      this.items = []
+    like() {
+      this.items = [];
     }
   }
 };
@@ -247,10 +247,9 @@ body {
   display: none;
 }
 
-.center{
+.center {
   position: relative;
   left: 35%;
   transform: translateX(-50%);
 }
-
 </style>

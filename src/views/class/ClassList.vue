@@ -5,7 +5,7 @@
         <b-tab title="사전 영상" active class="table">
             <b-row>
               <span class="aligncenter mt-5" v-if="!lessons.length"> 
-                <font-awesome-icon class="py-2 ml-5 mr-5" fas icon="exclamation-circle" size="10x"/><br>
+                <font-awesome-icon class="py-2 ml-5 mr-5 " fas icon="exclamation-circle" size="10x"/><br>
                 <span style="font-size:2em">등록된 사전 영상이 없습니다.</span>
               </span>
               <b-table class="mt-4" hover :items="lessons" @row-clicked="lessonClickEvent">
@@ -115,9 +115,9 @@ export default {
   cursor: pointer;
 }
 
-.aligncenter{
+.aligncenter {
   transform: translateX(-50%);
-  left:50%;
+  left: 50%;
   position: relative;
 }
 </style>
