@@ -16,7 +16,7 @@ export default {
   created() {
     switch (this.$store.getters.getUserInfo.role) {
       case "student":
-        this.menus = this.teacherMenu;
+        this.menus = this.studentMenu;
         break;
       case "teacher":
         this.menus = this.teacherMenu;
