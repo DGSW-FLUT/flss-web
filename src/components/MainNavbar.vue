@@ -59,4 +59,7 @@ export default {
 </script>
 
 <style lang="scss">
+.navbar-text {
+  word-break: keep-all;
+}
 </style>
