@@ -121,31 +121,29 @@ export default {
           console.log(err.message);
         });
     },
-    download(uploadName,originalName) {
-      console.log('http://flss.kr/video/'+uploadName);
+    download(uploadName, originalName) {
+      console.log("http://flss.kr/video/" + uploadName);
       this.$http
-      .get('http://flss.kr/video/'+uploadName,
-            {responseType: 'blob'})
-      .then(res => {
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', originalName);
-        document.body.appendChild(link);
-        link.click();
-        console.log("Download Success");
-      })
-      .catch(err => {
-        console.log(err.message);
-      })
+        .get("http://flss.kr/video/" + uploadName, { responseType: "blob" })
+        .then(res => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", originalName);
+          document.body.appendChild(link);
+          link.click();
+          console.log("Download Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 };
 </script>
 
 <style lang="scss">
-  .post-name {
-    cursor: pointer;
-  }
+.post-name {
+  cursor: pointer;
+}
 </style>
-

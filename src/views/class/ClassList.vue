@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .table {
-    cursor: pointer;
-  }
+.table {
+  cursor: pointer;
+}
 </style>

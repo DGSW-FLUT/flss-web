@@ -39,6 +39,6 @@ export default {
 }
 
 .portfolio-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>

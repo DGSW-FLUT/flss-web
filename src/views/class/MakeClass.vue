@@ -6,7 +6,23 @@
           <div class="div1 border no-scrollbar" style="max-width:100%">
             <label for="inputLive" class="mt-3">수업 제목</label>
             <b-button v-if="!did" variant="success" size="sm" class="float-right mt-3" @click="makeClass()">Make</b-button>
-            <b-button v-if="did" variant="danger" size="sm" class="float-right mt-3" @click="completeMakeClass()">Finish</b-button>
+            <b-button v-if="did" variant="primary" size="sm" class="float-right mt-3" @click="completeMakeClass()">Upload</b-button>
+            <b-button  variant="warning" size="sm" class="float-right mt-3 mr-3" v-b-modal.info>사용법</b-button>
+            <b-modal id="info" title="사용법">
+              <p>
+                  <span style="font-size:2em">수업 설계 메뉴 안내</span> <br>
+                  교실 수업 순서에 맞게 수업 자료를 추가할 수 있습니다. <br>
+                  수업자료는 FLSS 내 자료를 검색하여 추가할 수 있습니다. <br>
+                  다른 사용자가 작성한 자료를 검색하여 활용할 수 있습니다
+              </p>
+              <p>
+                  <span style="font-size:2em">사용법</span> <br>
+                  1. 수업 제목을 입력한 후 Make 버튼을 누릅니다. <br>
+                  2. 오른쪽 파일들을 클릭해 파일들을 추가합니다. <br>
+                  3. Upload 버튼을 통해 수업설계를 마칩니다. <br>
+                  4. 설계한 파일은 수업설계 목록에서 확인할 수 있습니다.
+              </p>
+            </b-modal>
             <b-form-input
                   v-model="title"
                   class="mt-3"
