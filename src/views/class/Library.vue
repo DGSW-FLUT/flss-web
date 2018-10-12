@@ -5,9 +5,9 @@
         <b-col>
             <b-card no-body>
               <h4 slot="header">{{ post.Title }}</h4>
-              <div class="border-bottom">
+              <div class="border-bottom post-name" @click="download(post.File,post.Name)">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
-                  {{ post.FileName }}
+                  {{ post.Name }}
               </div>
               <b-card-body>
                 <p class="card-text">
@@ -120,10 +120,32 @@ export default {
         .catch(err => {
           console.log(err.message);
         });
+    },
+    download(uploadName,originalName) {
+      console.log('http://flss.kr/video/'+uploadName);
+      this.$http
+      .get('http://flss.kr/video/'+uploadName,
+            {responseType: 'blob'})
+      .then(res => {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', originalName);
+        document.body.appendChild(link);
+        link.click();
+        console.log("Download Success");
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+  .post-name {
+    cursor: pointer;
+  }
 </style>
+

@@ -1,20 +1,37 @@
 <template>
   <div id="class-list">
     <b-container>
-      <b-row>
-        <b-table class="mt-4" hover :items="items" @row-clicked="clickevent">
-        </b-table>
-        <!-- <b-card tag="article"
-                style="max-width: 20rem;"
-                class="mb-2">
-          <p class="card-text">
-            Title : 123
-          </p>
-          <b-button href="#" variant="primary">Go somewhere</b-button>
-        </b-card> -->
-      </b-row>
+      <b-tabs>
+        <b-tab title="사전 영상" active class="table">
+            <b-row>
+              <b-table class="mt-4" hover :items="lessons" @row-clicked="lessonClickEvent">
+              </b-table>
+              <!-- <b-card tag="article"
+                      style="max-width: 20rem;"
+                      class="mb-2">
+                <p class="card-text">
+                  Title : 123
+                </p>
+                <b-button href="#" variant="primary">Go somewhere</b-button>
+              </b-card> -->
+            </b-row>
+        </b-tab>
+        <b-tab title="평가 문제" class="table">
+            <b-row>
+              <b-table class="mt-4" hover :items="tests" @row-clicked="testClickEvent">
+              </b-table>
+              <!-- <b-card tag="article"
+                      style="max-width: 20rem;"
+                      class="mb-2">
+                <p class="card-text">
+                  Title : 123
+                </p>
+                <b-button href="#" variant="primary">Go somewhere</b-button>
+              </b-card> -->
+            </b-row>
+        </b-tab>
+      </b-tabs>
     </b-container>
-    
   </div>
 </template>
 
@@ -29,7 +46,7 @@ export default {
         }`
       )
       .then(res => {
-        this.board = res.data;
+        this.lessonsData = res.data;
         console.log(res.data);
         for (var i = 0; i < res.data.length; i++) {
           let item = {
@@ -38,19 +55,46 @@ export default {
             과목: res.data[i].SubjectName,
             날짜: res.data[i].AddTime
           };
-          this.items.push(item);
+          this.lessons.push(item);
+        }
+      });
+
+    this.$http
+      .get(
+        `http://flss.kr/api/lesson/testList?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
+      .then(res => {
+        this.testsData = res.data;
+        console.log(res.data);
+        for (var i = 0; i < res.data.length; i++) {
+          let item = {
+            제목: res.data[i].LessonName,
+            학년: res.data[i].Syear,
+            과목: res.data[i].SubjectName,
+            날짜: res.data[i].AddTime
+          };
+          this.tests.push(item);
         }
       });
   },
   data() {
     return {
-      items: [],
-      board: []
+      lessons: [],
+      tests: [],
+      lessonsData: [],
+      testsData: []
     };
   },
   methods: {
-    clickevent(record, index) {
-      this.$store.commit("setLesson", this.board[index]);
+    lessonClickEvent(record, index) {
+      this.$store.commit("setLesson", this.lessonsData[index]);
+      this.$vuevent.$emit("test", "hello");
+      this.$router.push({ path: "./lesson" });
+    },
+    testClickEvent(record, index) {
+      this.$store.commit("setLesson", this.testsData[index]);
       this.$vuevent.$emit("test", "hello");
       this.$router.push({ path: "./lesson" });
     }
@@ -58,5 +102,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+  .table {
+    cursor: pointer;
+  }
 </style>
