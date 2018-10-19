@@ -15,11 +15,12 @@
         </b-card>
       </b-row>
       <div v-if="cardRender">
-        <b-card-group deck>
-          <b-card v-for="student in studentData" :key="student.id">
+        <!-- <b-row>
+          <b-card v-for="student in studentData" :key="student.id" class="col-sm-4 col-md-3 mb-3">
             {{student.name}} {{ student.answerStatus }}
           </b-card>
-        </b-card-group>
+        </b-row> -->
+        <b-table responsive bordered hover :items="studentData" :fields="tableFields" />
       </div>
     </b-container>
   </div>
@@ -40,6 +41,18 @@ export default {
       lessons: [],
       selectedLesson: "",
       studentData: [],
+      tableFields: [
+        {
+          key: "name",
+          label: "이름",
+          sortable: true
+        },
+        {
+          key: 'answerStatus',
+          label: "제출 현황",
+          sortable: true
+        }
+      ],
       chart: {
         labels: ["정답", "오답", "미제출"],
         datasets: [
@@ -52,6 +65,23 @@ export default {
       cardRender: false
     };
   },
+  // computed: {
+  //   async studentTableData() {
+  //     let ar = [];
+  //     let ob = {
+  //       name: "",
+  //       answerStatus: ""
+  //     };
+
+  //     this.studentData.forEach(student => {
+  //       ob.name = student.name;
+  //       ob.answerStatus = student.answerStatus;
+  //       ar.push(ob);
+  //     });
+      
+  //     return ar;
+  //   }
+  // },
   async created() {
     this.lessons = await this.$http.get(
       `http://flss.kr/api/lesson/list?cid=${
@@ -90,18 +120,25 @@ export default {
 
         await this.studentData.forEach(student => {
           student.answerStatus = "미제출";
+          student._cellVariants = {answerStatus: "light"};
         });
 
         await userData.forEach(data => {
           if (data.Choice === data.Ranswer) {
             this.studentData.forEach(student => {
-              if (student.id === data.Cid) student.answerStatus = "정답";
+              if (student.id === data.Cid) {
+                student.answerStatus = "정답";
+                student._cellVariants = {answerStatus: "success"};
+              }
             });
             this.chart.datasets[0].data[0]++;
             this.chart.datasets[0].data[2]--;
           } else if (data.Choice !== data.Ranswer) {
             this.studentData.forEach(student => {
-              if (student.id === data.Cid) student.answerStatus = "오답";
+              if (student.id === data.Cid) {
+                student.answerStatus = "오답";
+                student._cellVariants = {answerStatus: "danger"};
+              }
             });
             this.chart.datasets[0].data[1]++;
             this.chart.datasets[0].data[2]--;
