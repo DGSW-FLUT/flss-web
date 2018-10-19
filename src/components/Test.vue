@@ -202,11 +202,11 @@ export default {
         }
       }
     },
-    getType(){
-      if(this.video === true){
-        return "영상"
-      } else if(this.video === false){
-        return "평가"
+    getType() {
+      if (this.video === true) {
+        return "영상";
+      } else if (this.video === false) {
+        return "평가";
       }
     }
   },

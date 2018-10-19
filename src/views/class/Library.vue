@@ -155,43 +155,43 @@ export default {
       let data = {
         pid: this.posts[i].Pid,
         readOnly: "student"
-      }
+      };
 
-      if (this.posts[i].ReadOnly === 'student'){
+      if (this.posts[i].ReadOnly === "student") {
         console.log("already student");
         return;
       }
 
       this.$http
-      .post('http://flss.kr/api/data/changeReadOnly',data)
-      .then(res => {
-        this.posts[i].ReadOnly = "student";
-        console.log("Change ReadOnly Success");
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+        .post("http://flss.kr/api/data/changeReadOnly", data)
+        .then(res => {
+          this.posts[i].ReadOnly = "student";
+          console.log("Change ReadOnly Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     },
     changeReadOnlyToTeacher(i) {
       let data = {
         pid: this.posts[i].Pid,
         readOnly: "teacher"
-      }
-      
-      if (this.posts[i].ReadOnly === 'teacher'){
+      };
+
+      if (this.posts[i].ReadOnly === "teacher") {
         console.log("already teacher");
         return;
       }
 
       this.$http
-      .post('http://flss.kr/api/data/changeReadOnly',data)
-      .then(res => {
-        this.posts[i].ReadOnly = "teacher";
-        console.log("Change ReadOnly Success");
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+        .post("http://flss.kr/api/data/changeReadOnly", data)
+        .then(res => {
+          this.posts[i].ReadOnly = "teacher";
+          console.log("Change ReadOnly Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 };

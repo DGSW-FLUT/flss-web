@@ -48,7 +48,7 @@ export default {
           sortable: true
         },
         {
-          key: 'answerStatus',
+          key: "answerStatus",
           label: "제출 현황",
           sortable: true
         }
@@ -78,7 +78,7 @@ export default {
   //       ob.answerStatus = student.answerStatus;
   //       ar.push(ob);
   //     });
-      
+
   //     return ar;
   //   }
   // },
@@ -120,7 +120,7 @@ export default {
 
         await this.studentData.forEach(student => {
           student.answerStatus = "미제출";
-          student._cellVariants = {answerStatus: "light"};
+          student._cellVariants = { answerStatus: "light" };
         });
 
         await userData.forEach(data => {
@@ -128,7 +128,7 @@ export default {
             this.studentData.forEach(student => {
               if (student.id === data.Cid) {
                 student.answerStatus = "정답";
-                student._cellVariants = {answerStatus: "success"};
+                student._cellVariants = { answerStatus: "success" };
               }
             });
             this.chart.datasets[0].data[0]++;
@@ -137,7 +137,7 @@ export default {
             this.studentData.forEach(student => {
               if (student.id === data.Cid) {
                 student.answerStatus = "오답";
-                student._cellVariants = {answerStatus: "danger"};
+                student._cellVariants = { answerStatus: "danger" };
               }
             });
             this.chart.datasets[0].data[1]++;

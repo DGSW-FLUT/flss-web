@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       quizs: [],
-      quizTitle : "",
+      quizTitle: "",
       title: "",
       answer: "",
       userAnswer: ""

@@ -50,6 +50,20 @@ export default {
     console.log(this.userName);
     console.log(this.role);
   },
+  mounted() {
+    // 선택된 메뉴 하이라이트
+    $(`a.nav-link>a[href='${location.pathname}']`)
+      .closest("div.col")
+      .css("background", "lightgray");
+    $(`a.nav-link>a`).on("click", function(e) {
+      $(`a.nav-link>a`)
+        .closest("div.col")
+        .css("background", "none");
+      $(`a.nav-link>a[href='${this.getAttribute("href")}']`)
+        .closest("div.col")
+        .css("background", "lightgray");
+    });
+  },
   methods: {
     logout() {
       this.$store.commit("LogOut");
