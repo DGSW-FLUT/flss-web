@@ -14,10 +14,12 @@
                 </div>
               </b-row>
               <div class="border-bottom"> 
-                <div class="post-name" @click="download(post.File,post.Name)">
+                <div class="d-inline-block">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
                   {{ post.Name }}
                 </div>
+                <img class="post-name float-right mr-4 mb-2" src="./../../../public/Classting_Clogo-48.png" alt="클래스팅로고">
+                <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
               </div>
               <b-card-body>
                 <p class="card-text">

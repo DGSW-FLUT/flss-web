@@ -6,7 +6,10 @@
                 <b-form-input placeholder="Enter search student" v-model="studentName"></b-form-input>
                 <b-button slot="append" variant="success" @click="search">검색</b-button>
             </b-input-group>
-            <h1 class="mt-5 mb-5" v-if="portfolios.length === 0">글이 존재하지 않습니다</h1>
+            <span class="aligncenter mt-5" v-if="!portfolios.length"> 
+                <font-awesome-icon class="py-2 ml-5 mr-5 " fas icon="exclamation-circle" size="10x"/><br>
+                <span style="font-size:2em">등록된 게시물이 없습니다.</span>
+              </span>
             <portfolio-item v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
         </b-container>
     </div>
