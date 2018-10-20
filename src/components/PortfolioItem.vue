@@ -7,7 +7,7 @@
             @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
             <div class="border-bottom">
-                <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
+                <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" data-html2canvas-ignore="true" />
                 {{ portfolio.Name }}
             </div>
             <b-card-body>
