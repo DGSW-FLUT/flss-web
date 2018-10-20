@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss">
 .selected {
-  border: 1px solid red;
+  border-style: bold;
 }
 
 .portfolio-item {

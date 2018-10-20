@@ -13,6 +13,9 @@
                   </b-dropdown>
                 </div>
               </b-row>
+              <!-- <div class="ml-4 mb-3">
+                작성자 : 
+              </div> -->
               <div class="border-bottom"> 
                 <div class="d-inline-block">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
