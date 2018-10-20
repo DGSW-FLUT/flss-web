@@ -13,13 +13,13 @@
                   </b-dropdown>
                 </div>
               </b-row>
-              <!-- <div class="ml-4 mb-3">
-                작성자 : 
-              </div> -->
+              <div class="ml-4 mb-3">
+                작성자 : {{ post.Name }} 
+              </div>
               <div class="border-bottom"> 
                 <div class="d-inline-block">
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
-                  {{ post.Name }}
+                  {{ post.FileName }}
                 </div>
                 <img class="post-name float-right mr-4 mb-2" src="./../../../public/Classting_Clogo-48.png" alt="클래스팅로고">
                 <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
@@ -99,6 +99,7 @@ export default {
       )
       .then(res => {
         this.posts = res.data;
+        console.log(this.posts);
       })
       .catch(err => {
         console.log("error : " + err.message);

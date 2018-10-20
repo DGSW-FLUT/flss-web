@@ -2,7 +2,7 @@
     <div class="portfolio-item">
         <b-card 
             class="mb-4"
-            :class="{selected: portfolio.selected}"
+            :class="{ selected: portfolio.selected }"
             no-body 
             @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
@@ -28,7 +28,7 @@ export default {
   methods: {
     add(i) {
       this.$vuevent.$emit("idx", i);
-      console.log(this.portfolio.selected);
+      console.log(i+ " : " + this.portfolio.selected);
     }
   }
 };
@@ -36,7 +36,7 @@ export default {
 
 <style lang="scss">
 .selected {
-  border-style: bold;
+  border: 2px solid black;
 }
 
 .portfolio-item {
