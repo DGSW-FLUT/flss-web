@@ -12,7 +12,7 @@
               </span>
             <div id="portfolioitems">
               <h3 class="mt-5 mb-5" v-if="portfolios.length">{{ studentName }} 포트폴리오</h3>
-              <portfolio-item v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
+              <portfolio-item @click.native="test(portfolio.selected)" v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
             </div>
         </b-container>
     </div>
@@ -44,6 +44,13 @@ export default {
         )
         .then(res => {
           this.portfolios = res.data;
+          
+          this.portfolios.forEach((abc) => {
+            // console.log("el : "+el + " portfolio[idx] : ")
+            abc.selected = false
+            console.log("abc" + abc.selected)
+          });
+
           if (this.portfolios.length) {
             /* 
               pdf로 변환 (실제에는 체크박스를 선택하여 변환 버튼을 누를 때 변환이 된다. 
@@ -59,6 +66,9 @@ export default {
           this.portfolios = [];
           console.log(err.message);
         });
+    },
+    test(test){
+      console.log("test" + test)
     },
     createPDF(portfolio) {
       html2canvas(document.getElementById("portfolioitems"))
@@ -98,6 +108,7 @@ export default {
         this.selected.push(this.portfolios[idx]);
       }
       this.portfolios[idx].selected = !this.portfolios[idx].selected;
+      console.log(this.portfolios)
     });
   },
   components: {
@@ -107,4 +118,7 @@ export default {
 </script>
 
 <style lang="scss">
+  .selected {
+    border: 2px solid black;
+  }
 </style>
