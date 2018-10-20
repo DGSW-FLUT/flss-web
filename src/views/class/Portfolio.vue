@@ -11,6 +11,7 @@
                 <span style="font-size:2em">등록된 게시물이 없습니다.</span>
               </span>
             <div id="portfolioitems">
+              <h3 class="mt-5 mb-5" v-if="portfolios.length">{{ studentName }} 포트폴리오</h3>
               <portfolio-item v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
             </div>
         </b-container>
