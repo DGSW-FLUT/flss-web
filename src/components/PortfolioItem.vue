@@ -16,7 +16,7 @@
                 <pre>{{ portfolio.Content}}</pre>
             </p>
             </b-card-body>
-            <b-card-footer>{{ portfolio.AddTime }}</b-card-footer>
+            <b-card-footer>{{ portfolio.UploadTime }}</b-card-footer>
 
         </b-card>
     </div>
