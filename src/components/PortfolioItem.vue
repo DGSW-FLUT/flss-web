@@ -1,8 +1,8 @@
 <template>
     <div class="portfolio-item">
         <b-card 
-            class="mb-4"
-            :class="{ selected: selectd }"
+            class="mb-4 unselected"
+            :class="{ selected: select }"
             no-body 
             @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
@@ -17,6 +17,7 @@
             </p>
             </b-card-body>
             <b-card-footer>{{ portfolio.AddTime }}</b-card-footer>
+
         </b-card>
     </div>
 </template>
@@ -41,8 +42,12 @@ export default {
 </script>
 
 <style lang="scss">
+.unselected{
+  opacity : 0.5;
+}
+
 .selected {
-  border: 2px solid black;
+  opacity : 1.0;
 }
 
 .portfolio-item {
