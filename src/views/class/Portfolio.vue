@@ -24,9 +24,15 @@
                 <font-awesome-icon class="py-2 ml-5 mr-5 " fas icon="exclamation-circle" size="10x"/><br>
                 <span style="font-size:2em">등록된 게시물이 없습니다.</span>
               </span>
-            <div id="portfolioitems">
-              <h3 class="mt-5 mb-5" v-if="portfolios.length">{{ selectedStudentName }} 포트폴리오</h3>
+            <div id="portfolioitems" style="padding-bottom:10px">
+              <h3 class="mt-5 mb-5" v-if="portfolios.length">{{ portfolioTitle }}</h3>
               <portfolio-item v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
+              {{portfolios.length ? '교사의견' : ''}} <b-form-textarea
+                            v-if="portfolios.length"
+                            v-model="teacherOpinion"
+                            class="mb-3 mt-3 opinion-readonly"
+                            style="resize:none"
+                            rows="3" readonly="readonly"/>
             </div>
         </b-container>
     </div>
@@ -67,8 +73,12 @@ export default {
         )
         .then(res => {
           this.portfolios = res.data;
+          if (!this.portfolios.length)
+            alert("해당 학생이 존재하지 않습니다.")
+          this.portfolioTitle = this.studentName + '학생 포트폴리오'
         })
         .catch(err => {
+          alert("해당 학생이 존재하지 않습니다.")
           this.portfolios = [];
           console.log(err.message);
         });
@@ -81,20 +91,20 @@ export default {
       html2canvas(document.getElementById("portfolioitems"))
         .then((canvas) => {
           var imgData = canvas.toDataURL('image/png');           
-          var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
-          var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+          var imgWidth = 190; // 이미지 가로 길이(mm) A4 기준 기본 210
+          var pageHeight = 210 * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
           var imgHeight = canvas.height * imgWidth / canvas.width;
           var heightLeft = imgHeight;
           var doc = new jsPDF('p', 'mm');
           var position = 0;
           // 첫 페이지 출력
-          doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
           // 한 페이지 이상일 경우 루프 돌면서 출력
           while (heightLeft >= 20) {
             position = heightLeft - imgHeight;
             doc.addPage();
-            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
           }
           // 파일 저장
@@ -125,4 +135,7 @@ export default {
 </script>
 
 <style lang="scss">
+.opinion-readonly{
+  background-color: white !important;
+}
 </style>
