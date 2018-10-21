@@ -53,7 +53,7 @@ export default {
     },
     createPDF() {
       html2canvas(document.getElementById("portfolioitems"))
-        .then(function (canvas) {
+        .then((canvas) => {
           var imgData = canvas.toDataURL('image/png');           
           var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
           var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
@@ -72,7 +72,7 @@ export default {
             heightLeft -= pageHeight;
           }
           // 파일 저장
-          doc.save('sample_A4.pdf');
+          doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
         })
     }
   },
