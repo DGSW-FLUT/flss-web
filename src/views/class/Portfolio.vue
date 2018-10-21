@@ -45,6 +45,9 @@ export default {
         )
         .then(res => {
           this.portfolios = res.data;
+          this.portfolios.forEach((portfolio) =>{
+            portfolio.selected = false
+          })
           console.log(this.portfolios)
           if (this.portfolios.length) {
             /* 

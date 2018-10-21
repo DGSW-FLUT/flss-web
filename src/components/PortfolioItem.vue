@@ -33,8 +33,9 @@ export default {
   props: ["portfolio", "i"],
   methods: {
     add(i) {
-      this.select = this.portfolio.selected;
       this.$vuevent.$emit("idx", i);
+      this.select = this.portfolio.selected;
+      console.log(this.select)
       console.log(i+ " : " + this.portfolio.selected);
     }
   }
