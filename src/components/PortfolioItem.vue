@@ -1,5 +1,5 @@
 <template>
-    <div class="portfolio-item">
+    <div class="portfolio-item" :data-html2canvas-ignore="!select">
         <b-card 
             class="mb-4 unselected"
             :class="{ selected: select }"
