@@ -2,7 +2,7 @@
     <div class="portfolio-item">
         <b-card 
             class="mb-4"
-            :class="{ selected: select }"
+            :class="{ selected: selectd }"
             no-body 
             @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
