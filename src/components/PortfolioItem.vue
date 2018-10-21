@@ -2,7 +2,7 @@
     <div class="portfolio-item" :data-html2canvas-ignore="!select">
         <b-card 
             class="mb-4 unselected"
-            :class="{ selected: select }"
+            :class="{ selectedPf: select }"
             no-body 
             @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
@@ -47,7 +47,7 @@ export default {
   opacity : 0.5;
 }
 
-.selected {
+.selectedPf {
   opacity : 1.0;
 }
 
