@@ -2,7 +2,7 @@
     <div class="portfolio-item">
         <b-card 
             class="mb-4"
-            :class="{ selected: portfolio.selected }"
+            :class="{ selected: select }"
             no-body 
             @click="add(i)">
             <h4 slot="header">{{ portfolio.Title }}</h4>
@@ -24,9 +24,15 @@
 <script>
 export default {
   name: "portfolio-item",
+  data(){
+    return{
+      select : false
+    }
+  },
   props: ["portfolio", "i"],
   methods: {
     add(i) {
+      this.select = this.portfolio.selected;
       this.$vuevent.$emit("idx", i);
       console.log(i+ " : " + this.portfolio.selected);
     }
