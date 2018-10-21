@@ -19,7 +19,7 @@
                 <span>{{ i+1 + "." + quiz.Content}}</span>
               </div>
             </div>
-            <b-button variant="primary" @click="checkAnswer()">제출</b-button> 
+            <b-button variant="primary" v-if="this.$store.getters.getUserInfo.role === 'student'" @click="checkAnswer()">제출</b-button> 
         </b-card>
       </b-card>
     </b-container>

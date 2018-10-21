@@ -25,7 +25,9 @@
           <div>
             <b-card title="공지사항" tag="article" class="mb-2">
               <p class="card-text">
-                1학년 1반은 11페이지까지 풀어오도록 하세요.
+                수업 전 과제 안내 <br><br>
+                - 사전영상/평가 목록 메뉴를 클릭해서
+                오늘의 사전 영상을<br> 학습하고 이어지는 퀴즈를 풀어오세요!
               </p>
               <b-button href="#" variant="primary">Detail</b-button>
             </b-card>
