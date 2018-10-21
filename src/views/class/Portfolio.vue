@@ -45,6 +45,7 @@ export default {
         )
         .then(res => {
           this.portfolios = res.data;
+          console.log(this.portfolios)
           if (this.portfolios.length) {
             /* 
               pdf로 변환 (실제에는 체크박스를 선택하여 변환 버튼을 누를 때 변환이 된다. 
