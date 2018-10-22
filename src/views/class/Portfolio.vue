@@ -1,39 +1,110 @@
 <template>
     <div id="portfolio">
-        <b-container>
-            <h3 class="mt-5 mb-5">포트폴리오 만들기</h3>
-            <b-input-group class="col-md-5 mb-5">
-                <b-form-input placeholder="찾을 학생 이름" v-model="studentName"></b-form-input>
-                <b-button slot="append" variant="success" @click="search">검색</b-button>
-            </b-input-group>
-            <div v-if="portfolios.length">
-              <b-row>
-                <b-col lg="7">
-                  포트폴리오 제목 <b-form-input class="mt-3" placeholder="포트폴리오 제목을 입력해주세요" v-model="portfolioTitle"></b-form-input> <br>
-                  교사의견 <b-form-textarea
-                            v-model="teacherOpinion"
-                            class="mb-3 mt-3"
-                            style="resize:none"
-                            placeholder="교사 의견을 입력해주세요"
-                            rows="3" />
-                  <b-button style="float:right" variant="primary" @click="createPDF" :disabled="prograssPDF">포트폴리오 만들기</b-button>
-                </b-col>
-              </b-row>
-            </div>
-            <span class="aligncenter mt-5" v-if="!portfolios.length"> 
-                <font-awesome-icon class="py-2 ml-5 mr-5 " fas icon="exclamation-circle" size="10x"/><br>
-                <span style="font-size:2em">등록된 게시물이 없습니다.</span>
-              </span>
-            <div id="portfolioitems" style="padding-bottom:10px">
-              <h3 class="mt-5 mb-5" v-if="portfolios.length">{{ portfolioTitle }}</h3>
-              <portfolio-item v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
-              {{portfolios.length ? '교사의견' : ''}} <b-form-textarea
-                            v-if="portfolios.length"
-                            v-model="teacherOpinion"
-                            class="mb-3 mt-3 opinion-readonly"
-                            style="resize:none"
-                            rows="3" readonly="readonly"/>
-            </div>
+      <b-container v-if="!isPortfolio">
+        <b-row>
+          <b-col>
+            <b-button class="mt-3" style="float:right; background-color:#d2a2fd; border:none" @click="portfolio()">포트폴리오</b-button>
+          </b-col>
+        </b-row>
+        <b-row class="mt-2" v-for="(post, i) in getPosts" :key="i">
+          <b-col>
+              <b-card no-body>
+                <b-row class="m-4">
+                  <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
+                  <div slot="header" class="col-md-4">
+                    <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
+                      <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
+                      <b-dropdown-item @click="changeReadOnlyToTeacher(i)">선생님만</b-dropdown-item>
+                    </b-dropdown>
+                  </div>
+                </b-row>
+                <div class="ml-4 mb-3">
+                  작성자 : {{ post.Name }} 
+                </div>
+                <div class="border-bottom"> 
+                  <div class="d-inline-block">
+                    <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
+                    {{ post.FileName }}
+                  </div>
+                  <img class="post-name float-right mr-4 mb-2" src="./../../../public/Classting_Clogo-48.png" alt="클래스팅로고">
+                  <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
+                </div>
+                <b-card-body>
+                  <p class="card-text">
+                    <pre>{{ post.Content }}</pre>
+                  </p>
+                </b-card-body>
+                <b-card-footer>{{ post.UploadTime }}</b-card-footer>
+            </b-card>
+            <!--<b-card style="cursor:pointer"
+                    :header="file.text"
+                    :footer="file.date"
+                    footer-tag="footer"
+                    >
+                <p class="card-text">(file image)</p>
+            </b-card>-->
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-button style="float:right" v-b-modal.modal1>Add</b-button>
+            <b-modal id="modal1" title="파일 추가하기" @ok="addFile()" @shown="clear()">
+              <b-input-group prepend="제목">
+                <b-form-input v-model="title" />
+              </b-input-group>
+              <b-input-group class="mt-4" prepend="본문">
+                <b-form-textarea
+                      style="resize:none"
+                      v-model="content"
+                      :rows="3" />
+              </b-input-group>
+              <b-form-file class="mt-4" v-model="file" ref="fileRef" placeholder="Choose a file..."></b-form-file>
+            </b-modal>
+          </b-col>
+        </b-row>
+        <b-pagination-nav v-if="posts.length !== 0" base-url="#" :number-of-pages="Math.ceil(posts.length/5)" v-model="currentPage"/>
+      </b-container>
+        <b-container v-if="isPortfolio">
+          <b-tabs class="mt-5">
+              <b-tab title="포트폴리오 만들기" active>
+                 <h3 class="mt-5 mb-5">포트폴리오 만들기</h3>
+                <b-input-group class="col-md-5 mb-5">
+                    <b-form-input placeholder="찾을 학생 이름" v-model="studentName"></b-form-input>
+                    <b-button slot="append" variant="success" @click="search">검색</b-button>
+                </b-input-group>
+                <div v-if="portfolios.length">
+                  <b-row>
+                    <b-col lg="7">
+                      포트폴리오 제목 <b-form-input class="mt-3" placeholder="포트폴리오 제목을 입력해주세요" v-model="portfolioTitle"></b-form-input> <br>
+                      교사의견 <b-form-textarea
+                                v-model="teacherOpinion"
+                                class="mb-3 mt-3"
+                                style="resize:none"
+                                placeholder="교사 의견을 입력해주세요"
+                                rows="3" />
+                      <b-button style="float:right; background-color:#d2a2fd; border:none"  @click="createPDF" :disabled="prograssPDF">포트폴리오 만들기</b-button>
+                    </b-col>
+                  </b-row>
+                </div>
+                <span class="aligncenter mt-5" v-if="!portfolios.length"> 
+                    <font-awesome-icon class="py-2 ml-5 mr-5 " fas icon="exclamation-circle" size="10x"/><br>
+                    <span style="font-size:2em">등록된 게시물이 없습니다.</span>
+                  </span>
+                <div id="portfolioitems" style="padding-bottom:10px">
+                  <h3 class="mt-5 mb-5" v-if="portfolios.length">{{ portfolioTitle }}</h3>
+                  <portfolio-item v-for="(portfolio,i) in portfolios" :key="i" :portfolio="portfolio" :i="i"></portfolio-item>
+                  {{portfolios.length ? '교사의견' : ''}} <b-form-textarea
+                                v-if="portfolios.length"
+                                v-model="teacherOpinion"
+                                class="mb-3 mt-3 opinion-readonly"
+                                style="resize:none"
+                                rows="3" readonly="readonly"/>
+                </div>
+              </b-tab>
+              <b-tab title="포트폴리오 관리하기" >
+                <b-table hover :items="portfolioList"  @row-clicked="portfolioClickEvent"></b-table>
+              </b-tab>
+            </b-tabs>
         </b-container>
     </div>
 </template>
@@ -53,7 +124,15 @@ export default {
       studentName: "",
       teacherOpinion: "",
       portfolioTitle: "",
-      prograssPDF: false
+      prograssPDF: false,
+      portfolioList : [],
+      portfolioData : [],
+      content: "",
+      file: "",
+      title: "",
+      posts: [],
+      currentPage: "",
+      isPortfolio: false
     };
   },
   computed: {
@@ -66,6 +145,18 @@ export default {
         return 3;
       return 0;
       // return this.portfolioTitle && this.teacherOpinion && (this.selected.length !== 0);
+    },
+    getPosts() {
+      let tempPosts = [];
+      for (let i = (this.currentPage - 1) * 5; i < this.currentPage * 5; i++) {
+        if (this.posts[i]) {
+          tempPosts.push(this.posts[i]);
+        }
+      }
+      return tempPosts;
+    },
+    isTeacherVuex() {
+      return this.$store.getters.isTeacher;
     }
   },
   methods: {
@@ -130,9 +221,134 @@ export default {
           this.prograssPDF = false;
           doc.save(this.portfolioTitle + '.pdf');
         })
+    },
+    clear() {
+      this.text = "";
+      this.$refs.fileRef.reset();
+    },
+    addFile() {
+      let newFile = new FormData();
+      newFile.append("cid", this.$store.getters.getThisClass.cid);
+      newFile.append("title", this.title);
+      newFile.append("uid", this.$store.getters.getUserInfo.uid);
+      newFile.append("content", this.content);
+      newFile.append("readOnly", this.$store.getters.getUserInfo.role);
+      newFile.append("name", this.file.name);
+      newFile.append("video", this.file);
+
+      this.$http
+        .post("http://flss.kr/api/data/addPost", newFile, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(res => {
+          console.log("Success");
+          location.reload();
+          return;
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    },
+    download(uploadName, originalName) {
+      this.$http
+        .get("http://flss.kr/video/" + uploadName, { responseType: "blob" })
+        .then(res => {
+          const url = window.URL.createObjectURL(new Blob([res.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", originalName);
+          document.body.appendChild(link);
+          link.click();
+          console.log("Download Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    },
+    changeReadOnlyToStudent(i) {
+      let data = {
+        pid: this.posts[i].Pid,
+        readOnly: "student"
+      };
+
+      if (this.posts[i].ReadOnly === "student") {
+        console.log("already student");
+        return;
+      }
+
+      this.$http
+        .post("http://flss.kr/api/data/changeReadOnly", data)
+        .then(res => {
+          this.posts[i].ReadOnly = "student";
+          console.log("Change ReadOnly Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    },
+    changeReadOnlyToTeacher(i) {
+      let data = {
+        pid: this.posts[i].Pid,
+        readOnly: "teacher"
+      };
+
+      if (this.posts[i].ReadOnly === "teacher") {
+        console.log("already teacher");
+        return;
+      }
+
+      this.$http
+        .post("http://flss.kr/api/data/changeReadOnly", data)
+        .then(res => {
+          this.posts[i].ReadOnly = "teacher";
+          console.log("Change ReadOnly Success");
+        })
+        .catch(err => {
+          console.log(err.message);
+        });
+    },
+    portfolio(){
+      this.isPortfolio = !this.isPortfolio;
+    },
+    portfolioClickEvent(record, index){
+      window.open(`http://flss.kr/portfoliofile/${this.portfolioData[index].File}`);
     }
   },
   created() {
+    this.$http
+      .get(
+        "http://flss.kr/api/data/getPostList?cid=" +
+          this.$store.getters.getThisClass.cid +
+          "&readOnly=" +
+          this.$store.getters.getUserInfo.role
+      )
+      .then(res => {
+        this.posts = res.data;
+        console.log(this.posts);
+      })
+      .catch(err => {
+        console.log("error : " + err.message);
+      });
+
+      this.$http
+      .get(
+        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
+      ).then(res =>{
+
+        if(res.data){
+          this.portfolioData = res.data;
+        }
+
+        res.data.forEach((portfolio) =>{
+          let portfolioItem = {
+            제목 : portfolio.File.substring(13),
+            이름 : portfolio.Name,
+            날짜 : portfolio.AddTime
+          }
+          this.portfolioList.push(portfolioItem)
+        })
+      })
+
     this.$vuevent.on("idx", idx => {
       if (this.portfolios[idx].selected) {
         this.selected.forEach((el, i) => {
