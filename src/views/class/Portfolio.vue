@@ -16,7 +16,7 @@
                             style="resize:none"
                             placeholder="교사 의견을 입력해주세요"
                             rows="3" />
-                  <b-button style="float:right" variant="primary" @click="createPDF">포트폴리오 만들기</b-button>
+                  <b-button style="float:right" variant="primary" @click="createPDF" :disabled="prograssPDF">포트폴리오 만들기</b-button>
                 </b-col>
               </b-row>
             </div>
@@ -52,12 +52,20 @@ export default {
       selectedStudentName: "",
       studentName: "",
       teacherOpinion: "",
-      portfolioTitle: ""
+      portfolioTitle: "",
+      prograssPDF: false
     };
   },
   computed: {
     isValidInput() {
-      return this.portfolioTitle && this.teacherOpinion && (this.selected.length !== 0);
+      if (!this.portfolioTitle)
+        return 1;
+      if (!this.teacherOpinion)
+        return 2;
+      if (!this.selected.length)
+        return 3;
+      return 0;
+      // return this.portfolioTitle && this.teacherOpinion && (this.selected.length !== 0);
     }
   },
   methods: {
@@ -84,10 +92,20 @@ export default {
         });
     },
     createPDF() {
-      if(!this.isValidInput) {
-        alert("입력하지 않은 부분이 있습니다. 확인해주세요");
-        return;
+      switch(this.isValidInput)
+      {
+        case 1:
+          return alert("포트폴리오의 제목을 적지 않으셨습니다.");
+        case 2:
+          return alert("교사의견을 적지 않으셨습니다.");
+        case 3:
+          return alert("게시물을 선택하지 않으셨습니다.");
       }
+      this.prograssPDF = true;
+      // if(!this.isValidInput) {
+      //   alert("입력하지 않은 부분이 있습니다. 확인해주세요");
+      //   return;
+      // }
       html2canvas(document.getElementById("portfolioitems"))
         .then((canvas) => {
           var imgData = canvas.toDataURL('image/png');           
@@ -109,6 +127,7 @@ export default {
           }
           // 파일 저장
           // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
+          this.prograssPDF = false;
           doc.save(this.portfolioTitle + '.pdf');
         })
     }
