@@ -129,6 +129,25 @@ export default {
           // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
           this.prograssPDF = false;
           doc.save(this.portfolioTitle + '.pdf');
+
+          const newFile = new FormData();
+
+          const pdfFile = doc.output();
+          
+          newFile.append("portfolio", pdfFile);
+          newFile.append("cid", this.$store.getters.getThisClass.cid);
+          newFile.append("uid", this.$store.getters.getUserInfo.uid);
+
+          this.$http
+          .post("http://flss.kr/api/portfolio/add", newFile, {
+            headers: { "Content-Type": "multipart/form-data" }
+          })
+          .then(res => {
+            console.log("pdf upload success");
+          })
+          .catch(err => {
+            alert("pdf 파일 업로드에 실패하였습니다");
+          })
         })
     }
   },
