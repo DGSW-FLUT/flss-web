@@ -11,12 +11,6 @@
               <b-card no-body>
                 <b-row class="m-4">
                   <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
-                  <div slot="header" class="col-md-4">
-                    <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
-                      <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
-                      <b-dropdown-item @click="changeReadOnlyToTeacher(i)">선생님만</b-dropdown-item>
-                    </b-dropdown>
-                  </div>
                 </b-row>
                 <div class="ml-4 mb-3">
                   작성자 : {{ post.Name }} 
@@ -65,6 +59,9 @@
         <b-pagination-nav v-if="posts.length !== 0" base-url="#" :number-of-pages="Math.ceil(posts.length/5)" v-model="currentPage"/>
       </b-container>
         <b-container v-if="isPortfolio">
+          <b-col>
+           <b-button class="mt-3 mb-3" style="float:right; background-color:#d2a2fd; border:none" @click="portfolio()">학습게시판</b-button>
+          </b-col>
           <b-tabs class="mt-5">
               <b-tab title="포트폴리오 만들기" active>
                  <h3 class="mt-5 mb-5">포트폴리오 만들기</h3>
