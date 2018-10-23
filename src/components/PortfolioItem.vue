@@ -25,30 +25,30 @@
 <script>
 export default {
   name: "portfolio-item",
-  data(){
-    return{
-      select : false
-    }
+  data() {
+    return {
+      select: false
+    };
   },
   props: ["portfolio", "i"],
   methods: {
     add(i) {
       this.$vuevent.$emit("idx", i);
       this.select = this.portfolio.selected;
-      console.log(this.select)
-      console.log(i+ " : " + this.portfolio.selected);
+      console.log(this.select);
+      console.log(i + " : " + this.portfolio.selected);
     }
   }
 };
 </script>
 
 <style lang="scss">
-.unselected{
-  opacity : 0.5;
+.unselected {
+  opacity: 0.5;
 }
 
 .selectedPf {
-  opacity : 1.0;
+  opacity: 1;
 }
 
 .portfolio-item {

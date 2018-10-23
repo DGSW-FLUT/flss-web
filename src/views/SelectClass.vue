@@ -63,6 +63,9 @@ export default {
     };
   },
   created() {
+    if (!this.$store.getters.getToken) {
+      this.$router.push({ path: "/login" });
+    }
     this.$http
       .get(
         `http://flss.kr/api/class/joined?uid=${

@@ -3,7 +3,7 @@
     <div class="background"></div>
     <div class="header">
       <span class="title">Flipped Learning Support System</span><br>
-      <span class="text">선생과 학생을 잇는, 플립러닝 지원 시스템</span>
+      <span class="text">선생과 학생을 잇는, 플립드러닝 지원 시스템</span>
     </div>
     <div class="copyright">Copyright ⓒ <a href="https://github.com/DGSW-FLUT" target="_blank">FLUT</a> 2018, All rights reserved.</div>
 

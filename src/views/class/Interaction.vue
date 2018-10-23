@@ -162,7 +162,7 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted')
+    console.log("mounted");
     client.emit(
       "join",
       { name: this.$store.getters.getThisClass.cid },
@@ -178,8 +178,7 @@ export default {
       this.remove();
     });
   },
-  destroyed() {
-  },
+  destroyed() {},
   components: {
     LinkPrevue,
     InteractionItem

@@ -19,7 +19,18 @@ export default {
         }&cid=${this.$store.getters.getThisClass.id}`
       )
       .then(res => {
-        this.memberlist = res.data;
+        res.data.forEach(data => {
+          let member = {
+            cid: data.Cid,
+            count: data.Count,
+            name: data.Name,
+            profile: data.Profile,
+            uid: data.Uid,
+            selected: false
+          };
+
+          this.memberlist.push(member);
+        });
       });
     this.$vuevent.on("idx", idx => {
       this.memberlist[idx].selected = !this.memberlist[idx].selected;
