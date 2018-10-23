@@ -53,7 +53,7 @@ export default {
     },
     downloadFile() {
       console.log(this.InteractionItem.file)
-      this.downloadURI('http://flss.kr/interactionItem/' + this.InteractionItem.realFile, this.InteractionItem.file)
+      this.downloadURI('http://flss.kr/interactionItem/' + this.InteractionItem.realFile, this.InteractionItem.realFile)
       // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
     }
   }
