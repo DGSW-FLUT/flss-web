@@ -206,14 +206,6 @@ export default {
           doc.addPage();
           doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
-<<<<<<< HEAD
-        }
-        // 파일 저장
-        // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
-        this.prograssPDF = false;
-        doc.save(this.portfolioTitle + ".pdf");
-      });
-=======
           // 한 페이지 이상일 경우 루프 돌면서 출력
           while (heightLeft >= 20) {
             position = heightLeft - imgHeight;
@@ -250,8 +242,8 @@ export default {
           })
           
           doc.save(this.portfolioTitle + '.pdf');
-        })
->>>>>>> 82ed05aab914bf80ba7b29e896fcb9e15362d689
+        }
+      })
     },
     getportfolioList () {
       this.$http
@@ -386,7 +378,6 @@ export default {
         console.log("error : " + err.message);
       });
 
-<<<<<<< HEAD
     this.$http
       .get(
         `http://flss.kr/api/portfolio/list?cid=${
@@ -407,8 +398,6 @@ export default {
           this.portfolioList.push(portfolioItem);
         });
       });
-=======
->>>>>>> 82ed05aab914bf80ba7b29e896fcb9e15362d689
 
     this.$vuevent.on("idx", idx => {
       if (this.portfolios[idx].selected) {
