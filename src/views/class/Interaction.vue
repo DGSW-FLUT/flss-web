@@ -20,8 +20,8 @@
                 </b-form-textarea>
               </b-card-body>
               <b-card-footer>
-              <b-form inline class="icons ml-3">
-                <font-awesome-icon class="py-2 mr-4" fas icon="upload" size="3x" @click="upload"/>
+              <b-form inline v-if="!isAddingNow" class="icons ml-3">
+                <font-awesome-icon class="py-2 mr-4" fas icon="upload" size="3x" @click="upload" />
                 <font-awesome-icon class="py-2 mr-4" fas icon="link" size="3x" v-b-modal.modal v-if="!isAttach"/>
                 <label for="file_upload">
                   <font-awesome-icon class="py-2 mr-4" fas icon="folder" size="3x" @click="addFile" v-if="!isAttach"/>
@@ -84,7 +84,8 @@ export default {
       },
       Interactions: [],
       isAdding: false,
-      isAttach: false
+      isAttach: false,
+      isAddingNow: false
     };
   },
   methods: {
@@ -104,13 +105,36 @@ export default {
       client.emit("deleteAll");
     },
     upload(e) {
-      this.Interactions.push(this.newInteraction);
-      console.log(JSON.stringify(this.newInteraction));
-      client.emit("upload", this.newInteraction);
-      this.newInteraction = {};
-      this.isAdding = false;
-      this.isAttach = false;
-      // alert("업로드 되었습니다");
+      if (this.newInteraction.file)
+      {
+        this.isAddingNow = true;
+        const fdata = new FormData();
+        fdata.append('file', this.newInteraction.file)
+        this.$http.post(`http://flss.kr/api/interaction/add`, fdata)
+          .then((data) => {
+            console.log(data)
+            if (data.status == 200) {
+              this.newInteraction.realFile = data.data;
+              this.Interactions.push(this.newInteraction);
+              client.emit("upload", this.newInteraction);
+              this.newInteraction = {};
+              this.isAdding = false;
+              this.isAttach = false;
+              this.isAddingNow = false;
+            } else {
+              alert('upload Error')
+            }
+          })
+      } else {
+        this.Interactions.push(this.newInteraction);
+        console.log(JSON.stringify(this.newInteraction));
+        client.emit("upload", this.newInteraction);
+        this.newInteraction = {};
+        this.isAdding = false;
+        this.isAttach = false;
+        this.isAddingNow = false;
+        // alert("업로드 되었습니다");
+      }
     },
     okLink(evt) {
       evt.preventDefault();
@@ -118,6 +142,7 @@ export default {
         alert("올바르지 않은 입력 형식 입니다.");
         return;
       } else {
+
         this.isAttach = true;
         this.newInteraction.type = 2;
         this.$refs.modal.hide();
