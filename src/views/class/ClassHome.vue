@@ -25,11 +25,17 @@
           <div>
             <b-card title="공지사항" tag="article" class="mb-2">
               <p class="card-text">
-                수업 전 과제 안내 <br><br>
-                - 사전영상/평가 목록 메뉴를 클릭해서
-                오늘의 사전 영상을<br> 학습하고 이어지는 퀴즈를 풀어오세요!
+                {{ notice }}
               </p>
-              <b-button href="#" variant="primary">Detail</b-button>
+              <b-button v-b-modal.modal variant="primary">Detail</b-button>
+              <b-modal id="modal" ref="modal" @shown="clearNotice" @ok="okNotice" title="공지사항 변경">
+                <b-form-textarea v-model="newNotice"
+                                style="resize:none"
+                                placeholder="공지사항을 입력해주세요"
+                                :rows="3"
+                                :max-rows="6">
+                </b-form-textarea>
+              </b-modal>
             </b-card>
           </div>
         </b-col>
@@ -76,13 +82,44 @@ export default {
         this.$store.commit("setMemberList", res.data);
         this.member = this.$store.getters.getMemberList.length;
       });
+    console.log(this.$store.getters.getThisClass.cid);
+    this.$http
+    .get(
+      `http://flss.kr/api/notice/showNotice?cid=${this.$store.getters.getThisClass.cid}`
+    )
+    .then(res => {
+      this.notice = res.data
+    })
     this.className = this.$store.getters.getThisClass.name;
   },
   data() {
     return {
       className: "",
-      member: ""
+      member: "",
+      newNotice: "",
+      notice: ""
     };
+  },
+  methods: {
+    okNotice() {
+      this.$http.
+      post("http://www.flss.kr/api/notice/addNotice", {
+        cid: this.$store.getters.getThisClass.cid,
+        notice: this.newNotice
+      })
+      .then(res => {
+        alert("공지사항이 변경되었습니다");
+        this.notice = this.newNotice;
+        this.newNotice = "";
+      })
+      .catch(err => {
+        alert("공지사항 변경에 실패하였습니다")
+      })
+    },
+    clearNotice() {
+      this.newNotice = "";
+      this.newNotice = "";
+    }
   },
   components: {}
 };
