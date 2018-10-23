@@ -11,12 +11,6 @@
               <b-card no-body>
                 <b-row class="m-4">
                   <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
-                  <div slot="header" class="col-md-4">
-                    <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
-                      <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
-                      <b-dropdown-item @click="changeReadOnlyToTeacher(i)">선생님만</b-dropdown-item>
-                    </b-dropdown>
-                  </div>
                 </b-row>
                 <div class="ml-4 mb-3">
                   작성자 : {{ post.Name }} 
@@ -65,6 +59,9 @@
         <b-pagination-nav v-if="posts.length !== 0" base-url="#" :number-of-pages="Math.ceil(posts.length/5)" v-model="currentPage"/>
       </b-container>
         <b-container v-if="isPortfolio">
+          <b-col>
+           <b-button class="mt-3 mb-3" style="float:right; background-color:#d2a2fd; border:none" @click="portfolio()">학습게시판</b-button>
+          </b-col>
           <b-tabs class="mt-5">
               <b-tab title="포트폴리오 만들기" active>
                  <h3 class="mt-5 mb-5">포트폴리오 만들기</h3>
@@ -209,12 +206,72 @@ export default {
           doc.addPage();
           doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
+<<<<<<< HEAD
         }
         // 파일 저장
         // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
         this.prograssPDF = false;
         doc.save(this.portfolioTitle + ".pdf");
       });
+=======
+          // 한 페이지 이상일 경우 루프 돌면서 출력
+          while (heightLeft >= 20) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+          // 파일 저장
+          // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
+          this.prograssPDF = false;
+
+          const newFile = new FormData();
+          const pdfFile = new File([doc.output('blob')], this.portfolioTitle + '.pdf');
+          newFile.append("portfolio", pdfFile);
+          newFile.append("cid", this.$store.getters.getThisClass.cid);
+          newFile.append("uid", this.portfolios[0].Uid);
+
+          this.$http
+          .post("http://flss.kr/api/portfolio/add", newFile, {
+            headers: { "Content-Type": "multipart/form-data" }
+          })
+          .then(res => {
+            if (res.status == 200)
+            {
+                console.log("pdf upload success");
+                this.getportfolioList();
+            }
+            else
+              console.error(res)
+          })
+          .catch(err => {
+            console.error(err)
+            alert("pdf 파일 업로드에 실패하였습니다");
+          })
+          
+          doc.save(this.portfolioTitle + '.pdf');
+        })
+>>>>>>> 82ed05aab914bf80ba7b29e896fcb9e15362d689
+    },
+    getportfolioList () {
+      this.$http
+      .get(
+        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
+      ).then(res =>{
+        this.portfolioList = [];
+        if(res.data){
+          this.portfolioData = res.data;
+        }
+
+        res.data.forEach((portfolio) =>{
+          let portfolioItem = {
+            제목 : portfolio.File.substring(13),
+            이름 : portfolio.Name,
+            날짜 : portfolio.AddTime
+          }
+          this.portfolioList.push(portfolioItem)
+        })
+      })
     },
     clear() {
       this.text = "";
@@ -310,6 +367,9 @@ export default {
       );
     }
   },
+  mounted () {
+    this.getportfolioList();
+  },
   created() {
     this.$http
       .get(
@@ -326,6 +386,7 @@ export default {
         console.log("error : " + err.message);
       });
 
+<<<<<<< HEAD
     this.$http
       .get(
         `http://flss.kr/api/portfolio/list?cid=${
@@ -346,6 +407,8 @@ export default {
           this.portfolioList.push(portfolioItem);
         });
       });
+=======
+>>>>>>> 82ed05aab914bf80ba7b29e896fcb9e15362d689
 
     this.$vuevent.on("idx", idx => {
       if (this.portfolios[idx].selected) {

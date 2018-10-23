@@ -24,9 +24,9 @@
               </template>
             </link-prevue>
           </a>
-          <div v-else-if="InteractionItem.file" class="interactionFile">
+          <div v-else-if="InteractionItem.file" @click="downloadFile" class="interactionFile">
             <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
-            {{ InteractionItem.file.name }} 
+            {{ InteractionItem.file.realFile }} 
           </div>
         </b-card-footer>
       </b-card>
@@ -43,7 +43,19 @@ export default {
     LinkPrevue
   },
   methods: {
-    downloadFile() {}
+    downloadURI (uri, name) {
+      var link = document.createElement("a");
+      link.download = name;
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    downloadFile() {
+      console.log(this.InteractionItem.file)
+      this.downloadURI('http://flss.kr/interactionItem/' + this.InteractionItem.realFile, this.InteractionItem.realFile)
+      // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
+    }
   }
 };
 </script>
