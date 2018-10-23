@@ -219,27 +219,53 @@ export default {
           // 파일 저장
           // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
           this.prograssPDF = false;
-          doc.save(this.portfolioTitle + '.pdf');
 
           const newFile = new FormData();
-
-          const pdfFile = doc.output();
-          
+          const pdfFile = new File([doc.output('blob')], this.portfolioTitle + '.pdf');
           newFile.append("portfolio", pdfFile);
           newFile.append("cid", this.$store.getters.getThisClass.cid);
-          newFile.append("uid", this.$store.getters.getUserInfo.uid);
+          newFile.append("uid", this.portfolios[0].Uid);
 
           this.$http
           .post("http://flss.kr/api/portfolio/add", newFile, {
             headers: { "Content-Type": "multipart/form-data" }
           })
           .then(res => {
-            console.log("pdf upload success");
+            if (res.status == 200)
+            {
+                console.log("pdf upload success");
+                this.getportfolioList();
+            }
+            else
+              console.error(res)
           })
           .catch(err => {
+            console.error(err)
             alert("pdf 파일 업로드에 실패하였습니다");
           })
+          
+          doc.save(this.portfolioTitle + '.pdf');
         })
+    },
+    getportfolioList () {
+      this.$http
+      .get(
+        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
+      ).then(res =>{
+        this.portfolioList = [];
+        if(res.data){
+          this.portfolioData = res.data;
+        }
+
+        res.data.forEach((portfolio) =>{
+          let portfolioItem = {
+            제목 : portfolio.File.substring(13),
+            이름 : portfolio.Name,
+            날짜 : portfolio.AddTime
+          }
+          this.portfolioList.push(portfolioItem)
+        })
+      })
     },
     clear() {
       this.text = "";
@@ -333,6 +359,9 @@ export default {
       window.open(`http://flss.kr/portfoliofile/${this.portfolioData[index].File}`);
     }
   },
+  mounted () {
+    this.getportfolioList();
+  },
   created() {
     this.$http
       .get(
@@ -349,24 +378,6 @@ export default {
         console.log("error : " + err.message);
       });
 
-      this.$http
-      .get(
-        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
-      ).then(res =>{
-
-        if(res.data){
-          this.portfolioData = res.data;
-        }
-
-        res.data.forEach((portfolio) =>{
-          let portfolioItem = {
-            제목 : portfolio.File.substring(13),
-            이름 : portfolio.Name,
-            날짜 : portfolio.AddTime
-          }
-          this.portfolioList.push(portfolioItem)
-        })
-      })
 
     this.$vuevent.on("idx", idx => {
       if (this.portfolios[idx].selected) {
