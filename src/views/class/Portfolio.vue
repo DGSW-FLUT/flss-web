@@ -113,7 +113,7 @@
 import PortfolioItem from "@/components/PortfolioItem";
 import html2canvas from "html2canvas";
 // Use JSPDF
-import jsPDF from 'jspdf'
+import jsPDF from "jspdf";
 export default {
   name: "portfolio",
   data() {
@@ -125,8 +125,8 @@ export default {
       teacherOpinion: "",
       portfolioTitle: "",
       prograssPDF: false,
-      portfolioList : [],
-      portfolioData : [],
+      portfolioList: [],
+      portfolioData: [],
       content: "",
       file: "",
       title: "",
@@ -137,12 +137,9 @@ export default {
   },
   computed: {
     isValidInput() {
-      if (!this.portfolioTitle)
-        return 1;
-      if (!this.teacherOpinion)
-        return 2;
-      if (!this.selected.length)
-        return 3;
+      if (!this.portfolioTitle) return 1;
+      if (!this.teacherOpinion) return 2;
+      if (!this.selected.length) return 3;
       return 0;
       // return this.portfolioTitle && this.teacherOpinion && (this.selected.length !== 0);
     },
@@ -172,19 +169,17 @@ export default {
         )
         .then(res => {
           this.portfolios = res.data;
-          if (!this.portfolios.length)
-            alert("해당 학생이 존재하지 않습니다.")
-          this.portfolioTitle = this.studentName + '학생 포트폴리오'
+          if (!this.portfolios.length) alert("해당 학생이 존재하지 않습니다.");
+          this.portfolioTitle = this.studentName + "학생 포트폴리오";
         })
         .catch(err => {
-          alert("해당 학생이 존재하지 않습니다.")
+          alert("해당 학생이 존재하지 않습니다.");
           this.portfolios = [];
           console.log(err.message);
         });
     },
     createPDF() {
-      switch(this.isValidInput)
-      {
+      switch (this.isValidInput) {
         case 1:
           return alert("포트폴리오의 제목을 적지 않으셨습니다.");
         case 2:
@@ -197,30 +192,29 @@ export default {
       //   alert("입력하지 않은 부분이 있습니다. 확인해주세요");
       //   return;
       // }
-      html2canvas(document.getElementById("portfolioitems"))
-        .then((canvas) => {
-          var imgData = canvas.toDataURL('image/png');           
-          var imgWidth = 190; // 이미지 가로 길이(mm) A4 기준 기본 210
-          var pageHeight = 210 * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-          var imgHeight = canvas.height * imgWidth / canvas.width;
-          var heightLeft = imgHeight;
-          var doc = new jsPDF('p', 'mm');
-          var position = 0;
-          // 첫 페이지 출력
-          doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+      html2canvas(document.getElementById("portfolioitems")).then(canvas => {
+        var imgData = canvas.toDataURL("image/png");
+        var imgWidth = 190; // 이미지 가로 길이(mm) A4 기준 기본 210
+        var pageHeight = 210 * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
+        var imgHeight = (canvas.height * imgWidth) / canvas.width;
+        var heightLeft = imgHeight;
+        var doc = new jsPDF("p", "mm");
+        var position = 0;
+        // 첫 페이지 출력
+        doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        // 한 페이지 이상일 경우 루프 돌면서 출력
+        while (heightLeft >= 20) {
+          position = heightLeft - imgHeight;
+          doc.addPage();
+          doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
-          // 한 페이지 이상일 경우 루프 돌면서 출력
-          while (heightLeft >= 20) {
-            position = heightLeft - imgHeight;
-            doc.addPage();
-            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-          }
-          // 파일 저장
-          // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
-          this.prograssPDF = false;
-          doc.save(this.portfolioTitle + '.pdf');
-        })
+        }
+        // 파일 저장
+        // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
+        this.prograssPDF = false;
+        doc.save(this.portfolioTitle + ".pdf");
+      });
     },
     clear() {
       this.text = "";
@@ -307,11 +301,13 @@ export default {
           console.log(err.message);
         });
     },
-    portfolio(){
+    portfolio() {
       this.isPortfolio = !this.isPortfolio;
     },
-    portfolioClickEvent(record, index){
-      window.open(`http://flss.kr/portfoliofile/${this.portfolioData[index].File}`);
+    portfolioClickEvent(record, index) {
+      window.open(
+        `http://flss.kr/portfoliofile/${this.portfolioData[index].File}`
+      );
     }
   },
   created() {
@@ -330,24 +326,26 @@ export default {
         console.log("error : " + err.message);
       });
 
-      this.$http
+    this.$http
       .get(
-        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
-      ).then(res =>{
-
-        if(res.data){
+        `http://flss.kr/api/portfolio/list?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
+      .then(res => {
+        if (res.data) {
           this.portfolioData = res.data;
         }
 
-        res.data.forEach((portfolio) =>{
+        res.data.forEach(portfolio => {
           let portfolioItem = {
-            제목 : portfolio.File.substring(13),
-            이름 : portfolio.Name,
-            날짜 : portfolio.AddTime
-          }
-          this.portfolioList.push(portfolioItem)
-        })
-      })
+            제목: portfolio.File.substring(13),
+            이름: portfolio.Name,
+            날짜: portfolio.AddTime
+          };
+          this.portfolioList.push(portfolioItem);
+        });
+      });
 
     this.$vuevent.on("idx", idx => {
       if (this.portfolios[idx].selected) {
@@ -370,7 +368,7 @@ export default {
 </script>
 
 <style lang="scss">
-.opinion-readonly{
+.opinion-readonly {
   background-color: white !important;
 }
 </style>
