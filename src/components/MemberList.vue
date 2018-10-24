@@ -18,7 +18,7 @@
       </b-row>
       <b-row>
         <b-col>
-           <b-button class="mt-3" style="float:right;" variant="primary" @click="prize()">상점 주기</b-button>
+           <b-button class="mt-3" style="float:right;" variant="primary" @click="prize()" v-if="isTeacher">상점 주기</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -36,6 +36,15 @@ export default {
       uidArray: [],
       prizeMemberList: []
     };
+  },
+  computed: {
+    isTeacher() {
+      if (this.$store.getters.getUserInfo.role === "teacher") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   props: ["memberlist"],
   methods: {

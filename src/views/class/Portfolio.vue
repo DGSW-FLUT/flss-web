@@ -191,6 +191,7 @@ export default {
       // }
       html2canvas(document.getElementById("portfolioitems")).then(canvas => {
         var imgData = canvas.toDataURL("image/png");
+        console.log("create");
         var imgWidth = 190; // 이미지 가로 길이(mm) A4 기준 기본 210
         var pageHeight = 210 * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
         var imgHeight = (canvas.height * imgWidth) / canvas.width;
@@ -204,66 +205,63 @@ export default {
         while (heightLeft >= 20) {
           position = heightLeft - imgHeight;
           doc.addPage();
-          doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+          doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
-          // 한 페이지 이상일 경우 루프 돌면서 출력
-          while (heightLeft >= 20) {
-            position = heightLeft - imgHeight;
-            doc.addPage();
-            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-          }
-          // 파일 저장
-          // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
-          this.prograssPDF = false;
-
-          const newFile = new FormData();
-          const pdfFile = new File([doc.output('blob')], this.portfolioTitle + '.pdf');
-          newFile.append("portfolio", pdfFile);
-          newFile.append("cid", this.$store.getters.getThisClass.cid);
-          newFile.append("uid", this.portfolios[0].Uid);
-
-          this.$http
-          .post("http://flss.kr/api/portfolio/add", newFile, {
-            headers: { "Content-Type": "multipart/form-data" }
-          })
-          .then(res => {
-            if (res.status == 200)
-            {
-                console.log("pdf upload success");
-                this.getportfolioList();
-            }
-            else
-              console.error(res)
-          })
-          .catch(err => {
-            console.error(err)
-            alert("pdf 파일 업로드에 실패하였습니다");
-          })
-          
-          doc.save(this.portfolioTitle + '.pdf');
         }
+        // 파일 저장
+        // doc.save(new Date().toJSON().split('T')[0] + '_' + this.studentName + '학생_포트폴리오' + '.pdf');
+        this.prograssPDF = false;
+
+        const newFile = new FormData();
+        const pdfFile = new File([doc.output('blob')], this.portfolioTitle + '.pdf');
+        newFile.append("portfolio", pdfFile);
+        newFile.append("cid", this.$store.getters.getThisClass.cid);
+        newFile.append("uid", this.portfolios[0].Uid);
+
+        this.$http
+        .post("http://flss.kr/api/portfolio/add", newFile, {
+          headers: { "Content-Type": "multipart/form-data" }
+        })
+        .then(res => {
+          if (res.status == 200)
+          {
+              console.log("pdf upload success");
+              this.getportfolioList();
+          }
+          else
+            console.error(res)
+        })
+        .catch(err => {
+          console.error(err)
+          alert("pdf 파일 업로드에 실패하였습니다");
+        })
+        
+      
+        doc.save(this.portfolioTitle + '.pdf');
       })
     },
-    getportfolioList () {
+    getportfolioList() {
       this.$http
-      .get(
-        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
-      ).then(res =>{
-        this.portfolioList = [];
-        if(res.data){
-          this.portfolioData = res.data;
-        }
-
-        res.data.forEach((portfolio) =>{
-          let portfolioItem = {
-            제목 : portfolio.File.substring(13),
-            이름 : portfolio.Name,
-            날짜 : portfolio.AddTime
+        .get(
+          `http://flss.kr/api/portfolio/list?cid=${
+            this.$store.getters.getThisClass.cid
+          }`
+        )
+        .then(res => {
+          this.portfolioList = [];
+          if (res.data) {
+            this.portfolioData = res.data;
           }
-          this.portfolioList.push(portfolioItem)
-        })
-      })
+
+          res.data.forEach(portfolio => {
+            let portfolioItem = {
+              제목: portfolio.File.substring(13),
+              이름: portfolio.Name,
+              날짜: portfolio.AddTime
+            };
+            this.portfolioList.push(portfolioItem);
+          });
+        });
     },
     clear() {
       this.text = "";
@@ -359,7 +357,7 @@ export default {
       );
     }
   },
-  mounted () {
+  mounted() {
     this.getportfolioList();
   },
   created() {

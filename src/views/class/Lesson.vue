@@ -12,6 +12,10 @@
                :src="'http://flss.kr/video/'+this.$store.getters.getLesson.File" controls allowfullscreen
                 width="1000"
                 height="565">
+        <embed  v-else-if="this.$store.getters.getLesson.Link"
+               :src="this.$store.getters.getLesson.Link" controls allowfullscreen
+                width="1000"
+                height="565">                
         <b-card class="mt-4" :header="title">
             <div v-for="(quiz, i) in quizs" :key="i">
               <div class="mt-3 mb-3">

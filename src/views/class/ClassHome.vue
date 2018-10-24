@@ -84,12 +84,14 @@ export default {
       });
     console.log(this.$store.getters.getThisClass.cid);
     this.$http
-    .get(
-      `http://flss.kr/api/notice/showNotice?cid=${this.$store.getters.getThisClass.cid}`
-    )
-    .then(res => {
-      this.notice = res.data
-    })
+      .get(
+        `http://flss.kr/api/notice/showNotice?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
+      .then(res => {
+        this.notice = res.data;
+      });
     this.className = this.$store.getters.getThisClass.name;
   },
   data() {
@@ -102,19 +104,19 @@ export default {
   },
   methods: {
     okNotice() {
-      this.$http.
-      post("http://www.flss.kr/api/notice/addNotice", {
-        cid: this.$store.getters.getThisClass.cid,
-        notice: this.newNotice
-      })
-      .then(res => {
-        alert("공지사항이 변경되었습니다");
-        this.notice = this.newNotice;
-        this.newNotice = "";
-      })
-      .catch(err => {
-        alert("공지사항 변경에 실패하였습니다")
-      })
+      this.$http
+        .post("http://www.flss.kr/api/notice/addNotice", {
+          cid: this.$store.getters.getThisClass.cid,
+          notice: this.newNotice
+        })
+        .then(res => {
+          alert("공지사항이 변경되었습니다");
+          this.notice = this.newNotice;
+          this.newNotice = "";
+        })
+        .catch(err => {
+          alert("공지사항 변경에 실패하였습니다");
+        });
     },
     clearNotice() {
       this.newNotice = "";

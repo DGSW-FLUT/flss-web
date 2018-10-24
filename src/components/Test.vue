@@ -49,11 +49,21 @@
                 <input type="file" v-on:change="onFileChange" name="file[]" class="file_multi_video" accept="video/*" >
               </b-col>
               <b-col cols="3">
-                <b-btn v-if="isVideoUploded" v-b-modal.videopreview>영상 미리보기</b-btn>
-                <b-modal id="videopreview" title="영상 미리보기">
-                  <video width="400" controls >
+                <b-btn v-if="isVideoUploded || isUrl" v-b-modal.videopreview>영상 미리보기</b-btn>
+                <b-modal id="videopreview" title="영상 미리보기" >
+                  <video v-if="isVideoUploded" width="400" controls >
                     <source src="mov_bbb.mp4" id="video_here">
                   </video>
+                  <b-embed 
+                        v-if="isUrl"
+                        type="iframe"
+                        aspect="16by9"
+                        :src="link.replace('watch?v=', 'embed/')"
+                        allowfullscreen
+                ></b-embed>
+                  <!-- <embed  :src="link.replace('watch?v=', 'embed/')"
+                          style="position:relative; width:100%;"
+                          > -->
                 </b-modal>
               </b-col>
               <b-col cols="2">
@@ -65,10 +75,12 @@
           <b-modal id="URL"
                     ref="modal"
                     title="URL로 업로드"
+                     @ok="url()"
                     >
               <form @submit.stop.prevent="handleSubmit">
                 <b-form-input type="text"
                               placeholder="URL 입력"
+                              v-model="link"
                               ></b-form-input>
               </form>
             </b-modal>
@@ -162,6 +174,8 @@ export default {
       question: [],
       answer: "",
       test: [],
+      isUrl: "",
+      link: "",
       questionTitle: "",
       uploadPercentage: 0,
       quizs: [
@@ -256,6 +270,7 @@ export default {
       if (files.length) {
         this.file = files[0];
         this.isVideoUploded = true;
+        this.isUrl = false;
       }
     },
 
@@ -263,9 +278,30 @@ export default {
       this.$refs.progress.show();
       console.log("1");
       let data = new FormData();
-      if (this.file) {
+      if (this.isUrl) {
+        this.link = this.link.replace("watch?v=", "embed/");
+        console.log(this.link);
+        data.append("link", this.link);
+        data.append("uid", this.$store.getters.getUserInfo.uid);
+        data.append("cid", this.$store.getters.getThisClass.cid);
+        data.append("title", this.title);
+        data.append("subject", this.subject);
+        data.append("grade", this.grade);
+        data.append("semester", this.semester);
+        data.append("unit", this.chapter);
+        data.append("chapter", this.chapter);
+        data.append("explain", this.description);
+      } else if (this.isVideoUploded) {
         data.append("video", this.file);
-        console.log("hi!");
+        data.append("uid", this.$store.getters.getUserInfo.uid);
+        data.append("cid", this.$store.getters.getThisClass.cid);
+        data.append("title", this.title);
+        data.append("subject", this.subject);
+        data.append("grade", this.grade);
+        data.append("semester", this.semester);
+        data.append("unit", this.chapter);
+        data.append("chapter", this.chapter);
+        data.append("explain", this.description);
       }
       data.append("uid", this.$store.getters.getUserInfo.uid);
       data.append("cid", this.$store.getters.getThisClass.cid);
@@ -321,8 +357,14 @@ export default {
       if (quizDel === true) {
         this.test = [];
       }
+    },
+    url() {
+      this.file = null;
+      this.isUrl = true;
+      this.isVideoUploded = false;
     }
   },
+
   props: ["video"]
 };
 </script>
