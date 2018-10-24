@@ -43,7 +43,7 @@ export default {
     LinkPrevue
   },
   methods: {
-    downloadURI (uri, name) {
+    downloadURI(uri, name) {
       var link = document.createElement("a");
       link.download = name;
       link.href = uri;
@@ -52,8 +52,11 @@ export default {
       document.body.removeChild(link);
     },
     downloadFile() {
-      console.log(this.InteractionItem.file)
-      this.downloadURI('http://flss.kr/interactionItem/' + this.InteractionItem.realFile, this.InteractionItem.realFile)
+      console.log(this.InteractionItem.file);
+      this.downloadURI(
+        "http://flss.kr/interactionItem/" + this.InteractionItem.realFile,
+        this.InteractionItem.realFile
+      );
       // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
     }
   }

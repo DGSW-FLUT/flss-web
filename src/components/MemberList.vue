@@ -37,11 +37,11 @@ export default {
       prizeMemberList: []
     };
   },
-  computed : {
-    isTeacher(){
-      if(this.$store.getters.getUserInfo.role === "teacher"){
+  computed: {
+    isTeacher() {
+      if (this.$store.getters.getUserInfo.role === "teacher") {
         return true;
-      } else{
+      } else {
         return false;
       }
     }

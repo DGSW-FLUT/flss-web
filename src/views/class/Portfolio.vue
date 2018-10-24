@@ -210,7 +210,7 @@ export default {
           while (heightLeft >= 20) {
             position = heightLeft - imgHeight;
             doc.addPage();
-            doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
           }
           // 파일 저장
@@ -218,52 +218,55 @@ export default {
           this.prograssPDF = false;
 
           const newFile = new FormData();
-          const pdfFile = new File([doc.output('blob')], this.portfolioTitle + '.pdf');
+          const pdfFile = new File(
+            [doc.output("blob")],
+            this.portfolioTitle + ".pdf"
+          );
           newFile.append("portfolio", pdfFile);
           newFile.append("cid", this.$store.getters.getThisClass.cid);
           newFile.append("uid", this.portfolios[0].Uid);
 
           this.$http
-          .post("http://flss.kr/api/portfolio/add", newFile, {
-            headers: { "Content-Type": "multipart/form-data" }
-          })
-          .then(res => {
-            if (res.status == 200)
-            {
+            .post("http://flss.kr/api/portfolio/add", newFile, {
+              headers: { "Content-Type": "multipart/form-data" }
+            })
+            .then(res => {
+              if (res.status == 200) {
                 console.log("pdf upload success");
                 this.getportfolioList();
-            }
-            else
-              console.error(res)
-          })
-          .catch(err => {
-            console.error(err)
-            alert("pdf 파일 업로드에 실패하였습니다");
-          })
-          
-          doc.save(this.portfolioTitle + '.pdf');
-        }
-      })
-    },
-    getportfolioList () {
-      this.$http
-      .get(
-        `http://flss.kr/api/portfolio/list?cid=${this.$store.getters.getThisClass.cid}`
-      ).then(res =>{
-        this.portfolioList = [];
-        if(res.data){
-          this.portfolioData = res.data;
-        }
+              } else console.error(res);
+            })
+            .catch(err => {
+              console.error(err);
+              alert("pdf 파일 업로드에 실패하였습니다");
+            });
 
-        res.data.forEach((portfolio) =>{
-          let portfolioItem = {
-            제목 : portfolio.File.substring(13),
-            이름 : portfolio.Name,
-            날짜 : portfolio.AddTime
+          doc.save(this.portfolioTitle + ".pdf");
+        }
+      });
+    },
+    getportfolioList() {
+      this.$http
+        .get(
+          `http://flss.kr/api/portfolio/list?cid=${
+            this.$store.getters.getThisClass.cid
+          }`
+        )
+        .then(res => {
+          this.portfolioList = [];
+          if (res.data) {
+            this.portfolioData = res.data;
           }
-          this.portfolioList.push(portfolioItem)
-        })
-      })
+
+          res.data.forEach(portfolio => {
+            let portfolioItem = {
+              제목: portfolio.File.substring(13),
+              이름: portfolio.Name,
+              날짜: portfolio.AddTime
+            };
+            this.portfolioList.push(portfolioItem);
+          });
+        });
     },
     clear() {
       this.text = "";
@@ -359,7 +362,7 @@ export default {
       );
     }
   },
-  mounted () {
+  mounted() {
     this.getportfolioList();
   },
   created() {

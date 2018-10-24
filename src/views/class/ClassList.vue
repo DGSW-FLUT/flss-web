@@ -1,6 +1,6 @@
 <template>
   <div id="class-list">
-    <b-container>
+    <b-container class="mt-5">
       <b-tabs>
         <b-tab title="사전 영상" active class="table">
             <b-row>

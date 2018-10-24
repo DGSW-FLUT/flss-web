@@ -105,14 +105,14 @@ export default {
       client.emit("deleteAll");
     },
     upload(e) {
-      if (this.newInteraction.file)
-      {
+      if (this.newInteraction.file) {
         this.isAddingNow = true;
         const fdata = new FormData();
-        fdata.append('file', this.newInteraction.file)
-        this.$http.post(`http://flss.kr/api/interaction/add`, fdata)
-          .then((data) => {
-            console.log(data)
+        fdata.append("file", this.newInteraction.file);
+        this.$http
+          .post(`http://flss.kr/api/interaction/add`, fdata)
+          .then(data => {
+            console.log(data);
             if (data.status == 200) {
               this.newInteraction.realFile = data.data;
               this.Interactions.push(this.newInteraction);
@@ -122,9 +122,9 @@ export default {
               this.isAttach = false;
               this.isAddingNow = false;
             } else {
-              alert('upload Error')
+              alert("upload Error");
             }
-          })
+          });
       } else {
         this.Interactions.push(this.newInteraction);
         console.log(JSON.stringify(this.newInteraction));
@@ -142,7 +142,6 @@ export default {
         alert("올바르지 않은 입력 형식 입니다.");
         return;
       } else {
-
         this.isAttach = true;
         this.newInteraction.type = 2;
         this.$refs.modal.hide();
