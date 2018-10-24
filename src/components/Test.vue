@@ -88,12 +88,13 @@
             <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">Next</b-button>
         </b-col>
       </b-row>
+      <b-modal ref="progress" hide-footer hide-header no-close-on-backdrop>
+          <b-progress :value="uploadPercentage" show-progress animated variant="success"></b-progress>
+      </b-modal>
     </b-container>
     <!-- 퀴즈 출제 부분 -->
     <b-container class="mt-5" v-if="!bool">
       <b-row>
-        
-        
         <b-col class="mt-5" cols="5" v-if="!isQuiz">
           <b-form-input
             class="mb-3"
@@ -162,6 +163,7 @@ export default {
       answer: "",
       test: [],
       questionTitle: "",
+      uploadPercentage: 0,
       quizs: [
         {
           idx: "1번 문항"
@@ -248,7 +250,6 @@ export default {
       this.answer = "";
       alert("문제 제출 성공!");
     },
-
     onFileChange(e) {
       let files = e.target.files || e.dataTransfer.files;
       console.log(files);
@@ -259,6 +260,8 @@ export default {
     },
 
     next() {
+      this.$refs.progress.show();
+      console.log("1");
       let data = new FormData();
       if (this.file) {
         data.append("video", this.file);
@@ -273,19 +276,30 @@ export default {
       data.append("unit", this.chapter);
       data.append("chapter", this.chapter);
       data.append("explain", this.description);
-      console.log(data);
       this.$http
         .post("http://flss.kr/api/lesson/add", data, {
-          headers: { "Content-Type": "multipart/form-data" }
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: function( progressEvent ) {
+            this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+          }.bind(this)
         })
         .then(res => {
           console.log(res.data);
           console.log("res num : " + res.data.Lno);
           console.log("test : " + data);
           this.$store.commit("setLessonNum", res.data.Lno);
-          if (res.status == 200) {
-            this.bool = !this.bool;
-          }
+          let TwoSecondWait = new Promise((resolve, reject) => {
+              setTimeout(resolve, 1000)
+          })
+          .then(() => {
+            console.log("wait 1 seconds");
+            if(this.uploadPercentage == 100) {
+              this.$refs.progress.hide();
+            }
+            if (res.status == 200 && this.uploadPercentage === 100) {
+              this.bool = !this.bool;
+            }
+          })
         })
         .catch(err => {
           console.log(err);
