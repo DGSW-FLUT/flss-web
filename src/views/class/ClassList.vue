@@ -61,7 +61,7 @@ export default {
             제목: res.data[i].LessonName,
             학년: res.data[i].Syear,
             과목: res.data[i].SubjectName,
-            날짜: res.data[i].AddTime
+            날짜: res.data[i].UpTime
           };
           this.lessons.push(item);
         }
@@ -83,6 +83,7 @@ export default {
             과목: res.data[i].SubjectName,
             날짜: res.data[i].AddTime
           };
+          console.log(item);
           this.tests.push(item);
         }
       });
