@@ -13,7 +13,7 @@
                 width="1000"
                 height="565">
         <embed  v-else-if="this.$store.getters.getLesson.Link"
-               :src="this.$store.getters.getLesson.Link" controls allowfullscreen
+               :src="changeToEmbed" controls allowfullscreen
                 width="1000"
                 height="565">                
         <b-card class="mt-4" :header="title">
@@ -88,6 +88,19 @@ export default {
             return;
           }
         });
+    }
+  },
+  computed: {
+    changeToEmbed() {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      let match = this.$store.getters.getLesson.Link.match(regExp);
+
+      if (match && match[2].length == 11) {
+        console.log(`InsertLink : ${this.$store.getters.getLesson.Link}    change Link : http://youtube.com/embed/${match[2]}`)
+        return `http://youtube.com/embed/${match[2]}`;
+      } else {
+        return 'error';
+      }
     }
   }
 };

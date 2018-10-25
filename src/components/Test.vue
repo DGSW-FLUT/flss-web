@@ -58,7 +58,7 @@
                         v-if="isUrl"
                         type="iframe"
                         aspect="16by9"
-                        :src="this.changeToEmbed"
+                        :src="changeToEmbed"
                         allowfullscreen
                 ></b-embed>
                   <!-- <embed  :src="link.replace('watch?v=', 'embed/')"
@@ -226,6 +226,7 @@ export default {
       }
     },
     changeToEmbed() {
+      console.log("11111");
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
       let match = this.link.match(regExp);
 
