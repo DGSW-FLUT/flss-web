@@ -58,7 +58,7 @@
                         v-if="isUrl"
                         type="iframe"
                         aspect="16by9"
-                        :src="link.replace('watch?v=', 'embed/')"
+                        :src="this.changeToEmbed"
                         allowfullscreen
                 ></b-embed>
                   <!-- <embed  :src="link.replace('watch?v=', 'embed/')"
@@ -224,6 +224,17 @@ export default {
       } else if (this.video === false) {
         return "평가";
       }
+    },
+    changeToEmbed() {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      let match = this.link.match(regExp);
+
+      if (match && match[2].length == 11) {
+        console.log(`InsertLink : ${this.link}    change Link : http://youtube.com/embed/${match[2]}`)
+        return `http://youtube.com/embed/${match[2]}`;
+      } else {
+        return 'error';
+      }
     }
   },
   methods: {
@@ -279,9 +290,9 @@ export default {
       console.log("1");
       let data = new FormData();
       if (this.isUrl) {
-        this.link = this.link.replace("watch?v=", "embed/");
+        
         console.log(this.link);
-        data.append("link", this.link);
+        data.append("link", this.changeToEmbed);
         data.append("uid", this.$store.getters.getUserInfo.uid);
         data.append("cid", this.$store.getters.getThisClass.cid);
         data.append("title", this.title);
