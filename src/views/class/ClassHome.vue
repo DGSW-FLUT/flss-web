@@ -105,7 +105,7 @@ export default {
   methods: {
     okNotice() {
       this.$http
-        .post("http://www.flss.kr/api/notice/addNotice", {
+        .post("http://flss.kr/api/notice/addNotice", {
           cid: this.$store.getters.getThisClass.cid,
           notice: this.newNotice
         })
