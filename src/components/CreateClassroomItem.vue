@@ -3,8 +3,8 @@
     <b-card header="새 학급 만들기"
             tag="article"
             class="mb-2">
-      <p class="card-text">학생과 함께하는, 새로운 학급을 지금 만들어 보세요.</p>
-      <b-button variant="success" v-b-modal.modalPrevent>+</b-button>
+      <p class="card-text">클래스팅에서 학급을 생성하여 FLSS을 이용해보세요</p>
+      <b-button variant="success" href="https://www.classting.com/" target="_blank">클래스팅으로</b-button>
     </b-card>
   </div>
 </template>

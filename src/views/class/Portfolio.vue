@@ -28,7 +28,21 @@
                     <pre>{{ post.Content }}</pre>
                   </p>
                 </b-card-body>
-                <b-card-footer>{{ post.UploadTime }}</b-card-footer>
+                <b-card-footer>
+                  {{ post.UploadTime }}
+                  <font-awesome-icon v-if="!isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
+                  <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" />
+                  <div v-if="isComment">
+                    <b-form-textarea
+                          v-model="newComment"
+                          style="resize:none"
+                          class="mt-5"
+                          placeholder="댓글을 입력해주세요"
+                          rows="6" />
+                    <b-button class="float-right" variant="success" @click="uploadComment">작성</b-button>
+                    <comment v-for="(comment, i) in comments" :key="i" :comment="comment"></comment>
+                  </div>
+                </b-card-footer>
             </b-card>
             <!--<b-card style="cursor:pointer"
                     :header="file.text"
@@ -109,6 +123,8 @@
 <script>
 import PortfolioItem from "@/components/PortfolioItem";
 import html2canvas from "html2canvas";
+import Comment from "@/components/Comment";
+
 // Use JSPDF
 import jsPDF from "jspdf";
 export default {
@@ -129,7 +145,12 @@ export default {
       title: "",
       posts: [],
       currentPage: "",
-      isPortfolio: false
+      isPortfolio: false,
+      isComment: false,
+      newComment: "",
+      comments: [
+        { Name: "박태형", Content: "테스트", Date: "2018-10-11"}
+      ]
     };
   },
   computed: {
@@ -174,6 +195,9 @@ export default {
           this.portfolios = [];
           console.log(err.message);
         });
+    },
+    clickComment() {
+      this.isComment = !this.isComment;
     },
     createPDF() {
       switch (this.isValidInput) {
@@ -327,6 +351,10 @@ export default {
           console.log(err.message);
         });
     },
+    uploadComment() {
+      this.newComment = "";
+      alert("댓글이 작성되었습니다");
+    },
     changeReadOnlyToTeacher(i) {
       let data = {
         pid: this.posts[i].Pid,
@@ -412,13 +440,17 @@ export default {
     });
   },
   components: {
-    PortfolioItem
+    PortfolioItem,
+    Comment
   }
 };
 </script>
 
 <style lang="scss">
-.opinion-readonly {
-  background-color: white !important;
-}
+  .opinion-readonly {
+    background-color: white !important;
+  }
+  .dropdown {
+    cursor: pointer;
+  }
 </style>

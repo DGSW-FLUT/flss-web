@@ -97,7 +97,7 @@
       </b-row>
       <b-row>
         <b-col>
-            <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">Next</b-button>
+            <b-button style="float:right; margin-top:20%;" size="lg" variant="success" @click="next()">다음으로</b-button>
         </b-col>
       </b-row>
       <b-modal ref="progress" hide-footer hide-header no-close-on-backdrop>
@@ -145,7 +145,7 @@
         </b-col>
       </b-row>
       <router-link to="/class1">
-          <b-button style="float:right; margin-top:20%;" size="lg" variant="success">Upload!</b-button>
+          <b-button style="float:right; margin-top:20%;" size="lg" variant="success">업로드하기</b-button>
       </router-link>
     </b-container>
   </div>
@@ -226,7 +226,6 @@ export default {
       }
     },
     changeToEmbed() {
-      console.log("11111");
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
       let match = this.link.match(regExp);
 

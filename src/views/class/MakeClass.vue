@@ -5,8 +5,8 @@
         <b-col cols="6" >
           <div class="div1 border no-scrollbar" style="max-width:100%">
             <label for="inputLive" class="mt-3">수업 제목</label>
-            <b-button v-if="!did" variant="success" size="sm" class="float-right mt-3" @click="makeClass()">Make</b-button>
-            <b-button v-if="did" variant="primary" size="sm" class="float-right mt-3" @click="completeMakeClass()">Upload</b-button>
+            <b-button v-if="!did" variant="success" size="sm" class="float-right mt-3" @click="makeClass()">만들기</b-button>
+            <b-button v-if="did" variant="primary" size="sm" class="float-right mt-3" @click="completeMakeClass()">업로드하기</b-button>
             <b-button  variant="warning" size="sm" class="float-right mt-3 mr-3" v-b-modal.info>사용법</b-button>
             <b-modal id="info" title="사용법">
               <p>

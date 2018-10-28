@@ -21,15 +21,31 @@
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
                   {{ post.FileName }}
                 </div>
-                <img class="post-name float-right mr-4 mb-2" src="./../../../public/Classting_Clogo-48.png" alt="클래스팅로고">
-                <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
+                <font-awesome-icon @click="copy()" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
+                <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="download" size="3x" />
+                <input class="d-none" id="fileLink" :value="`http://flss.kr/video/`+post.File">
               </div>
               <b-card-body>
                 <p class="card-text">
                   <pre>{{ post.Content }}</pre>
                 </p>
-              </b-card-body>
-              <b-card-footer>{{ post.UploadTime }}</b-card-footer>
+              </b-card-body>  
+              
+              <b-card-footer>
+                {{ post.UploadTime }}
+                <font-awesome-icon v-if="!isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
+                <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" />
+                <div v-if="isComment">
+                  <b-form-textarea
+                        v-model="newComment"
+                        style="resize:none"
+                        class="mt-5"
+                        placeholder="댓글을 입력해주세요"
+                        rows="6" />
+                  <b-button class="float-right" variant="success" @click="uploadComment">작성</b-button>
+                  <comment v-for="(comment, i) in comments" :key="i" :comment="comment"></comment>
+                </div>
+              </b-card-footer>
           </b-card>
           <!--<b-card style="cursor:pointer"
                   :header="file.text"
@@ -63,6 +79,8 @@
 </template>
 
 <script>
+import Comment from "@/components/Comment";
+
 export default {
   name: "library",
   data() {
@@ -71,8 +89,16 @@ export default {
       file: "",
       title: "",
       posts: [],
-      currentPage: ""
+      currentPage: "",
+      isComment: false,
+      newComment: "",
+      comments: [
+        { Name: "박태형", Content: "테스트", Date: "2018-10-11"}
+      ]
     };
+  },
+  components: {
+    Comment
   },
   computed: {
     getPosts() {
@@ -155,6 +181,25 @@ export default {
           console.log(err.message);
         });
     },
+    clickComment() {
+      this.isComment = !this.isComment;
+      console.log(this.isComment);
+    },
+    copy() {
+      const a = new Promise((resolve, reject) => {
+        const link = document.getElementById("fileLink");
+        link.select();
+        resolve(link);
+      })
+      .then(link => {
+        document.execCommand("copy");
+        alert("복사되었습니다 "+ link.value);
+      })
+    },
+    uploadComment() {
+      this.newComment = "";
+      alert("댓글이 작성되었습니다");
+    },
     changeReadOnlyToStudent(i) {
       let data = {
         pid: this.posts[i].Pid,
@@ -205,5 +250,9 @@ export default {
 .post-name {
   cursor: pointer;
   display: inline-block;
+}
+
+.dropdown {
+  cursor: pointer;
 }
 </style>

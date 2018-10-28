@@ -4,10 +4,19 @@
       <b-card 
             tag="article"
               class="mt-3 mb-2">
-        <h3>{{ this.$store.getters.getLesson.LessonName }}</h3>
-        <p class="card-text">
-          {{ this.$store.getters.getLesson.Explain }}
-        </p>              
+        <b-row>
+          <b-col>
+            <h3>{{ this.$store.getters.getLesson.LessonName }}</h3>
+          </b-col>
+          <b-col>
+          </b-col>
+          <b-col>
+            <font-awesome-icon @click="qrcodeGenerate()" title="QR코드 만들기" class="py-2 float-right mr-5" id="qrcode" fas icon="qrcode" size="4x"/><br>
+          </b-col>
+        </b-row>
+            <p class="card-text">
+              {{ this.$store.getters.getLesson.Explain }}
+            </p>              
         <embed  v-if="this.$store.getters.getLesson.File"
                :src="'http://flss.kr/video/'+this.$store.getters.getLesson.File" controls allowfullscreen
                 width="1000"
@@ -88,6 +97,13 @@ export default {
             return;
           }
         });
+    },
+    qrcodeGenerate() {
+      // if(this.$store.getters.getLesson.File) {
+      //   'http://flss.kr/video/'+this.$store.getters.getLesson.File
+      // } else if(this.$store.getters.getLesson.Link) {
+
+      // }
     }
   },
   computed: {
@@ -106,5 +122,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+  #qrcode {
+    cursor: pointer;
+  }
 </style>

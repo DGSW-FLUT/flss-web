@@ -4,7 +4,7 @@
       <b-container>
         <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
         <router-link to="/"><b-navbar-brand>FLSS</b-navbar-brand></router-link>
-        <b-form-input size="sm" style="max-width:200px" class="mr-sm-2 ml-5" type="text" placeholder="Search"/>
+        <b-form-input size="sm" style="max-width:200px" class="mr-sm-2 ml-5" type="text" placeholder="검색"/>
         <b-collapse is-nav id="nav_text_collapse">
           <b-navbar-nav>
             <div v-for="(menu, i) in menus" :key="i">
@@ -18,7 +18,7 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-item @click="mypage()" class="mr-3">{{ userName + " " + role }}</b-nav-item>
             <b-nav-form>
-              <b-button variant="danger" @click="logout()">Log out</b-button>
+              <b-button variant="danger" @click="logout()">로그아웃</b-button>
             </b-nav-form>
           </b-navbar-nav>
         </b-collapse>

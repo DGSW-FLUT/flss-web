@@ -8,7 +8,7 @@
               <p class="card-text">
                 전통적으로 교실 수업 시간에 수행했던 활동이 교실 밖에서 일어나며, 교실 밖에서 행해진 활동을 교실 수업 시간에 수행하는 수업 방법
               </p>
-              <b-button href="#" variant="primary">More Info</b-button>
+              <b-button href="#" variant="primary">자세히 보기</b-button>
             </b-card>
           </div>
         </b-col>
@@ -27,7 +27,7 @@
               <p class="card-text">
                 {{ notice }}
               </p>
-              <b-button v-b-modal.modal variant="primary">Detail</b-button>
+              <b-button v-b-modal.modal variant="primary">변경하기</b-button>
               <b-modal id="modal" ref="modal" @shown="clearNotice" @ok="okNotice" title="공지사항 변경">
                 <b-form-textarea v-model="newNotice"
                                 style="resize:none"
@@ -46,22 +46,22 @@
         <b-col cols="3">
           <label for="inputLive">회원가입, 보상도구</label>
           <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">View details »</b-button>
+          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
         </b-col>
         <b-col cols="3">
           <label for="inputLive">수업 설계/영상제작</label>
           <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">View details »</b-button>
+          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
         </b-col>
         <b-col cols="3">
           <label for="inputLive">상호작용</label>
           <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">View details »</b-button>
+          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
         </b-col>
         <b-col cols="3">
           <label for="inputLive">회원가입, 보상도구</label>
           <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">View details »</b-button>
+          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
         </b-col>
       </b-row>
     </b-container>
