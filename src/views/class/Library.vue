@@ -5,7 +5,9 @@
         <b-col>
             <b-card no-body>
               <b-row class="m-4">
-                <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
+                <h4 slot="header" class="col-md-8">
+                  {{ post.Title }}
+                  </h4>
                 <div slot="header" class="col-md-4">
                   <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
                     <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
@@ -23,6 +25,7 @@
                 </div>
                 <font-awesome-icon @click="copy()" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
                 <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="download" size="3x" />
+                <span class="float-right">{{ post.UploadTime }} 에 작성됨.</span>
                 <input class="d-none" id="fileLink" :value="`http://flss.kr/video/`+post.File">
               </div>
               <b-card-body>
@@ -32,17 +35,19 @@
               </b-card-body>  
               
               <b-card-footer>
-                {{ post.UploadTime }}
-                <font-awesome-icon v-if="!isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
-                <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" />
-                <div v-if="isComment">
+                <b-input-group>
                   <b-form-textarea
                         v-model="newComment"
-                        style="resize:none"
-                        class="mt-5"
+                        style="resize:none;"
                         placeholder="댓글을 입력해주세요"
-                        rows="6" />
-                  <b-button class="float-right" variant="success" @click="uploadComment">작성</b-button>
+                        rows="1" />
+                  <b-button class="mr-3" variant="success" @click="uploadComment">작성</b-button>
+                  <font-awesome-icon v-if="!isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
+                  <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" /> 
+                </b-input-group>
+                
+                
+                <div v-if="isComment">
                   <comment v-for="(comment, i) in comments" :key="i" :comment="comment"></comment>
                 </div>
               </b-card-footer>
