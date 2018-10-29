@@ -11,6 +11,7 @@
           <b-col>
           </b-col>
           <b-col>
+            <b-button variant="danger" class="float-right" @click="remoteLesson">삭제</b-button>
             <font-awesome-icon @click="qrcodeGenerate()" title="QR코드 만들기" class="py-2 float-right mr-5" id="qrcode" fas icon="qrcode" size="4x"/><br>
           </b-col>
         </b-row>
@@ -97,6 +98,19 @@ export default {
             return;
           }
         });
+    },
+    remoteLesson() {
+      console.log(this.$store.getters.getLesson.Lno);
+      this.$http
+        .get("http://flss.kr/api/lesson/delete?lno=" + this.$store.getters.getLesson.Lno)
+        .then(res => {
+          console.log(res)
+          if (res.data == '1') {
+            this.$router.push({ path: "./classlist" });
+          } else {
+            alert("삭제에 실패하였습니다.")
+          }
+        })
     },
     qrcodeGenerate() {
       // if(this.$store.getters.getLesson.File) {
