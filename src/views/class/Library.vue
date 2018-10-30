@@ -81,7 +81,7 @@
     </b-container>
     <b-modal ref="showLinkModalRef" hide-footer title="파일 다운로드 링크">
       <b-input-group prepend="링크">
-        <b-form-input readonly v-model="currentFileLink" />
+        <b-form-input readonly id="fileLink" v-model="currentFileLink" />
         <b-input-group-append>
           <b-btn @click="copy(currentFileLink)"><font-awesome-icon far icon="copy" /></b-btn>
         </b-input-group-append>
@@ -199,12 +199,9 @@ export default {
       console.log(this.isComment);
     },
     copy(link) {
-      let t = window.document.createElement("textarea");
-      window.document.body.appendChild(t);
-      t.value = link;
+      let t = document.getElementById("fileLink");
       t.select();
-      window.document.execCommand('copy');
-      window.document.body.removeChild(t);
+      document.execCommand('copy');
       alert("복사되었습니다.");
     },
     showLink(link) {
