@@ -1,8 +1,9 @@
 <template>
   <div class="comment">
-     {{ comment.Name }} <br> 
-     {{ comment.Content }} <br>
-    {{ comment.Date }}
+    <b-card class="text-center border-radius mt-3" style="width:fit-content; text-align: left;">
+      {{ comment.Name }} : {{ comment.Content }} 
+    </b-card>
+    <span class="ml-5">{{ comment.Date }}</span>
   </div>
 </template>
 
@@ -18,5 +19,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+  .border-radius{
+    border-radius: 30px;
+  }
 </style>
