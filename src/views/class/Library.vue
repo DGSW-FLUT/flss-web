@@ -23,10 +23,9 @@
                   <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
                   {{ post.FileName }}
                 </div>
-                <font-awesome-icon @click="copy()" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
+                <font-awesome-icon @click="showLink(`http://flss.kr/video/${post.File}`)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
                 <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="download" size="3x" />
                 <span class="float-right">{{ post.UploadTime }} 에 작성됨.</span>
-                <input class="d-none" id="fileLink" :value="`http://flss.kr/video/`+post.File">
               </div>
               <b-card-body>
                 <p class="card-text">
@@ -80,6 +79,14 @@
       </b-row>
       <b-pagination-nav v-if="posts.length !== 0" base-url="#" :number-of-pages="Math.ceil(posts.length/5)" v-model="currentPage"/>
     </b-container>
+    <b-modal ref="showLinkModalRef" hide-footer title="파일 다운로드 링크">
+      <b-input-group prepend="링크">
+        <b-form-input readonly v-model="currentFileLink" />
+        <b-input-group-append>
+          <b-btn @click="copy(currentFileLink)"><font-awesome-icon far icon="copy" /></b-btn>
+        </b-input-group-append>
+      </b-input-group>
+    </b-modal>
   </div>
 </template>
 
@@ -99,7 +106,8 @@ export default {
       newComment: "",
       comments: [
         { Name: "박태형", Content: "테스트", Date: "2018-10-11"}
-      ]
+      ],
+      currentFileLink: ""
     };
   },
   components: {
@@ -190,16 +198,18 @@ export default {
       this.isComment = !this.isComment;
       console.log(this.isComment);
     },
-    copy() {
-      const a = new Promise((resolve, reject) => {
-        const link = document.getElementById("fileLink");
-        link.select();
-        resolve(link);
-      })
-      .then(link => {
-        document.execCommand("copy");
-        alert("복사되었습니다 "+ link.value);
-      })
+    copy(link) {
+      let t = window.document.createElement("textarea");
+      window.document.body.appendChild(t);
+      t.value = link;
+      t.select();
+      window.document.execCommand('copy');
+      window.document.body.removeChild(t);
+      alert("복사되었습니다.");
+    },
+    showLink(link) {
+      this.$refs.showLinkModalRef.show();
+      this.currentFileLink = link;
     },
     uploadComment() {
       this.newComment = "";
