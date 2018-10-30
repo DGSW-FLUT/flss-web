@@ -1,9 +1,9 @@
 <template>
   <div class="comment">
     <b-card class="text-center border-radius mt-3" style="width:fit-content; text-align: left;">
-      {{ comment.Name }} : {{ comment.Content }} 
+      {{ comment.Name }} : {{ comment.content }} 
     </b-card>
-    <span class="ml-5">{{ comment.Date }}</span>
+    <span class="ml-5">{{ comment.time }}</span>
   </div>
 </template>
 
