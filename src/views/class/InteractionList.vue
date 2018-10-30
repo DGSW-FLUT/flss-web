@@ -1,7 +1,9 @@
 <template>
   <div id="interaction-list">
-    <b-table class="mt-4" hover :items="Interactions" @row-clicked="interactionClickEvent">
-    </b-table>
+    <b-container>
+      <b-table class="mt-4" hover :items="InteractionLists" @row-clicked="interactionClickEvent">
+     </b-table>
+    </b-container>
   </div>
 </template>
 
@@ -9,12 +11,12 @@
 export default {
   data() {
     return {
-      Interactions: []
+      InteractionLists: []
     }
   },
   methods: {
     interactionClickEvent(record, index) {
-      this.$store.commit("setInteraction", this.Interactions[index]);
+      this.$store.commit("setInteraction", this.InteractionLists[index]);
       this.$router.push({ path: "./interactionDetail" });
     }
   },
@@ -23,6 +25,9 @@ export default {
     .get(`http://flss.kr/api/interaction/list?cid=${this.$store.getters.getThisClass.cid}`)
     .then(res => {
       console.log(res.data);
+      res.data.forEach(temp => {
+        this.InteractionLists.push({ "제목": temp.Topic});
+      })
     })
   }
 }
