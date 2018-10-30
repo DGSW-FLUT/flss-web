@@ -46,7 +46,6 @@
                   <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" /> 
                 </b-input-group>
                 
-                
                 <div v-if="isComment">
                   <comment v-for="(comment, index) in comments[i]" :key="index" :comment="comment"></comment>
                 </div>

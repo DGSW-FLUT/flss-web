@@ -20,8 +20,8 @@
                     <font-awesome-icon class="py-2" fas icon="paperclip" size="2x" />
                     {{ post.FileName }}
                   </div>
-                  <img class="post-name float-right mr-4 mb-2" src="./../../../public/Classting_Clogo-48.png" alt="클래스팅로고">
-                  <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
+                <font-awesome-icon @click="showLink(`http://flss.kr/video/${post.File}`)" class="post-name float-right py-2 mr-3" fas icon="link" size="3x" />
+                <font-awesome-icon @click="download(post.File,post.Name)" class="post-name float-right py-2 mr-3" fas icon="download" size="3x" />
                 </div>
                 <b-card-body>
                   <p class="card-text">
@@ -29,20 +29,21 @@
                   </p>
                 </b-card-body>
                 <b-card-footer>
-                  {{ post.UploadTime }}
-                  <font-awesome-icon v-if="!isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
-                  <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" />
-                  <div v-if="isComment">
-                    <b-form-textarea
-                          v-model="newComment[i]"
-                          style="resize:none"
-                          class="mt-5"
-                          placeholder="댓글을 입력해주세요"
-                          rows="6" />
-                    <b-button class="float-right" variant="success" @click="uploadComment">작성</b-button>
-                    <comment v-for="(comment, index) in comments[i]" :key="index" :comment="comment"></comment>
-                  </div>
-                </b-card-footer>
+                <b-input-group>
+                  <b-form-textarea
+                        v-model="newComment[i]"
+                        style="resize:none;"
+                        placeholder="댓글을 입력해주세요"
+                        rows="1" />
+                  <b-button class="mr-3" variant="success" @click="uploadComment(i)">작성</b-button>
+                  <font-awesome-icon v-if="!isComment" @click="loadComments(i)" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
+                  <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" /> 
+                </b-input-group>
+                
+                <div v-if="isComment">
+                  <comment v-for="(comment, index) in comments[i]" :key="index" :comment="comment"></comment>
+                </div>
+              </b-card-footer>
             </b-card>
             <!--<b-card style="cursor:pointer"
                     :header="file.text"
@@ -117,6 +118,14 @@
               </b-tab>
             </b-tabs>
         </b-container>
+        <b-modal ref="showLinkModalRef" hide-footer title="파일 다운로드 링크">
+          <b-input-group prepend="링크">
+            <b-form-input readonly id="fileLink" v-model="currentFileLink" />
+            <b-input-group-append>
+              <b-btn @click="copy(currentFileLink)"><font-awesome-icon far icon="copy" /></b-btn>
+            </b-input-group-append>
+          </b-input-group>
+        </b-modal>
     </div>
 </template>
 
@@ -149,6 +158,7 @@ export default {
       isComment: false,
       newComment: [],
       comments: [[]],
+      currentFileLink:""
     };
   },
   computed: {
@@ -194,6 +204,10 @@ export default {
           console.log(err.message);
         });
     },
+    showLink(link) {
+      this.$refs.showLinkModalRef.show();
+      this.currentFileLink = link;
+    },
     uploadComment(i) {
       console.log("test " + this.newComment[i]);
       if(!this.newComment[i]) {
@@ -203,7 +217,7 @@ export default {
       this.$http
       .post("http://flss.kr/api/comment/addComment",{
         uid: this.$store.getters.getUserInfo.uid,
-        type: 1,
+        type: 0,
         post: this.posts[i].Pid,
         content: this.newComment[i]
       })
@@ -218,14 +232,17 @@ export default {
         alert("작성에 실패하였습니다");
       })
     },
+    copy(link) {
+      let t = document.getElementById("fileLink");
+      t.select();
+      document.execCommand('copy');
+      alert("복사되었습니다.");
+    },
     loadComments(i) {
-      console.log("이상허다 : "+i);
       this.$http
-      .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
+      .get(`http://flss.kr//api/comment/showComment?type=0&post=${this.posts[i].Pid}`)
       .then(res => {
         this.comments[i] = res.data;
-        console.log(res.data);
-        console.log(this.comments[i]);
         this.isComment = !this.isComment;
       })
     },
@@ -484,6 +501,9 @@ export default {
     background-color: white !important;
   }
   .dropdown {
+    cursor: pointer;
+  }
+  .post-name {
     cursor: pointer;
   }
 </style>
