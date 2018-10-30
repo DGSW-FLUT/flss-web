@@ -1,15 +1,15 @@
 <template>
     <div class="interaction-item">
       <b-card no-body>
-        <b-card-header v-if="InteractionItem.topic">
-          {{ InteractionItem.topic }}
+        <b-card-header v-if="InteractionItem.Topic">
+          {{ InteractionItem.Topic }}
         </b-card-header>
-        <b-card-body v-if="InteractionItem.content">
-          {{ InteractionItem.content }}
+        <b-card-body v-if="InteractionItem.Content">
+          {{ InteractionItem.Content }}
         </b-card-body>
         <b-card-footer v-if="InteractionItem.type !== 1">
-          <a :href="InteractionItem.link" v-if="InteractionItem.link">
-            <link-prevue :url="InteractionItem.link">
+          <a :href="InteractionItem.Link" v-if="InteractionItem.Link">
+            <link-prevue :url="InteractionItem.Link">
               <template slot-scope="props">
                 <b-card :title="props.title"
                       :img-src="props.img"
@@ -24,9 +24,9 @@
               </template>
             </link-prevue>
           </a>
-          <div v-else-if="InteractionItem.file" @click="downloadFile" class="interactionFile">
+          <div v-else-if="InteractionItem.File" @click="downloadFile" class="interactionFile">
             <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
-            {{ InteractionItem.file.realFile }} 
+            {{ InteractionItem.File.realFile }} 
           </div>
         </b-card-footer>
       </b-card>

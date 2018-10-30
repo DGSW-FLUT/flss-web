@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     lessonNum: "",
     lesson: [],
     quiz: [],
+    interaction: {},
     type: "",
     thisLesson: ""
   },
@@ -56,6 +57,9 @@ const store = new Vuex.Store({
     },
     getThisLesson(state) {
       return state.thisLesson;
+    },
+    getInteraction(state) {
+      return state.interaction;
     }
   },
   mutations: {
@@ -82,6 +86,9 @@ const store = new Vuex.Store({
     },
     setLesson(state, payload) {
       return (state.lesson = payload);
+    },
+    setInteraction(state, payload) {
+      return (state.interaction = payload);
     },
     setType(state, payload) {
       return (state.type = payload);
