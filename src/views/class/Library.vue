@@ -36,18 +36,18 @@
               <b-card-footer>
                 <b-input-group>
                   <b-form-textarea
-                        v-model="newComment"
+                        v-model="newComment[i]"
                         style="resize:none;"
                         placeholder="댓글을 입력해주세요"
                         rows="1" />
-                  <b-button class="mr-3" variant="success" @click="uploadComment">작성</b-button>
-                  <font-awesome-icon v-if="!isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
+                  <b-button class="mr-3" variant="success" @click="uploadComment(i)">작성</b-button>
+                  <font-awesome-icon v-if="!isComment" @click="loadComments(i)" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
                   <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" /> 
                 </b-input-group>
                 
                 
                 <div v-if="isComment">
-                  <comment v-for="(comment, i) in comments" :key="i" :comment="comment"></comment>
+                  <comment v-for="(comment, index) in comments[i]" :key="index" :comment="comment"></comment>
                 </div>
               </b-card-footer>
           </b-card>
@@ -103,10 +103,8 @@ export default {
       posts: [],
       currentPage: "",
       isComment: false,
-      newComment: "",
-      comments: [
-        { Name: "박태형", Content: "테스트", Date: "2018-10-11"}
-      ],
+      newComment: [],
+      comments: [[]],
       currentFileLink: ""
     };
   },
@@ -154,6 +152,17 @@ export default {
     clear() {
       this.text = "";
       this.$refs.fileRef.reset();
+    },
+    loadComments(i) {
+      console.log("이상허다 : "+i);
+      this.$http
+      .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
+      .then(res => {
+        this.comments[i] = res.data;
+        console.log(res.data);
+        console.log(this.comments[i]);
+        this.isComment = !this.isComment;
+      })
     },
     addFile() {
       let newFile = new FormData();
@@ -208,9 +217,29 @@ export default {
       this.$refs.showLinkModalRef.show();
       this.currentFileLink = link;
     },
-    uploadComment() {
-      this.newComment = "";
-      alert("댓글이 작성되었습니다");
+    uploadComment(i) {
+      console.log("test " + this.newComment[i]);
+      if(!this.newComment[i]) {
+        alert("댓글을 입력해주세요");
+        return;
+      }
+      this.$http
+      .post("http://flss.kr/api/comment/addComment",{
+        uid: this.$store.getters.getUserInfo.uid,
+        type: 1,
+        post: this.posts[i].Pid,
+        content: this.newComment[i]
+      })
+      .then(res => {
+        this.comments[i].push(this.newComment[i]);
+        this.newComment[i] = "";
+        alert("댓글이 작성되었습니다");
+      })
+      .catch(err => {
+        console.log(err.message);
+        this.newComment[i] = "";
+        alert("작성에 실패하였습니다");
+      })
     },
     changeReadOnlyToStudent(i) {
       let data = {

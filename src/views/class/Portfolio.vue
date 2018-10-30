@@ -34,13 +34,13 @@
                   <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" />
                   <div v-if="isComment">
                     <b-form-textarea
-                          v-model="newComment"
+                          v-model="newComment[i]"
                           style="resize:none"
                           class="mt-5"
                           placeholder="댓글을 입력해주세요"
                           rows="6" />
                     <b-button class="float-right" variant="success" @click="uploadComment">작성</b-button>
-                    <comment v-for="(comment, i) in comments" :key="i" :comment="comment"></comment>
+                    <comment v-for="(comment, index) in comments[i]" :key="index" :comment="comment"></comment>
                   </div>
                 </b-card-footer>
             </b-card>
@@ -147,10 +147,8 @@ export default {
       currentPage: "",
       isPortfolio: false,
       isComment: false,
-      newComment: "",
-      comments: [
-        { Name: "박태형", Content: "테스트", Date: "2018-10-11"}
-      ]
+      newComment: [],
+      comments: [[]],
     };
   },
   computed: {
@@ -195,6 +193,41 @@ export default {
           this.portfolios = [];
           console.log(err.message);
         });
+    },
+    uploadComment(i) {
+      console.log("test " + this.newComment[i]);
+      if(!this.newComment[i]) {
+        alert("댓글을 입력해주세요");
+        return;
+      }
+      this.$http
+      .post("http://flss.kr/api/comment/addComment",{
+        uid: this.$store.getters.getUserInfo.uid,
+        type: 1,
+        post: this.posts[i].Pid,
+        content: this.newComment[i]
+      })
+      .then(res => {
+        this.comments[i].push(this.newComment[i]);
+        this.newComment[i] = "";
+        alert("댓글이 작성되었습니다");
+      })
+      .catch(err => {
+        console.log(err.message);
+        this.newComment[i] = "";
+        alert("작성에 실패하였습니다");
+      })
+    },
+    loadComments(i) {
+      console.log("이상허다 : "+i);
+      this.$http
+      .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
+      .then(res => {
+        this.comments[i] = res.data;
+        console.log(res.data);
+        console.log(this.comments[i]);
+        this.isComment = !this.isComment;
+      })
     },
     clickComment() {
       this.isComment = !this.isComment;
