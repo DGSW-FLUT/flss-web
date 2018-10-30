@@ -9,6 +9,7 @@
                   {{ post.Title }}
                   </h4>
                 <div slot="header" class="col-md-4">
+                  <b-button class="ml-5" style="float:right;" variant="danger" @click="del(i)">삭제</b-button>
                   <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
                     <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
                     <b-dropdown-item @click="changeReadOnlyToTeacher(i)">선생님만</b-dropdown-item>
@@ -282,6 +283,16 @@ export default {
         .catch(err => {
           console.log(err.message);
         });
+    },
+    del(i){
+      console.log(this.getPosts[i].Pid);
+      this.$http.get(`http://flss.kr/api/data/deletePost?pid=${this.getPosts[i].Pid}`)
+      .then(res =>{
+        console.log(res.data);
+        if(res.data === 1){
+          location.reload();
+        }
+      })
     }
   }
 };
