@@ -9,7 +9,7 @@
               <b-form-input id="newInteractionLink" v-model.trim="newInteraction.Link" type="text" placeholder="E.g. https://youtube.com" :state="linkState" />
             </b-form-group>
           </b-modal>
-          <interaction-item class="col-md-4 col-sm-5 mb-4" v-for="(Interaction, i) in Interactions" :key="i" :InteractionItem="Interaction" />
+          <interaction-item class="col-md-4 col-sm-5 mb-4" v-for="(Interaction, i) in Interactions" :key="i" :InteractionItem="Interaction" :idx="i"/>
           <div class="col-md-4 col-sm-5 mb-4">
             <b-card v-if="this.isAdding === true" no-body class="mb-3">
               <b-card-header>
@@ -110,13 +110,14 @@ export default {
         const fdata = new FormData();
         fdata.append("file", this.newInteraction.File);
         this.$http
-          .post(`http://flss.kr/api/interaction/add`, fdata)
+          .post(`http://flss.kr/api/interaction/addFile`, fdata)
           .then(data => {
             console.log(data);
             if (data.status == 200) {
-              this.newInteraction.realFile = data.data;
-              this.Interactions.push(this.newInteraction);
+              this.newInteraction.file = data.data;
               client.emit("upload", this.newInteraction);
+              this.newInteraction.isme = true
+              this.Interactions.push(this.newInteraction);
               this.newInteraction = {};
               this.isAdding = false;
               this.isAttach = false;
@@ -126,9 +127,10 @@ export default {
             }
           });
       } else {
-        this.Interactions.push(this.newInteraction);
         console.log(JSON.stringify(this.newInteraction));
         client.emit("upload", this.newInteraction);
+        this.newInteraction.isme = true
+        this.Interactions.push(this.newInteraction);
         this.newInteraction = {};
         this.isAdding = false;
         this.isAttach = false;
@@ -158,13 +160,21 @@ export default {
     addFile() {
       this.isAttach = true;
       this.newInteraction.type = 3;
+    },
+    deleteItem(idx) {
+      console.log(idx)
+      client.emit("delete", idx, ({success}) => {
+        if (success)
+          this.Interactions.splice(idx, 1)
+      })
+
     }
   },
   mounted() {
-    console.log("mounted");
+    console.log("mounted", this.$store.getters.getInteraction.Aid);
     client.emit(
       "join",
-      { name: this.$store.getters.getThisClass.cid },
+      { name: this.$store.getters.getInteraction.Aid },
       data => {
         this.Interactions = data;
       }
@@ -176,6 +186,10 @@ export default {
     client.on("deleteAll", data => {
       this.remove();
     });
+    client.on('delete', data => {
+      this.Interactions.splice(data, 1)
+    })
+    this.$vuevent.on('itemDelete', this.deleteItem)
   },
   destroyed() {},
   components: {

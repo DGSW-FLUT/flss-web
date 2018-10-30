@@ -1,8 +1,9 @@
 <template>
     <div class="interaction-item">
       <b-card no-body>
-        <b-card-header v-if="InteractionItem.Topic">
+        <b-card-header>
           {{ InteractionItem.Topic }}
+          <b-button class="float-right" variant="danger" size="sm" v-if="InteractionItem.isme" @click="deleteItem">삭제</b-button>
         </b-card-header>
         <b-card-body v-if="InteractionItem.Content">
           {{ InteractionItem.Content }}
@@ -24,9 +25,12 @@
               </template>
             </link-prevue>
           </a>
-          <div v-else-if="InteractionItem.File" @click="downloadFile" class="interactionFile">
-            <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
-            {{ InteractionItem.File.realFile }} 
+          <div v-else-if="InteractionItem.file" @click="downloadFile" class="interactionFile">
+            <div v-if="!imgMode">
+              <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
+              {{ InteractionItem.file.substr(14) }} 
+            </div>
+            <b-img :src="'http://flss.kr/interactionItem/' + InteractionItem.file" class="w-100" v-if="imgMode" @error="imgMode = false"/>
           </div>
         </b-card-footer>
       </b-card>
@@ -38,7 +42,12 @@ import LinkPrevue from "link-prevue";
 
 export default {
   name: "interaction-item",
-  props: ["InteractionItem"],
+  data () {
+    return {
+      imgMode: true
+    }
+  },
+  props: ["InteractionItem", "idx"],
   components: {
     LinkPrevue
   },
@@ -54,10 +63,14 @@ export default {
     downloadFile() {
       console.log(this.InteractionItem.file);
       this.downloadURI(
-        "http://flss.kr/interactionItem/" + this.InteractionItem.realFile,
-        this.InteractionItem.realFile
+        "http://flss.kr/interactionItem/" + this.InteractionItem.file,
+        this.InteractionItem.file.substr(14)
       );
       // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
+    },
+    deleteItem() {
+      this.$vuevent.emit('itemDelete', this.idx)
+      console.log('send', this.idx)
     }
   }
 };

@@ -45,12 +45,12 @@ const router = new Router({
             {
               path: "interaction",
               name: "interaction",
-              component: () => import("./views/class/Interaction")
+              component: () => import("./views/class/InteractionList")
             },
             {
               path: "interactiondetail",
               name: "interactiondetail",
-              component: () => import("./views/class/InteractionDetail")
+              component: () => import("./views/class/Interaction")
             },
             {
               path: "interactionlist",
