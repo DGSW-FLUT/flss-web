@@ -28,7 +28,7 @@
           <div v-else-if="InteractionItem.file" @click="downloadFile" class="interactionFile">
             <div v-if="!imgMode">
               <font-awesome-icon class="py-2" fas icon="paperclip" size="4x"/><br>
-              {{ InteractionItem.file.substr(14) }} 
+              {{ InteractionItem.file.substr(13) }} 
             </div>
             <b-img :src="'http://flss.kr/interactionItem/' + InteractionItem.file" class="w-100" v-if="imgMode" @error="imgMode = false"/>
           </div>
@@ -64,7 +64,7 @@ export default {
       console.log(this.InteractionItem.file);
       this.downloadURI(
         "http://flss.kr/interactionItem/" + this.InteractionItem.file,
-        this.InteractionItem.file.substr(14)
+        this.InteractionItem.file.substr(13)
       );
       // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
     },
