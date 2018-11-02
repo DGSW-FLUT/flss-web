@@ -10,10 +10,11 @@
                   </h4>
                 <div slot="header" class="col-md-4">
                   <b-button class="ml-5" style="float:right;" variant="danger" @click="del(i)">삭제</b-button>
-                  <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'student' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
+                  <b-button v-if="isTeacherVuex" variant="primary" class="float-right" @click="changeReadOnlyToStudent(i)">학습게시판으로</b-button>
+                  <!-- <b-dropdown v-if="isTeacherVuex" :text="posts[i].ReadOnly === 'teacher' ? '전체보기' : '선생님만'" class="float-right" variant="primary">
                     <b-dropdown-item @click="changeReadOnlyToStudent(i)">전체보기</b-dropdown-item>
                     <b-dropdown-item @click="changeReadOnlyToTeacher(i)">선생님만</b-dropdown-item>
-                  </b-dropdown>
+                  </b-dropdown> -->
                 </div>
               </b-row>
               <div class="ml-4 mb-3">
@@ -131,8 +132,7 @@ export default {
       .get(
         "http://flss.kr/api/data/getPostList?cid=" +
           this.$store.getters.getThisClass.cid +
-          "&readOnly=" +
-          this.$store.getters.getUserInfo.role
+          "&readOnly=teacher"
       )
       .then(res => {
         this.posts = res.data;
@@ -242,42 +242,44 @@ export default {
       })
     },
     changeReadOnlyToStudent(i) {
-      let data = {
-        pid: this.posts[i].Pid,
-        readOnly: "student"
-      };
 
       if (this.posts[i].ReadOnly === "student") {
         console.log("already student");
         return;
       }
 
+      let data = {
+        pid: this.posts[i].Pid,
+        readOnly: "student"
+      };
+
       this.$http
         .post("http://flss.kr/api/data/changeReadOnly", data)
         .then(res => {
-          this.posts[i].ReadOnly = "student";
-          console.log("Change ReadOnly Success");
+          this.posts.splice(i, 1);
+          console.log("Change ReadOnly Success : "+this.posts[i].ReadOnly);
         })
         .catch(err => {
           console.log(err.message);
         });
     },
     changeReadOnlyToTeacher(i) {
-      let data = {
-        pid: this.posts[i].Pid,
-        readOnly: "teacher"
-      };
 
       if (this.posts[i].ReadOnly === "teacher") {
         console.log("already teacher");
         return;
       }
 
+      let data = {
+        pid: this.posts[i].Pid,
+        readOnly: "teacher"
+      };
+
       this.$http
         .post("http://flss.kr/api/data/changeReadOnly", data)
         .then(res => {
           this.posts[i].ReadOnly = "teacher";
-          console.log("Change ReadOnly Success");
+          console.log("Change ReadOnly Success : "+ this.posts[i].ReadOnly);
         })
         .catch(err => {
           console.log(err.message);
