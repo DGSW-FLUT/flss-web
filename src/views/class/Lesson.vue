@@ -134,7 +134,6 @@ export default {
       let match = this.$store.getters.getLesson.Link.match(regExp);
 
       if (match && match[2].length == 11) {
-        console.log(`InsertLink : ${this.$store.getters.getLesson.Link}    change Link : http://youtube.com/embed/${match[2]}`)
         return `http://youtube.com/embed/${match[2]}`;
       } else {
         return 'error';
@@ -145,7 +144,6 @@ export default {
       let match = this.$store.getters.getLesson.Link.match(regExp);
 
       if (match && match[2].length == 11) {
-        console.log(`InsertLink : ${this.$store.getters.getLesson.Link}    change Link : http://youtube.com/embed/${match[2]}`)
         return `http://youtube.com/watch/v=${match[2]}`;
       } else {
         return 'error';
@@ -153,7 +151,7 @@ export default {
     },
     qrcodeResource() {
       if (this.$store.getters.getLesson.File) {
-        return this.$store.getters.getLesson.File ;
+        return `http://flss.kr/video/${this.$store.getters.getLesson.File}` ;
       } else if(this.$store.getters.getLesson.Link) {
         return this.changeToWatch;
       }
