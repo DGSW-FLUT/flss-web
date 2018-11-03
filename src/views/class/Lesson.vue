@@ -144,7 +144,7 @@ export default {
       let match = this.$store.getters.getLesson.Link.match(regExp);
 
       if (match && match[2].length == 11) {
-        return `http://youtube.com/watch/v=${match[2]}`;
+        return `http://youtube.com/watch?v=${match[2]}`;
       } else {
         return 'error';
       }
