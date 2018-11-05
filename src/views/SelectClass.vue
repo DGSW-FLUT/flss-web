@@ -38,26 +38,7 @@ export default {
   },
   data() {
     return {
-      classrooms: [
-        {
-          name: "북삼초 1학년 1반"
-        },
-        {
-          name: "대구소프트웨어고등학교 탐구반"
-        },
-        {
-          name: "FLUT"
-        },
-        {
-          name: "DARKROOM"
-        },
-        {
-          name: "클래스 5"
-        },
-        {
-          name: "클래스 6"
-        }
-      ],
+      classrooms: [],
       classes: [],
       newClassroom: {}
     };

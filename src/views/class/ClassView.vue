@@ -32,43 +32,43 @@ export default {
       //선생용 메뉴
       teacherMenu: [
         {
-          link: "/class1",
+          link: "/class",
           text: "Home"
         },
         {
-          link: "/class1/select",
+          link: "/class/select",
           text: "사전영상/평가"
         },
         {
-          link: "/class1/classlist",
+          link: "/class/classlist",
           text: "사전영상/평가 목록"
         },
         {
-          link: "/class1/makeclass",
+          link: "/class/makeclass",
           text: "수업 설계"
         },
         {
-          link: "/class1/design-list",
+          link: "/class/design-list",
           text: "수업설계 목록"
         },
         {
-          link: "/class1/library",
+          link: "/class/library",
           text: "교사 자료실"
         },
         {
-          link: "/class1/interaction",
+          link: "/class/interaction",
           text: "상호 작용 도구"
         },
         {
-          link: "/class1/prize",
+          link: "/class/prize",
           text: "보상 도구"
         },
         {
-          link: "/class1/evaluation",
+          link: "/class/evaluation",
           text: "평가 도구"
         },
         {
-          link: "/class1/portfolio",
+          link: "/class/portfolio",
           text: "학습게시판"
         }
       ],

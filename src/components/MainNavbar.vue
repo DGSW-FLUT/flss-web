@@ -4,10 +4,12 @@
       <b-container>
         <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
         <router-link to="/"><b-navbar-brand>FLSS</b-navbar-brand></router-link>
-        <b-input-group size="sm" style="max-width: 200px">
-          <b-form-input v-model="searchName" placeholder="검색"></b-form-input>
-          <b-button slot="append" variant="success" @click="search">검색</b-button>
-        </b-input-group>
+        <div v-if="routeName !== 'select-class'">
+          <b-input-group size="sm" style="max-width: 200px">
+            <b-form-input v-model="searchName" placeholder="검색"></b-form-input>
+            <b-button slot="append" variant="success" @click="search">검색</b-button>
+          </b-input-group>
+        </div>
         <b-collapse is-nav id="nav_text_collapse">
           <b-navbar-nav>
             <div v-for="(menu, i) in menus" :key="i">
@@ -40,6 +42,11 @@ export default {
       role: "",
       searchName: ""
     };
+  },
+  computed: {
+    routeName() {
+      return this.$route.name;
+    }
   },
   created() {
     switch (this.$store.getters.getUserInfo.role) {
@@ -74,7 +81,7 @@ export default {
       this.$vuevent.emit("logout");
     },
     search() {
-      this.$router.push({ path: `./search/${searchName}` });
+      this.$router.push({ path: "/class/search" });
     }
   }
 };
