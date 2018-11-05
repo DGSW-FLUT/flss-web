@@ -74,7 +74,7 @@ export default {
       this.$vuevent.emit("logout");
     },
     search() {
-      this.$router.push({ path: "./search" });
+      this.$router.push({ path: `./search/${searchName}` });
     }
   }
 };

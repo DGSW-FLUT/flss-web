@@ -217,7 +217,7 @@ export default {
       this.$http
       .post("http://flss.kr/api/comment/addComment",{
         uid: this.$store.getters.getUserInfo.uid,
-        type: 0,
+        type: 1,
         post: this.posts[i].Pid,
         content: this.newComment[i]
       })
@@ -240,9 +240,10 @@ export default {
     },
     loadComments(i) {
       this.$http
-      .get(`http://flss.kr//api/comment/showComment?type=0&post=${this.posts[i].Pid}`)
+      .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
       .then(res => {
         this.comments[i] = res.data;
+        console.log(res.data);
         this.isComment = !this.isComment;
       })
     },
@@ -400,10 +401,6 @@ export default {
         .catch(err => {
           console.log(err.message);
         });
-    },
-    uploadComment() {
-      this.newComment = "";
-      alert("댓글이 작성되었습니다");
     },
     changeReadOnlyToTeacher(i) {
       let data = {

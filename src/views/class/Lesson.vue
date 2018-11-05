@@ -38,6 +38,22 @@
             </div>
             <b-button variant="primary" v-if="this.$store.getters.getUserInfo.role === 'student'" @click="checkAnswer()">제출</b-button> 
         </b-card>
+          <b-card-footer>
+                  <b-input-group>
+                    <b-form-textarea
+                          v-model="newComment"
+                          style="resize:none;"
+                          placeholder="댓글을 입력해주세요"
+                          rows="1" />
+                    <b-button class="mr-3" variant="success" @click="uploadComment">작성</b-button>
+                    <font-awesome-icon v-if="!isComment" @click="loadComments" class="dropdown py-1 float-right" fas icon="caret-down" size="2x" />
+                    <font-awesome-icon v-else-if="isComment" @click="clickComment" class="dropdown py-1 float-right" fas icon="caret-up" size="2x" /> 
+                  </b-input-group>
+                  
+                  <div v-if="isComment">
+                    <comment v-for="(comment, index) in comments" :key="index" :comment="comment"></comment>
+                  </div>
+          </b-card-footer>
       </b-card>
     </b-container>
   </div>
@@ -45,6 +61,7 @@
 
 <script>
 import QrcodeVue from 'qrcode.vue';
+import Comment from "@/components/Comment";
 
 export default {
   name: "lesson",
@@ -54,7 +71,10 @@ export default {
       quizTitle: "",
       title: "",
       answer: "",
-      userAnswer: ""
+      userAnswer: "",
+      newComment: "",
+      isComment: false,
+      comments: []
     };
   },
   async created() {
@@ -104,6 +124,18 @@ export default {
           }
         });
     },
+    clickComment() {
+      this.isComment = !this.isComment;
+    },
+    loadComments() {
+      this.$http
+      .get(`http://flss.kr//api/comment/showComment?type=0&post=${this.$store.getters.getLesson.Lno}`)
+      .then(res => {
+        this.comments = res.data;
+        console.log(this.comments);
+        this.isComment = !this.isComment;
+      })
+    },
     remoteLesson() {
       console.log(this.$store.getters.getLesson.Lno);
       this.$http
@@ -123,10 +155,34 @@ export default {
       // } else if(this.$store.getters.getLesson.Link) {
 
       // }
+    },
+    uploadComment() {
+      if(!this.newComment) {
+        alert("댓글을 입력해주세요");
+        return;
+      }
+      this.$http
+      .post("http://flss.kr/api/comment/addComment",{
+        uid: this.$store.getters.getUserInfo.uid,
+        type: 0,
+        post: this.$store.getters.getLesson.Lno,
+        content: this.newComment
+      })
+      .then(res => {
+        this.comments.push(this.newComment);
+        this.newComment = "";
+        alert("댓글이 작성되었습니다");
+      })
+      .catch(err => {
+        console.log(err.message);
+        this.newComment = "";
+        alert("작성에 실패하였습니다");
+      })
     }
   },
   components: {
-    QrcodeVue
+    QrcodeVue,
+    Comment
   },
   computed: {
     changeToEmbed() {
