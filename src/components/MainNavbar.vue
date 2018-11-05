@@ -4,7 +4,10 @@
       <b-container>
         <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
         <router-link to="/"><b-navbar-brand>FLSS</b-navbar-brand></router-link>
-        <b-form-input size="sm" style="max-width:200px" class="mr-sm-2 ml-5" type="text" placeholder="검색"/>
+        <b-input-group size="sm" style="max-width: 200px">
+          <b-form-input v-model="searchName" placeholder="검색"></b-form-input>
+          <b-button slot="append" variant="success" @click="search">검색</b-button>
+        </b-input-group>
         <b-collapse is-nav id="nav_text_collapse">
           <b-navbar-nav>
             <div v-for="(menu, i) in menus" :key="i">
@@ -34,7 +37,8 @@ export default {
   data() {
     return {
       userName: "",
-      role: ""
+      role: "",
+      searchName: ""
     };
   },
   created() {
@@ -68,6 +72,9 @@ export default {
     logout() {
       this.$store.commit("LogOut");
       this.$vuevent.emit("logout");
+    },
+    search() {
+      this.$router.push({ path: "./search" });
     }
   }
 };

@@ -93,6 +93,11 @@ const router = new Router({
               component: () => import("./views/class/Prize")
             },
             {
+              path: "search",
+              name: "search",
+              component: () => import("./views/class/Search")
+            },
+            {
               path: "library",
               name: "library",
               component: () => import("./views/class/Library")
