@@ -1,7 +1,7 @@
 <template>
   <div id="search">
     <b-container>
-      <b-tabs>
+      <b-tabs class="mt-3">
         <b-tab title="교사 자료실" active class="table">
             
         </b-tab>
