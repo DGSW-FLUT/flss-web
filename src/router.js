@@ -28,7 +28,7 @@ const router = new Router({
           component: () => import("./views/SelectClass")
         },
         {
-          path: "class1",
+          path: "class",
           name: "class-view",
           component: () => import("./views/class/ClassView"),
           children: [
@@ -116,6 +116,11 @@ const router = new Router({
               path: "design-list",
               name: "designlist",
               component: () => import("./views/class/DesignClassList")
+            },
+            {
+              path: "search",
+              name: "search",
+              component: () => import("./views/class/Search")
             },
             {
               path: "*",
