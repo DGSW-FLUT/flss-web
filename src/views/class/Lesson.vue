@@ -10,9 +10,12 @@
           </b-col>
           <b-col>
           </b-col>
+          <b-modal id="qrcodeview" title="QR 코드" >
+            <qrcode-vue :value="qrcodeResource" size="300"></qrcode-vue>
+          </b-modal>
           <b-col>
             <b-button variant="danger" class="float-right" @click="remoteLesson">삭제</b-button>
-            <font-awesome-icon @click="qrcodeGenerate()" title="QR코드 만들기" class="py-2 float-right mr-5" id="qrcode" fas icon="qrcode" size="4x"/><br>
+            <font-awesome-icon v-b-modal.qrcodeview v-if="this.$store.getters.getLesson.File || this.$store.getters.getLesson.Link" title="QR코드 만들기" class="py-2 float-right mr-5" id="qrcode" fas icon="qrcode" size="4x"/><br>
           </b-col>
         </b-row>
             <p class="card-text">
@@ -41,6 +44,8 @@
 </template>
 
 <script>
+import QrcodeVue from 'qrcode.vue';
+
 export default {
   name: "lesson",
   data() {
@@ -120,16 +125,35 @@ export default {
       // }
     }
   },
+  components: {
+    QrcodeVue
+  },
   computed: {
     changeToEmbed() {
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
       let match = this.$store.getters.getLesson.Link.match(regExp);
 
       if (match && match[2].length == 11) {
-        console.log(`InsertLink : ${this.$store.getters.getLesson.Link}    change Link : http://youtube.com/embed/${match[2]}`)
         return `http://youtube.com/embed/${match[2]}`;
       } else {
         return 'error';
+      }
+    },
+    changeToWatch() {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      let match = this.$store.getters.getLesson.Link.match(regExp);
+
+      if (match && match[2].length == 11) {
+        return `http://youtube.com/watch?v=${match[2]}`;
+      } else {
+        return 'error';
+      }
+    },
+    qrcodeResource() {
+      if (this.$store.getters.getLesson.File) {
+        return `http://flss.kr/video/${this.$store.getters.getLesson.File}` ;
+      } else if(this.$store.getters.getLesson.Link) {
+        return this.changeToWatch;
       }
     }
   }

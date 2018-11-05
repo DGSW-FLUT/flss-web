@@ -443,8 +443,7 @@ export default {
       .get(
         "http://flss.kr/api/data/getPostList?cid=" +
           this.$store.getters.getThisClass.cid +
-          "&readOnly=" +
-          this.$store.getters.getUserInfo.role
+          "&readOnly=student" 
       )
       .then(res => {
         this.posts = res.data;
