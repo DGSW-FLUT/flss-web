@@ -81,7 +81,7 @@ export default {
       this.$vuevent.emit("logout");
     },
     search() {
-      this.$router.push({ path: "/class/search" });
+      this.$router.push({ path: `/class/search/${this.searchName}` });
     }
   }
 };
