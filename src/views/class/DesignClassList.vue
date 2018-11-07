@@ -78,6 +78,7 @@ export default {
           console.log("res.data" + res.data);
           this.fileList = res.data;
           this.selectedIdx = index;
+          this.loadComments();
         });
       this.$refs.myModalRef.show();
       console.log("List" + this.List[index]);
