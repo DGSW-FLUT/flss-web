@@ -4,6 +4,8 @@
         <b-card-header>
           {{ InteractionItem.Topic }}
           <b-button class="float-right" variant="danger" size="sm" v-if="InteractionItem.isme" @click="deleteItem">삭제</b-button>
+          <br>
+          <span class="font-weight-light" style="font-size:0.9em">{{ InteractionItem.Name }}</span>
         </b-card-header>
         <b-card-body v-if="InteractionItem.Content">
           {{ InteractionItem.Content }}
@@ -69,8 +71,8 @@ export default {
       // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
     },
     deleteItem() {
-      this.$vuevent.emit("itemDelete", this.idx);
-      console.log("send", this.idx);
+      this.$vuevent.emit("itemDelete", this.InteractionItem.Iid);
+      console.log("send", this.InteractionItem.Iid);
     }
   }
 };
