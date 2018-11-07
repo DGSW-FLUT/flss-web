@@ -88,25 +88,6 @@ export default {
   },
   created() {
     this.$http
-<<<<<<< HEAD
-    .get(`http://flss.kr/api/data/getPostByName?cid=${this.$store.getters.getThisClass.cid}&name=${this.$route.params.query}`)
-    .then(res1 => {
-      this.searchPosts = res1.data;
-      this.$http
-      .get(`http://flss.kr/api/data/getPostByTitle?cid=${this.$store.getters.getThisClass.cid}&title=${this.$route.params.query}&readOnly=${this.$store.getters.getUserInfo.role}`)
-      .then(async res2 => {
-        let tempPosts = []; 
-        tempPosts = await res2.data;
-        this.searchPosts = this.searchPosts.concat(tempPosts);
-      })
-    })
-
-    this.$http
-    .get(`http://flss.kr/api/data/getPostByTitle?cid=${this.$store.getters.getThisClass.cid}&title=${this.$route.params.query}`)
-    .then(res => {
-      this.searchLessons = res.data;
-    })
-=======
       .get(
         `http://flss.kr/api/data/getPostByName?cid=${
           this.$store.getters.getThisClass.cid
@@ -141,7 +122,6 @@ export default {
         console.log("2");
         console.log(this.searchLessons);
       });
->>>>>>> 08a881446b51d9865903ff97d9da0263dc5b930f
   },
   methods: {
     download(uploadName, originalName) {
