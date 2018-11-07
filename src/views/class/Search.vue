@@ -97,7 +97,6 @@ export default {
         let tempPosts = []; 
         tempPosts = await res2.data;
         this.searchPosts = this.searchPosts.concat(tempPosts);
-        console.log(this.searchPosts);
       })
     })
 
@@ -105,8 +104,6 @@ export default {
     .get(`http://flss.kr/api/data/getPostByTitle?cid=${this.$store.getters.getThisClass.cid}&title=${this.$route.params.query}`)
     .then(res => {
       this.searchLessons = res.data;
-      console.log("2");
-      console.log(this.searchLessons);
     })
   },
   methods: {
@@ -120,7 +117,6 @@ export default {
           link.setAttribute("download", originalName);
           document.body.appendChild(link);
           link.click();
-          console.log();
           console.log("Download Success");
         })
         .catch(err => {

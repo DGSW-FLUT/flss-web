@@ -104,7 +104,7 @@ export default {
       posts: [],
       currentPage: "",
       isComment: false,
-      newComment: [],
+      newComment: [""],
       comments: [[]],
       currentFileLink: ""
     };
@@ -154,14 +154,13 @@ export default {
       this.$refs.fileRef.reset();
     },
     loadComments(i) {
-      console.log("이상허다 : "+i);
       this.$http
       .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
       .then(res => {
         this.comments[i] = res.data;
         console.log(res.data);
         console.log(this.comments[i]);
-        this.isComment = !this.isComment;
+        this.isComment = true;
       })
     },
     addFile() {
@@ -231,8 +230,18 @@ export default {
         content: this.newComment[i]
       })
       .then(res => {
-        this.comments[i].push(this.newComment[i]);
+        this.isComment = false;
         this.newComment[i] = "";
+        this.loadComments(i);
+        // this.comments[i].push({
+        //   Name: this.$store.getters.getUserInfo.name,
+        //   content: this.newComment[i],
+        //   time: this.$moment().tz("Asia/Korea").format("YYYY-MM-DD hh:mm:ss")
+        // });
+        // console.log(this.comments[i]);
+        // console.log("ji: "+this.newComment[i]);
+        // this.newComment[i] = "";
+        // console.log("j2i: "+this.newComment[i]);
         alert("댓글이 작성되었습니다");
       })
       .catch(err => {

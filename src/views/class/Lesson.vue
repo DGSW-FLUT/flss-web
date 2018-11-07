@@ -169,7 +169,8 @@ export default {
         content: this.newComment
       })
       .then(res => {
-        this.comments.push(this.newComment);
+        this.isComment = false;
+        this.loadComments();
         this.newComment = "";
         alert("댓글이 작성되었습니다");
       })
