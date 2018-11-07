@@ -1,5 +1,32 @@
 <template>
     <div id="portfolio">
+      <b-card class="mt-5" v-if="!isPortfolio" style="float:right">
+        학습 게시판 메뉴 안내 <br><br>
+        수업의 산출물을 업로드할 수<br>
+        있습니다. 등록한 결과는<br>
+        '포르폴리오' 작성에 반영될 수 있습니다.<br><br>
+        자료에 대한 질문이 있을 경우<br>
+        댓글을 남길 수 있습니다.<br><br>
+        교사의 경우 포트폴리오 버튼을<br>
+        클릭하여 학생 개인별 학습자료를<br>
+        포트폴리오로 제작할 수 있다.
+      </b-card>
+      <b-card class="mt-5" v-if="isPortfolio" style="float:right">
+        학생포트폴리오 메뉴 안내<br><br>
+        포트폴리오 만들기 탭에서<br>
+        포트폴리오 생성 대상 학생을<br>
+        검색하여 추가합니다.<br><br>
+        추가된 학생의 게시글이<br>
+        조회되며, 포트폴리오에<br>
+        반영할 게시글을 선택하고,<br>
+        교사의 의견 및 첨부파일을<br>
+        추가할 수 있습니다.<br><br>
+        생성하기를 클릭하면 하나의<br>
+        pdf파일로 생성됩니다.<br><br>
+        생성된 포트폴리오는 해당<br>
+        학생에게 공개됩니다.
+
+      </b-card>
       <b-container v-if="!isPortfolio">
         <b-row>
           <b-col>

@@ -1,5 +1,15 @@
 <template>
   <div id="make-class">
+    <b-card style="float:right">
+        수업 설계 메뉴 안내 <br><br>
+        교실 수업 순서에 맞게 수업<br>
+        자료를 추가할 수 있습니다.<br><br>
+        수업자료는 내컴퓨터의 자료,<br>
+        웹 주소, FLSS 내 자료를<br>
+        검색하여 추가할 수 있습니다.<br><br>
+        다른 사용자가 작성한 자료를<br>
+        검색하여 활용할 수 있습니다.
+      </b-card>
       <b-container class="mt-5">
       <b-row>
         <b-col cols="6" >

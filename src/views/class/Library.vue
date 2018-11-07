@@ -1,5 +1,11 @@
 <template>
   <div id="library">
+  <b-card style="float:right">
+      교사자료실 메뉴 안내 <br><br>
+      교사 계정으로 로그인 시<br>
+      플립드러닝에 활용할 수 있는<br>
+      수업자료를 등록할 수 있습니다.
+    </b-card>
     <b-container>
       <b-row class="mt-5" v-for="(post, i) in getPosts" :key="i">
         <b-col>
