@@ -110,7 +110,7 @@ export default {
       posts: [],
       currentPage: "",
       isComment: false,
-      newComment: [],
+      newComment: [""],
       comments: [[]],
       currentFileLink: ""
     };
@@ -160,19 +160,14 @@ export default {
       this.$refs.fileRef.reset();
     },
     loadComments(i) {
-      console.log("이상허다 : " + i);
       this.$http
-        .get(
-          `http://flss.kr//api/comment/showComment?type=1&post=${
-            this.posts[i].Pid
-          }`
-        )
-        .then(res => {
-          this.comments[i] = res.data;
-          console.log(res.data);
-          console.log(this.comments[i]);
-          this.isComment = !this.isComment;
-        });
+      .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
+      .then(res => {
+        this.comments[i] = res.data;
+        console.log(res.data);
+        console.log(this.comments[i]);
+        this.isComment = true;
+      })
     },
     addFile() {
       let newFile = new FormData();
@@ -234,22 +229,32 @@ export default {
         return;
       }
       this.$http
-        .post("http://flss.kr/api/comment/addComment", {
-          uid: this.$store.getters.getUserInfo.uid,
-          type: 1,
-          post: this.posts[i].Pid,
-          content: this.newComment[i]
-        })
-        .then(res => {
-          this.comments[i].push(this.newComment[i]);
-          this.newComment[i] = "";
-          alert("댓글이 작성되었습니다");
-        })
-        .catch(err => {
-          console.log(err.message);
-          this.newComment[i] = "";
-          alert("작성에 실패하였습니다");
-        });
+      .post("http://flss.kr/api/comment/addComment",{
+        uid: this.$store.getters.getUserInfo.uid,
+        type: 1,
+        post: this.posts[i].Pid,
+        content: this.newComment[i]
+      })
+      .then(res => {
+        this.isComment = false;
+        this.newComment[i] = "";
+        this.loadComments(i);
+        // this.comments[i].push({
+        //   Name: this.$store.getters.getUserInfo.name,
+        //   content: this.newComment[i],
+        //   time: this.$moment().tz("Asia/Korea").format("YYYY-MM-DD hh:mm:ss")
+        // });
+        // console.log(this.comments[i]);
+        // console.log("ji: "+this.newComment[i]);
+        // this.newComment[i] = "";
+        // console.log("j2i: "+this.newComment[i]);
+        alert("댓글이 작성되었습니다");
+      })
+      .catch(err => {
+        console.log(err.message);
+        this.newComment[i] = "";
+        alert("작성에 실패하였습니다");
+      })
     },
     changeReadOnlyToStudent(i) {
       if (this.posts[i].ReadOnly === "student") {

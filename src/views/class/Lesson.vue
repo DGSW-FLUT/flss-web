@@ -168,22 +168,23 @@ export default {
         return;
       }
       this.$http
-        .post("http://flss.kr/api/comment/addComment", {
-          uid: this.$store.getters.getUserInfo.uid,
-          type: 0,
-          post: this.$store.getters.getLesson.Lno,
-          content: this.newComment
-        })
-        .then(res => {
-          this.comments.push(this.newComment);
-          this.newComment = "";
-          alert("댓글이 작성되었습니다");
-        })
-        .catch(err => {
-          console.log(err.message);
-          this.newComment = "";
-          alert("작성에 실패하였습니다");
-        });
+      .post("http://flss.kr/api/comment/addComment",{
+        uid: this.$store.getters.getUserInfo.uid,
+        type: 0,
+        post: this.$store.getters.getLesson.Lno,
+        content: this.newComment
+      })
+      .then(res => {
+        this.isComment = false;
+        this.loadComments();
+        this.newComment = "";
+        alert("댓글이 작성되었습니다");
+      })
+      .catch(err => {
+        console.log(err.message);
+        this.newComment = "";
+        alert("작성에 실패하였습니다");
+      })
     }
   },
   components: {

@@ -58,7 +58,7 @@
         <b-button class="float-right fixed-right" variant="success" @click="adding">
           +
         </b-button>
-        <b-button class="float-right fixed-right" variant="danger" @click="removeAll">
+        <b-button v-if="$store.getters.isTeacher" class="float-right fixed-right" variant="danger" @click="removeAll">
           <font-awesome-icon fas icon="trash" size="1x"/>
         </b-button>
       </b-container>
@@ -105,6 +105,7 @@ export default {
       client.emit("deleteAll");
     },
     upload(e) {
+      this.newInteraction.Name = this.$store.getters.getUserInfo.name
       if (this.newInteraction.File) {
         this.isAddingNow = true;
         const fdata = new FormData();
@@ -116,8 +117,7 @@ export default {
             if (data.status == 200) {
               this.newInteraction.file = data.data;
               client.emit("upload", this.newInteraction);
-              this.newInteraction.isme = true;
-              this.Interactions.push(this.newInteraction);
+              // this.newInteraction.isme = true;
               this.newInteraction = {};
               this.isAdding = false;
               this.isAttach = false;
@@ -129,8 +129,8 @@ export default {
       } else {
         console.log(JSON.stringify(this.newInteraction));
         client.emit("upload", this.newInteraction);
-        this.newInteraction.isme = true;
-        this.Interactions.push(this.newInteraction);
+        // this.newInteraction.isme = true;
+        // this.Interactions.push(this.newInteraction);
         this.newInteraction = {};
         this.isAdding = false;
         this.isAttach = false;
@@ -164,7 +164,7 @@ export default {
     deleteItem(idx) {
       console.log(idx);
       client.emit("delete", idx, ({ success }) => {
-        if (success) this.Interactions.splice(idx, 1);
+        if (success) this.Interactions.splice(this.Interactions.findIndex((e) => e.Iid == idx), 1);
       });
     }
   },
@@ -179,13 +179,19 @@ export default {
     );
 
     client.on("upload", data => {
+      console.log(data)
       this.Interactions.push(data);
     });
+    client.on("meupload", data => {
+      console.log(data)
+      data.isme = true;
+      this.Interactions.push(data)
+    })
     client.on("deleteAll", data => {
       this.remove();
     });
     client.on("delete", data => {
-      this.Interactions.splice(data, 1);
+      this.Interactions.splice(this.Interactions.findIndex((e) => e.Iid == data), 1);
     });
     this.$vuevent.on("itemDelete", this.deleteItem);
   },
