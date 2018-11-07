@@ -18,7 +18,7 @@ export default {
       InteractionLists: [],
       InteractionName: "",
       Interactions: []
-    }
+    };
   },
   methods: {
     interactionClickEvent(record, index) {
@@ -26,32 +26,42 @@ export default {
       this.$router.push({ path: "./interactionDetail" });
     },
     addInteraction() {
-      if (this.InteractionName != '') {
+      if (this.InteractionName != "") {
         this.$http
-          .get(`http://flss.kr/api/interaction/add?cid=${this.$store.getters.getThisClass.cid}&topic=${this.InteractionName}`)
+          .get(
+            `http://flss.kr/api/interaction/add?cid=${
+              this.$store.getters.getThisClass.cid
+            }&topic=${this.InteractionName}`
+          )
           .then(res => {
-            console.log(res.data)
-            this.InteractionLists.push({ "제목": this.InteractionName})
-            this.Interactions.push({Aid: res.data, Topic: this.InteractionName})
-            this.InteractionName = ''
-          })
+            console.log(res.data);
+            this.InteractionLists.push({ 제목: this.InteractionName });
+            this.Interactions.push({
+              Aid: res.data,
+              Topic: this.InteractionName
+            });
+            this.InteractionName = "";
+          });
       }
     }
   },
   created() {
     this.$http
-    .get(`http://flss.kr/api/interaction/list?cid=${this.$store.getters.getThisClass.cid}`)
-    .then(res => {
-      console.log(res.data);
-      this.Interactions = res.data
-      res.data.forEach(temp => {
-        this.InteractionLists.push({ "제목": temp.Topic});
-      })
-    })
+      .get(
+        `http://flss.kr/api/interaction/list?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
+      .then(res => {
+        console.log(res.data);
+        this.Interactions = res.data;
+        res.data.forEach(temp => {
+          this.InteractionLists.push({ 제목: temp.Topic });
+        });
+      });
   }
-}
+};
 </script>
 
 <style lang="scss">
-
 </style>

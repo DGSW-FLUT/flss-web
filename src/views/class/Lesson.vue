@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import QrcodeVue from 'qrcode.vue';
+import QrcodeVue from "qrcode.vue";
 import Comment from "@/components/Comment";
 
 export default {
@@ -129,55 +129,61 @@ export default {
     },
     loadComments() {
       this.$http
-      .get(`http://flss.kr//api/comment/showComment?type=0&post=${this.$store.getters.getLesson.Lno}`)
-      .then(res => {
-        this.comments = res.data;
-        console.log(this.comments);
-        this.isComment = !this.isComment;
-      })
+        .get(
+          `http://flss.kr//api/comment/showComment?type=0&post=${
+            this.$store.getters.getLesson.Lno
+          }`
+        )
+        .then(res => {
+          this.comments = res.data;
+          console.log(this.comments);
+          this.isComment = !this.isComment;
+        });
     },
     remoteLesson() {
       console.log(this.$store.getters.getLesson.Lno);
       this.$http
-        .get("http://flss.kr/api/lesson/delete?lno=" + this.$store.getters.getLesson.Lno)
+        .get(
+          "http://flss.kr/api/lesson/delete?lno=" +
+            this.$store.getters.getLesson.Lno
+        )
         .then(res => {
-          console.log(res)
-          if (res.data == '1') {
+          console.log(res);
+          if (res.data == "1") {
             this.$router.push({ path: "./classlist" });
           } else {
-            alert("삭제에 실패하였습니다.")
+            alert("삭제에 실패하였습니다.");
           }
-        })
+        });
     },
     qrcodeGenerate() {
       // if(this.$store.getters.getLesson.File) {
       //   'http://flss.kr/video/'+this.$store.getters.getLesson.File
       // } else if(this.$store.getters.getLesson.Link) {
-
       // }
     },
     uploadComment() {
-      if(!this.newComment) {
+      if (!this.newComment) {
         alert("댓글을 입력해주세요");
         return;
       }
       this.$http
-      .post("http://flss.kr/api/comment/addComment",{
-        uid: this.$store.getters.getUserInfo.uid,
-        type: 0,
-        post: this.$store.getters.getLesson.Lno,
-        content: this.newComment
-      })
-      .then(res => {
-        this.comments.push(this.newComment);
-        this.newComment = "";
-        alert("댓글이 작성되었습니다");
-      })
-      .catch(err => {
-        console.log(err.message);
-        this.newComment = "";
-        alert("작성에 실패하였습니다");
-      })
+        .post("http://flss.kr/api/comment/addComment", {
+          uid: this.$store.getters.getUserInfo.uid,
+          type: 0,
+          post: this.$store.getters.getLesson.Lno,
+          content: this.newComment
+        })
+        .then(res => {
+          this.comments.push(this.newComment);
+          this.newComment = "";
+          alert("댓글이 작성되었습니다");
+        })
+        .catch(err => {
+          console.log(err.message);
+          this.newComment = "";
+          alert("작성에 실패하였습니다");
+        });
     }
   },
   components: {
@@ -192,7 +198,7 @@ export default {
       if (match && match[2].length == 11) {
         return `http://youtube.com/embed/${match[2]}`;
       } else {
-        return 'error';
+        return "error";
       }
     },
     changeToWatch() {
@@ -202,13 +208,13 @@ export default {
       if (match && match[2].length == 11) {
         return `http://youtube.com/watch?v=${match[2]}`;
       } else {
-        return 'error';
+        return "error";
       }
     },
     qrcodeResource() {
       if (this.$store.getters.getLesson.File) {
-        return `http://flss.kr/video/${this.$store.getters.getLesson.File}` ;
-      } else if(this.$store.getters.getLesson.Link) {
+        return `http://flss.kr/video/${this.$store.getters.getLesson.File}`;
+      } else if (this.$store.getters.getLesson.Link) {
         return this.changeToWatch;
       }
     }
@@ -217,7 +223,7 @@ export default {
 </script>
 
 <style lang="scss">
-  #qrcode {
-    cursor: pointer;
-  }
+#qrcode {
+  cursor: pointer;
+}
 </style>

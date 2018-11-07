@@ -116,7 +116,7 @@ export default {
             if (data.status == 200) {
               this.newInteraction.file = data.data;
               client.emit("upload", this.newInteraction);
-              this.newInteraction.isme = true
+              this.newInteraction.isme = true;
               this.Interactions.push(this.newInteraction);
               this.newInteraction = {};
               this.isAdding = false;
@@ -129,7 +129,7 @@ export default {
       } else {
         console.log(JSON.stringify(this.newInteraction));
         client.emit("upload", this.newInteraction);
-        this.newInteraction.isme = true
+        this.newInteraction.isme = true;
         this.Interactions.push(this.newInteraction);
         this.newInteraction = {};
         this.isAdding = false;
@@ -162,12 +162,10 @@ export default {
       this.newInteraction.type = 3;
     },
     deleteItem(idx) {
-      console.log(idx)
-      client.emit("delete", idx, ({success}) => {
-        if (success)
-          this.Interactions.splice(idx, 1)
-      })
-
+      console.log(idx);
+      client.emit("delete", idx, ({ success }) => {
+        if (success) this.Interactions.splice(idx, 1);
+      });
     }
   },
   mounted() {
@@ -186,10 +184,10 @@ export default {
     client.on("deleteAll", data => {
       this.remove();
     });
-    client.on('delete', data => {
-      this.Interactions.splice(data, 1)
-    })
-    this.$vuevent.on('itemDelete', this.deleteItem)
+    client.on("delete", data => {
+      this.Interactions.splice(data, 1);
+    });
+    this.$vuevent.on("itemDelete", this.deleteItem);
   },
   destroyed() {},
   components: {
