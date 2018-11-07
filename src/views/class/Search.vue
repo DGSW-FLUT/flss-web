@@ -134,7 +134,6 @@ export default {
           link.setAttribute("download", originalName);
           document.body.appendChild(link);
           link.click();
-          console.log();
           console.log("Download Success");
         })
         .catch(err => {

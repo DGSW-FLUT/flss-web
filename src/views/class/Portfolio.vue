@@ -215,22 +215,23 @@ export default {
         return;
       }
       this.$http
-        .post("http://flss.kr/api/comment/addComment", {
-          uid: this.$store.getters.getUserInfo.uid,
-          type: 1,
-          post: this.posts[i].Pid,
-          content: this.newComment[i]
-        })
-        .then(res => {
-          this.comments[i].push(this.newComment[i]);
-          this.newComment[i] = "";
-          alert("댓글이 작성되었습니다");
-        })
-        .catch(err => {
-          console.log(err.message);
-          this.newComment[i] = "";
-          alert("작성에 실패하였습니다");
-        });
+      .post("http://flss.kr/api/comment/addComment",{
+        uid: this.$store.getters.getUserInfo.uid,
+        type: 1,
+        post: this.posts[i].Pid,
+        content: this.newComment[i]
+      })
+      .then(res => {
+        this.isComment = false;
+        this.loadComments(i);
+        this.newComment[i] = "";
+        alert("댓글이 작성되었습니다");
+      })
+      .catch(err => {
+        console.log(err.message);
+        this.newComment[i] = "";
+        alert("작성에 실패하였습니다");
+      })
     },
     copy(link) {
       let t = document.getElementById("fileLink");
