@@ -90,7 +90,7 @@ export default {
     );
     this.lessons = await this.lessons.data;
     this.studentData = this.$store.getters.getMemberList.filter(
-      student => student.role !== "teacher"
+      student => student.role === "student"
     );
     this.studentData.forEach(student => {
       student.answerStatus = "";

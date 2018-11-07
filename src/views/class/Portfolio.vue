@@ -158,7 +158,7 @@ export default {
       isComment: false,
       newComment: [],
       comments: [[]],
-      currentFileLink:""
+      currentFileLink: ""
     };
   },
   computed: {
@@ -210,11 +210,12 @@ export default {
     },
     uploadComment(i) {
       console.log("test " + this.newComment[i]);
-      if(!this.newComment[i]) {
+      if (!this.newComment[i]) {
         alert("댓글을 입력해주세요");
         return;
       }
       this.$http
+<<<<<<< HEAD
       .post("http://flss.kr/api/comment/addComment",{
         uid: this.$store.getters.getUserInfo.uid,
         type: 1,
@@ -232,21 +233,43 @@ export default {
         this.newComment[i] = "";
         alert("작성에 실패하였습니다");
       })
+=======
+        .post("http://flss.kr/api/comment/addComment", {
+          uid: this.$store.getters.getUserInfo.uid,
+          type: 1,
+          post: this.posts[i].Pid,
+          content: this.newComment[i]
+        })
+        .then(res => {
+          this.comments[i].push(this.newComment[i]);
+          this.newComment[i] = "";
+          alert("댓글이 작성되었습니다");
+        })
+        .catch(err => {
+          console.log(err.message);
+          this.newComment[i] = "";
+          alert("작성에 실패하였습니다");
+        });
+>>>>>>> 08a881446b51d9865903ff97d9da0263dc5b930f
     },
     copy(link) {
       let t = document.getElementById("fileLink");
       t.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       alert("복사되었습니다.");
     },
     loadComments(i) {
       this.$http
-      .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
-      .then(res => {
-        this.comments[i] = res.data;
-        console.log(res.data);
-        this.isComment = !this.isComment;
-      })
+        .get(
+          `http://flss.kr//api/comment/showComment?type=1&post=${
+            this.posts[i].Pid
+          }`
+        )
+        .then(res => {
+          this.comments[i] = res.data;
+          console.log(res.data);
+          this.isComment = !this.isComment;
+        });
     },
     clickComment() {
       this.isComment = !this.isComment;
@@ -281,7 +304,7 @@ export default {
         while (heightLeft >= 20) {
           position = heightLeft - imgHeight;
           doc.addPage();
-          doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+          doc.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
         }
         // 파일 저장
@@ -289,32 +312,31 @@ export default {
         this.prograssPDF = false;
 
         const newFile = new FormData();
-        const pdfFile = new File([doc.output('blob')], this.portfolioTitle + '.pdf');
+        const pdfFile = new File(
+          [doc.output("blob")],
+          this.portfolioTitle + ".pdf"
+        );
         newFile.append("portfolio", pdfFile);
         newFile.append("cid", this.$store.getters.getThisClass.cid);
         newFile.append("uid", this.portfolios[0].Uid);
 
         this.$http
-        .post("http://flss.kr/api/portfolio/add", newFile, {
-          headers: { "Content-Type": "multipart/form-data" }
-        })
-        .then(res => {
-          if (res.status == 200)
-          {
+          .post("http://flss.kr/api/portfolio/add", newFile, {
+            headers: { "Content-Type": "multipart/form-data" }
+          })
+          .then(res => {
+            if (res.status == 200) {
               console.log("pdf upload success");
               this.getportfolioList();
-          }
-          else
-            console.error(res)
-        })
-        .catch(err => {
-          console.error(err)
-          alert("pdf 파일 업로드에 실패하였습니다");
-        })
-        
-      
-        doc.save(this.portfolioTitle + '.pdf');
-      })
+            } else console.error(res);
+          })
+          .catch(err => {
+            console.error(err);
+            alert("pdf 파일 업로드에 실패하였습니다");
+          });
+
+        doc.save(this.portfolioTitle + ".pdf");
+      });
     },
     getportfolioList() {
       this.$http
@@ -441,7 +463,7 @@ export default {
       .get(
         "http://flss.kr/api/data/getPostList?cid=" +
           this.$store.getters.getThisClass.cid +
-          "&readOnly=student" 
+          "&readOnly=student"
       )
       .then(res => {
         this.posts = res.data;
@@ -494,13 +516,13 @@ export default {
 </script>
 
 <style lang="scss">
-  .opinion-readonly {
-    background-color: white !important;
-  }
-  .dropdown {
-    cursor: pointer;
-  }
-  .post-name {
-    cursor: pointer;
-  }
+.opinion-readonly {
+  background-color: white !important;
+}
+.dropdown {
+  cursor: pointer;
+}
+.post-name {
+  cursor: pointer;
+}
 </style>

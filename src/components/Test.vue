@@ -230,10 +230,14 @@ export default {
       let match = this.link.match(regExp);
 
       if (match && match[2].length == 11) {
-        console.log(`InsertLink : ${this.link}    change Link : http://youtube.com/embed/${match[2]}`)
+        console.log(
+          `InsertLink : ${
+            this.link
+          }    change Link : http://youtube.com/embed/${match[2]}`
+        );
         return `http://youtube.com/embed/${match[2]}`;
       } else {
-        return 'error';
+        return "error";
       }
     }
   },
@@ -290,7 +294,6 @@ export default {
       console.log("1");
       let data = new FormData();
       if (this.isUrl) {
-        
         console.log(this.link);
         data.append("link", this.changeToEmbed);
         data.append("uid", this.$store.getters.getUserInfo.uid);
@@ -326,8 +329,10 @@ export default {
       this.$http
         .post("http://flss.kr/api/lesson/add", data, {
           headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: function( progressEvent ) {
-            this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+          onUploadProgress: function(progressEvent) {
+            this.uploadPercentage = parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            );
           }.bind(this)
         })
         .then(res => {
@@ -336,17 +341,16 @@ export default {
           console.log("test : " + data);
           this.$store.commit("setLessonNum", res.data.Lno);
           let TwoSecondWait = new Promise((resolve, reject) => {
-              setTimeout(resolve, 1000)
-          })
-          .then(() => {
+            setTimeout(resolve, 1000);
+          }).then(() => {
             console.log("wait 1 seconds");
-            if(this.uploadPercentage == 100) {
+            if (this.uploadPercentage == 100) {
               this.$refs.progress.hide();
             }
             if (res.status == 200 && this.uploadPercentage === 100) {
               this.bool = !this.bool;
             }
-          })
+          });
         })
         .catch(err => {
           console.log(err);

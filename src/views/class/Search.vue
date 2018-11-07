@@ -84,10 +84,11 @@ export default {
       searchPosts: [],
       searchLessons: [],
       currentFileLink: ""
-    }
-  },  
+    };
+  },
   created() {
     this.$http
+<<<<<<< HEAD
     .get(`http://flss.kr/api/data/getPostByName?cid=${this.$store.getters.getThisClass.cid}&name=${this.$route.params.query}`)
     .then(res1 => {
       this.searchPosts = res1.data;
@@ -105,6 +106,42 @@ export default {
     .then(res => {
       this.searchLessons = res.data;
     })
+=======
+      .get(
+        `http://flss.kr/api/data/getPostByName?cid=${
+          this.$store.getters.getThisClass.cid
+        }&name=${this.$route.params.query}`
+      )
+      .then(res1 => {
+        this.searchPosts = res1.data;
+        this.$http
+          .get(
+            `http://flss.kr/api/data/getPostByTitle?cid=${
+              this.$store.getters.getThisClass.cid
+            }&title=${this.$route.params.query}&readOnly=${
+              this.$store.getters.getUserInfo.role
+            }`
+          )
+          .then(async res2 => {
+            let tempPosts = [];
+            tempPosts = await res2.data;
+            this.searchPosts = this.searchPosts.concat(tempPosts);
+            console.log(this.searchPosts);
+          });
+      });
+
+    this.$http
+      .get(
+        `http://flss.kr/api/data/getPostByTitle?cid=${
+          this.$store.getters.getThisClass.cid
+        }&title=${this.$route.params.query}`
+      )
+      .then(res => {
+        this.searchLessons = res.data;
+        console.log("2");
+        console.log(this.searchLessons);
+      });
+>>>>>>> 08a881446b51d9865903ff97d9da0263dc5b930f
   },
   methods: {
     download(uploadName, originalName) {
@@ -130,15 +167,15 @@ export default {
     copy(link) {
       let t = document.getElementById("fileLink");
       t.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       alert("복사되었습니다.");
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-  .post-name {
-    cursor: pointer;
-  }
+.post-name {
+  cursor: pointer;
+}
 </style>

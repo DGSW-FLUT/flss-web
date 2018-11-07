@@ -10,16 +10,14 @@
 <script>
 export default {
   data() {
-    return {
-
-    }
+    return {};
   },
   props: ["comment"]
-}
+};
 </script>
 
 <style lang="scss">
-  .border-radius{
-    border-radius: 30px;
-  }
+.border-radius {
+  border-radius: 30px;
+}
 </style>

@@ -154,6 +154,7 @@ export default {
       this.$refs.fileRef.reset();
     },
     loadComments(i) {
+<<<<<<< HEAD
       this.$http
       .get(`http://flss.kr//api/comment/showComment?type=1&post=${this.posts[i].Pid}`)
       .then(res => {
@@ -162,6 +163,21 @@ export default {
         console.log(this.comments[i]);
         this.isComment = true;
       })
+=======
+      console.log("이상허다 : " + i);
+      this.$http
+        .get(
+          `http://flss.kr//api/comment/showComment?type=1&post=${
+            this.posts[i].Pid
+          }`
+        )
+        .then(res => {
+          this.comments[i] = res.data;
+          console.log(res.data);
+          console.log(this.comments[i]);
+          this.isComment = !this.isComment;
+        });
+>>>>>>> 08a881446b51d9865903ff97d9da0263dc5b930f
     },
     addFile() {
       let newFile = new FormData();
@@ -209,7 +225,7 @@ export default {
     copy(link) {
       let t = document.getElementById("fileLink");
       t.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       alert("복사되었습니다.");
     },
     showLink(link) {
@@ -218,11 +234,12 @@ export default {
     },
     uploadComment(i) {
       console.log("test " + this.newComment[i]);
-      if(!this.newComment[i]) {
+      if (!this.newComment[i]) {
         alert("댓글을 입력해주세요");
         return;
       }
       this.$http
+<<<<<<< HEAD
       .post("http://flss.kr/api/comment/addComment",{
         uid: this.$store.getters.getUserInfo.uid,
         type: 1,
@@ -249,9 +266,26 @@ export default {
         this.newComment[i] = "";
         alert("작성에 실패하였습니다");
       })
+=======
+        .post("http://flss.kr/api/comment/addComment", {
+          uid: this.$store.getters.getUserInfo.uid,
+          type: 1,
+          post: this.posts[i].Pid,
+          content: this.newComment[i]
+        })
+        .then(res => {
+          this.comments[i].push(this.newComment[i]);
+          this.newComment[i] = "";
+          alert("댓글이 작성되었습니다");
+        })
+        .catch(err => {
+          console.log(err.message);
+          this.newComment[i] = "";
+          alert("작성에 실패하였습니다");
+        });
+>>>>>>> 08a881446b51d9865903ff97d9da0263dc5b930f
     },
     changeReadOnlyToStudent(i) {
-
       if (this.posts[i].ReadOnly === "student") {
         console.log("already student");
         return;
@@ -266,14 +300,13 @@ export default {
         .post("http://flss.kr/api/data/changeReadOnly", data)
         .then(res => {
           this.posts.splice(i, 1);
-          console.log("Change ReadOnly Success : "+this.posts[i].ReadOnly);
+          console.log("Change ReadOnly Success : " + this.posts[i].ReadOnly);
         })
         .catch(err => {
           console.log(err.message);
         });
     },
     changeReadOnlyToTeacher(i) {
-
       if (this.posts[i].ReadOnly === "teacher") {
         console.log("already teacher");
         return;
@@ -288,21 +321,22 @@ export default {
         .post("http://flss.kr/api/data/changeReadOnly", data)
         .then(res => {
           this.posts[i].ReadOnly = "teacher";
-          console.log("Change ReadOnly Success : "+ this.posts[i].ReadOnly);
+          console.log("Change ReadOnly Success : " + this.posts[i].ReadOnly);
         })
         .catch(err => {
           console.log(err.message);
         });
     },
-    del(i){
+    del(i) {
       console.log(this.getPosts[i].Pid);
-      this.$http.get(`http://flss.kr/api/data/deletePost?pid=${this.getPosts[i].Pid}`)
-      .then(res =>{
-        console.log(res.data);
-        if(res.data === 1){
-          location.reload();
-        }
-      })
+      this.$http
+        .get(`http://flss.kr/api/data/deletePost?pid=${this.getPosts[i].Pid}`)
+        .then(res => {
+          console.log(res.data);
+          if (res.data === 1) {
+            location.reload();
+          }
+        });
     }
   }
 };

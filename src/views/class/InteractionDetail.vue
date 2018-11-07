@@ -10,17 +10,14 @@ export default {
   data() {
     return {
       Interactions: []
-    }
+    };
   },
-  created() {
-    
-  },
+  created() {},
   components: {
     InteractionItem
   }
-}
+};
 </script>
 
 <style>
-
 </style>

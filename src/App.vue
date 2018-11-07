@@ -7,7 +7,7 @@
 <script>
 export default {
   created() {
-    document.domain = "flss.kr"
+    document.domain = "flss.kr";
   }
 };
 </script>

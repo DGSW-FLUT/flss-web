@@ -25,11 +25,11 @@
           <div>
             <b-card title="공지사항" tag="article" class="mb-2">
               <p class="card-text">
-                {{ notice }}
+                <!-- {{ notice }} -->
               </p>
               <b-button v-b-modal.modal variant="primary">변경하기</b-button>
-              <b-modal id="modal" ref="modal" @shown="clearNotice" @ok="okNotice" title="공지사항 변경">
-                <b-form-textarea v-model="newNotice"
+              <b-modal id="modal" ref="modal" @shown="clearNotice" title="공지사항 변경">
+                <b-form-textarea :v-model="newNotice"
                                 style="resize:none"
                                 placeholder="공지사항을 입력해주세요"
                                 :rows="3"
@@ -43,26 +43,62 @@
     </b-container>
     <b-container fluid>
       <b-row class="mt-5">
-        <b-col cols="3">
-          <label for="inputLive">회원가입, 보상도구</label>
-          <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
+        <b-col  v-for="(content, i) in contents" :key="i" cols="4">
+          <b-card :title="content.name" tag="article" class="mb-2">
+              <p v-if="!content.content" class="card-text">
+                등록된 내용이 없습니다.
+              </p>
+              <p v-if="content.content" class="card-text">
+                {{ content.content }}
+              </p>
+              <b-button @click="content.bool = !content.bool" variant="primary">변경하기</b-button>
+              <b-button style="float:right;" href="#" variant="primary">자세히 보기 »</b-button>  
+              <b-modal v-model="content.bool" ref="modal" @shown="clearNotice"  @ok="changeContent(i)" :title="content.name">
+                <b-form-textarea v-model="content.newContent"
+                                style="resize:none"
+                                placeholder="내용을 입력해주세요."
+                                :rows="3"
+                                :max-rows="6">
+                </b-form-textarea>
+              </b-modal>
+            </b-card>
         </b-col>
-        <b-col cols="3">
-          <label for="inputLive">수업 설계/영상제작</label>
-          <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
+        <!-- <b-col cols="4">
+          <b-card title="수업 설계/영상제작" tag="article" class="mb-2">
+              <p class="card-text">
+                
+              </p>
+              <b-button v-b-modal.classModal variant="primary">변경하기</b-button>
+              <b-button style="float:right;" href="#" variant="primary">자세히 보기 »</b-button>  
+              <b-modal id="classModal" ref="modal"  @ok="okNotice" title="수업 설계/영상제작">
+                <b-form-textarea v-model="newNotice"
+                                style="resize:none"
+                                placeholder="내용을 입력해주세요."
+                                :rows="3"
+                                :max-rows="6">
+                </b-form-textarea>
+              </b-modal>
+            </b-card>
         </b-col>
-        <b-col cols="3">
-          <label for="inputLive">상호작용</label>
-          <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
-        </b-col>
-        <b-col cols="3">
-          <label for="inputLive">회원가입, 보상도구</label>
-          <b-form-textarea style="resize:none" placeholder="Description" rows="8" />
-          <b-button class="mt-4" href="#" variant="primary">자세히 보기 »</b-button>
-        </b-col>
+        <b-col cols="4">
+          <b-card title="상호작용" tag="article" class="mb-2">
+              
+              <p class="card-text">
+                
+              </p>
+              <b-button v-b-modal.togetherModal variant="primary">변경하기</b-button>
+              <b-button style="float:right;" href="#" variant="primary">자세히 보기 »</b-button>  
+              <b-modal id="togetherModal" ref="modal"  @ok="okNotice" title="상호작용">
+                <b-form-textarea v-model="newNotice"
+                                style="resize:none"
+                                placeholder="내용을 입력해주세요."
+                                :rows="3"
+                                :max-rows="6">
+                </b-form-textarea>
+              </b-modal>
+            </b-card>
+            
+        </b-col> -->
       </b-row>
     </b-container>
   </div>
@@ -82,7 +118,6 @@ export default {
         this.$store.commit("setMemberList", res.data);
         this.member = this.$store.getters.getMemberList.length;
       });
-    console.log(this.$store.getters.getThisClass.cid);
     this.$http
       .get(
         `http://flss.kr/api/notice/showNotice?cid=${
@@ -92,14 +127,51 @@ export default {
       .then(res => {
         this.notice = res.data;
       });
+    this.$http
+      .get(
+        `http://flss.kr/api/notice/showContents?cid=${
+          this.$store.getters.getThisClass.cid
+        }`
+      )
+      .then(res => {
+        this.contents[0].content = res.data[0].Contents;
+        this.contents[1].content = res.data[0].Contents1;
+        this.contents[2].content = res.data[0].Contents2;
+        console.log(this.contents);
+      });
     this.className = this.$store.getters.getThisClass.name;
   },
   data() {
     return {
+      test: "reg",
       className: "",
       member: "",
       newNotice: "",
-      notice: ""
+      notice: "",
+      contents: [
+        {
+          name: "회원가입, 보상도구",
+          content: "",
+          id: "reg",
+          newContent: "",
+          bool: false
+        },
+        {
+          name: "수업 설계/영상제작",
+          content: "",
+          id: "class",
+          newContent: "",
+          bool: false
+        },
+        {
+          name: "상호작용",
+          content: "",
+          id: "together",
+          newContent: "",
+          bool: false
+        }
+      ],
+      showContents: []
     };
   },
   methods: {
@@ -118,11 +190,37 @@ export default {
           alert("공지사항 변경에 실패하였습니다");
         });
     },
+    checkIdx(i) {
+      if (i == 0) {
+        return "";
+      } else {
+        return i;
+      }
+    },
+    changeContent(i) {
+      this.$http
+        .post("http://flss.kr/api/notice/addContents", {
+          cid: this.$store.getters.getThisClass.cid,
+          column: "Contents" + this.checkIdx(i),
+          contents: this.contents[i].newContent
+        })
+        .then(res => {
+          if (res.data == 1) {
+            alert("변경 완료!");
+            location.reload();
+          } else {
+            alert("변경되지 않았습니다.");
+          }
+        });
+    },
     clearNotice() {
-      this.newNotice = "";
+      this.contents.forEach(content => {
+        content.newContent = "";
+      });
       this.newNotice = "";
     }
   },
+
   components: {}
 };
 </script>

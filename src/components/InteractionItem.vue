@@ -42,10 +42,10 @@ import LinkPrevue from "link-prevue";
 
 export default {
   name: "interaction-item",
-  data () {
+  data() {
     return {
       imgMode: true
-    }
+    };
   },
   props: ["InteractionItem", "idx"],
   components: {
@@ -69,8 +69,8 @@ export default {
       // window.open('http://flss.kr/interactionItem/' + this.InteractionItem.realFile)
     },
     deleteItem() {
-      this.$vuevent.emit('itemDelete', this.idx)
-      console.log('send', this.idx)
+      this.$vuevent.emit("itemDelete", this.idx);
+      console.log("send", this.idx);
     }
   }
 };
