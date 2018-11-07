@@ -55,11 +55,11 @@ export default {
   methods: {
     goVideo() {
       this.$store.commit("setType", "before");
-      this.$router.push({ path: "/class1/CreateVideo" });
+      this.$router.push({ path: "/class/CreateVideo" });
     },
     goQuiz() {
       this.$store.commit("setType", "after");
-      this.$router.push({ path: "/class1/CreateQuiz" });
+      this.$router.push({ path: "/class/CreateQuiz" });
     }
   }
 };
