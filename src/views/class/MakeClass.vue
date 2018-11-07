@@ -47,6 +47,15 @@
                 <small style="float:right">{{ file.date }}</small>
               </b-list-group-item>
             </b-list-group>
+            <b-row v-if="did">
+              <b-col class="mt-4" cols="2">
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider round"></span>
+                </label>
+              </b-col>
+              <b-col class="ml-4 mt-4">공유하기</b-col>
+            </b-row>
           </div>
         </b-col>
         <!-- <b-col cols="4">
@@ -61,10 +70,7 @@
         </b-col> -->
         <b-col v-if="did" cols="6">
           <b-nav>
-              <b-nav-item active @click="pc()">PC자료</b-nav-item>
-              <b-nav-item active @click="web()">웹 주소</b-nav-item>
               <b-nav-item active @click="search()">FLSS 검색</b-nav-item>
-              <b-nav-item active @click="like()">내 즐겨찾기</b-nav-item>
           </b-nav>
           <div  class="div1 border no-scrollbar" style="min-width:100%">
             <span class="center" v-if="!items.length"> 
@@ -238,6 +244,17 @@ body {
   position: absolute;
   overflow: hidden;
   padding: 10px 20px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  display: none;
 }
 
 .tableItem:hover {
