@@ -58,7 +58,7 @@
         <b-button class="float-right fixed-right" variant="success" @click="adding">
           +
         </b-button>
-        <b-button class="float-right fixed-right" variant="danger" @click="removeAll">
+        <b-button v-if="$store.getters.isTeacher" class="float-right fixed-right" variant="danger" @click="removeAll">
           <font-awesome-icon fas icon="trash" size="1x"/>
         </b-button>
       </b-container>

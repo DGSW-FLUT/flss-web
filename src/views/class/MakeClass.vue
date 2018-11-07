@@ -88,7 +88,6 @@ export default {
       items: [],
       files: [],
       classList: [],
-      title: "",
       List: [],
       did: "",
       flssItems: [],

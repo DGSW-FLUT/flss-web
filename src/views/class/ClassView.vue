@@ -75,31 +75,31 @@ export default {
       //학생용 메뉴
       studentMenu: [
         {
-          link: "/class1",
+          link: "/class",
           text: "Home"
         },
         {
-          link: "/class1/select",
+          link: "/class/select",
           text: "사전영상/평가"
         },
         {
-          link: "/class1/classlist",
+          link: "/class/classlist",
           text: "사전영상/평가 목록"
         },
         {
-          link: "/class1/library",
+          link: "/class/library",
           text: "자료실"
         },
         {
-          link: "/class1/interaction",
+          link: "/class/interaction",
           text: "상호 작용"
         },
         {
-          link: "/class1/prize",
+          link: "/class/prize",
           text: "보상 도구"
         },
         {
-          link: "/class1/portfolio",
+          link: "/class/portfolio",
           text: "학습게시판"
         }
       ]
