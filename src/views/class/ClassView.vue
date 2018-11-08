@@ -86,10 +86,10 @@ export default {
           link: "/class/classlist",
           text: "사전영상/평가 목록"
         },
-        {
-          link: "/class/library",
-          text: "자료실"
-        },
+        // {
+        //   link: "/class/library",
+        //   text: "자료실"
+        // },
         {
           link: "/class/interaction",
           text: "상호 작용"

@@ -10,7 +10,7 @@
           </b-input-group>
         </b-modal>
       <b-tabs class="mt-3">
-        <b-tab title="교사 자료실" active class="table">
+        <b-tab v-if="$store.getters.isTeacher" title="교사 자료실" active class="table">
           <b-row class="mt-2" v-for="(searchPost, i) in searchPosts" :key="i">
           <b-col>
               <b-card no-body>
@@ -94,7 +94,9 @@ export default {
         }&name=${this.$route.params.query}`
       )
       .then(res1 => {
-        this.searchPosts = res1.data;
+        console.log('res1', res1)
+        if (res1.data != -1)
+          this.searchPosts = res1.data;
         this.$http
           .get(
             `http://flss.kr/api/data/getPostByTitle?cid=${
@@ -104,10 +106,10 @@ export default {
             }`
           )
           .then(async res2 => {
+            console.log('res2', res2)
             let tempPosts = [];
             tempPosts = await res2.data;
             this.searchPosts = this.searchPosts.concat(tempPosts);
-            console.log(this.searchPosts);
           });
       });
 
@@ -118,9 +120,8 @@ export default {
         }&title=${this.$route.params.query}`
       )
       .then(res => {
+        console.log('lesson', res)
         this.searchLessons = res.data;
-        console.log("2");
-        console.log(this.searchLessons);
       });
   },
   methods: {
