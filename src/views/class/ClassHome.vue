@@ -52,7 +52,7 @@
                 {{ content.content }}
               </p>
               <b-button @click="content.bool = !content.bool" variant="primary">변경하기</b-button>
-              <b-button style="float:right;" href="#" variant="primary">자세히 보기 »</b-button>  
+              <b-button style="float:right;" :href="'http://flss.kr/class/'+content.url" variant="primary">자세히 보기 »</b-button>  
               <b-modal v-model="content.bool" ref="modal" @shown="clearNotice"  @ok="changeContent(i)" :title="content.name">
                 <b-form-textarea v-model="content.newContent"
                                 style="resize:none"
@@ -127,8 +127,11 @@ export default {
       .then(res => {
         this.notice = res.data[0].Contents;
         this.contents[0].content = res.data[0].Contents1;
+        this.contents[0].url = 'prize';
         this.contents[1].content = res.data[0].Contents2;
+        this.contents[1].url = 'makeclass';
         this.contents[2].content = res.data[0].Contents3;
+        this.contents[2].url = 'interaction';
         console.log(this.contents);
       });
     this.className = this.$store.getters.getThisClass.name;
