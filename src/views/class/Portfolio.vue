@@ -38,7 +38,9 @@
               <b-card no-body>
                 <b-row class="m-4">
                   <h4 slot="header" class="col-md-8">{{ post.Title }}</h4>
+                  <b-button v-if="$store.getters.isTeacher" class="delete-btn" variant="danger" @click="del(i)">삭제</b-button>
                 </b-row>
+                
                 <div class="ml-4 mb-3">
                   작성자 : {{ post.Name }} 
                 </div>
@@ -230,6 +232,18 @@ export default {
           this.portfolios = [];
           console.log(err.message);
         });
+    },
+    del (i) {
+      console.log(this.posts[i])
+      this.$http
+        .get("http://flss.kr/api/data/deletePost?pid=" + this.posts[i].Pid)
+        .then(res => {
+          alert('삭제가 완료되었습니다.');
+          this.posts.splice(i, 1);
+        })
+        .catch(err => {
+          console.error(err)
+        })
     },
     showLink(link) {
       this.$refs.showLinkModalRef.show();
@@ -532,5 +546,10 @@ export default {
 }
 .post-name {
   cursor: pointer;
+}
+.delete-btn{
+  position: absolute;
+  top: 4%;
+  right: 1%;
 }
 </style>
