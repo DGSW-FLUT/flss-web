@@ -144,7 +144,7 @@
           
         </b-col>
       </b-row>
-      <router-link to="/class1">
+      <router-link to="/class/classlist">
           <b-button style="float:right; margin-top:20%;" size="lg" variant="success">업로드하기</b-button>
       </router-link>
     </b-container>
