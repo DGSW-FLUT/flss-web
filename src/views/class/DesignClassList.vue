@@ -10,7 +10,7 @@
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
           <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
             <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
-              <b-card @click="download(file.File, file.Name, file.Link)">
+              <b-card :class="{link : file.Link}" class="file" @click="download(file.File, file.Name, file.Link)">
                 {{ file.Name }}
               </b-card>
             </div>
@@ -147,7 +147,15 @@ export default {
 };
 </script>
 
-<style>
+<style <style lang="scss">
+.file {
+  background-color: lightgreen;
+}
+
+.link {
+  background-color: lightblue !important; 
+}
+
 .aligncenter {
   transform: translateX(-50%);
   left: 50%;
