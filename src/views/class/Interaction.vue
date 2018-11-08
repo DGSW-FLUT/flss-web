@@ -21,13 +21,14 @@
               </b-card-body>
               <b-card-footer>
               <b-form inline v-if="!isAddingNow" class="icons ml-3">
-                <font-awesome-icon class="py-2 mr-4" fas icon="upload" size="3x" @click="upload" />
-                <font-awesome-icon class="py-2 mr-4" fas icon="link" size="3x" v-b-modal.modal v-if="!isAttach"/>
+                <font-awesome-icon v-b-tooltip.hover title="올리기" class="py-2 mr-4" fas icon="upload" size="3x" @click="upload"/>
+                <!-- <a href="#" class="py-2 mr-4" @click="upload">업로드</a> -->
+                <font-awesome-icon v-b-tooltip.hover title="링크 추가" class="py-2 mr-4" fas icon="link" size="3x" v-b-modal.modal  v-if="!isAttach"/>
                 <label for="file_upload">
-                  <font-awesome-icon class="py-2 mr-4" fas icon="folder" size="3x" @click="addFile" v-if="!isAttach"/>
+                  <font-awesome-icon v-b-tooltip.hover title="파일 추가" class="py-2 mr-4" fas icon="folder" size="3x" @click="addFile" v-if="!isAttach"/>
                 </label>
                 <b-form-file id="file_upload" v-model="newInteraction.File" v-show="false"/>
-                <font-awesome-icon class="py-2 mr-4" fas icon="trash-alt" size="3x" @click="trash"/>
+                <font-awesome-icon v-b-tooltip.hover title="삭제" class="py-2 mr-4" fas icon="trash-alt" size="3x" @click="trash"/>
               </b-form>
               </b-card-footer>
               <b-card-footer v-if="newInteraction.Link">
@@ -55,11 +56,12 @@
             </b-card>
           </div>
         </b-row>
-        <b-button class="float-right fixed-right" variant="success" @click="adding">
-          +
+        <b-button v-b-tooltip.hover title="추가" class="float-right fixed-right" variant="success" @click="adding">
+          추가
         </b-button>
         <b-button v-if="$store.getters.isTeacher" class="float-right fixed-right" variant="danger" @click="removeAll">
-          <font-awesome-icon fas icon="trash" size="1x"/>
+          전체 삭제
+          <!-- <font-awesome-icon fas icon="trash" size="1x"/> -->
         </b-button>
       </b-container>
     </div>

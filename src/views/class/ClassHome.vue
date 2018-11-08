@@ -25,11 +25,11 @@
           <div>
             <b-card title="공지사항" tag="article" class="mb-2">
               <p class="card-text">
-                <!-- {{ notice }} -->
+                {{ notice }}
               </p>
               <b-button v-b-modal.modal variant="primary">변경하기</b-button>
-              <b-modal id="modal" ref="modal" @shown="clearNotice" title="공지사항 변경">
-                <b-form-textarea :v-model="newNotice"
+              <b-modal id="modal" ref="modal" @shown="clearNotice" @ok="okNotice" title="공지사항 변경">
+                <b-form-textarea v-model="newNotice"
                                 style="resize:none"
                                 placeholder="공지사항을 입력해주세요"
                                 :rows="3"
@@ -120,23 +120,15 @@ export default {
       });
     this.$http
       .get(
-        `http://flss.kr/api/notice/showNotice?cid=${
-          this.$store.getters.getThisClass.cid
-        }`
-      )
-      .then(res => {
-        this.notice = res.data;
-      });
-    this.$http
-      .get(
         `http://flss.kr/api/notice/showContents?cid=${
           this.$store.getters.getThisClass.cid
         }`
       )
       .then(res => {
-        this.contents[0].content = res.data[0].Contents;
-        this.contents[1].content = res.data[0].Contents1;
-        this.contents[2].content = res.data[0].Contents2;
+        this.notice = res.data[0].Contents;
+        this.contents[0].content = res.data[0].Contents1;
+        this.contents[1].content = res.data[0].Contents2;
+        this.contents[2].content = res.data[0].Contents3;
         console.log(this.contents);
       });
     this.className = this.$store.getters.getThisClass.name;
@@ -177,9 +169,10 @@ export default {
   methods: {
     okNotice() {
       this.$http
-        .post("http://flss.kr/api/notice/addNotice", {
+        .post("http://flss.kr/api/notice/addContents", {
           cid: this.$store.getters.getThisClass.cid,
-          notice: this.newNotice
+          column: 'Contents',
+          contents: this.newNotice
         })
         .then(res => {
           alert("공지사항이 변경되었습니다");
@@ -191,11 +184,7 @@ export default {
         });
     },
     checkIdx(i) {
-      if (i == 0) {
-        return "";
-      } else {
-        return i;
-      }
+      return i+1;
     },
     changeContent(i) {
       this.$http
@@ -207,7 +196,8 @@ export default {
         .then(res => {
           if (res.data == 1) {
             alert("변경 완료!");
-            location.reload();
+            this.contents[i].content = this.contents[i].newContent;
+            this.clearNotice();
           } else {
             alert("변경되지 않았습니다.");
           }
