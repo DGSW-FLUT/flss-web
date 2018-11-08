@@ -65,6 +65,7 @@ export default {
           };
           this.lessons.push(item);
         }
+        this.lessons.reverse();
       });
 
     this.$http
@@ -86,6 +87,7 @@ export default {
           console.log(item);
           this.tests.push(item);
         }
+        this.tests.reverse();
       });
   },
   data() {
