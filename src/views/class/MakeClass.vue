@@ -47,7 +47,7 @@
                 <small style="float:right">{{ file.date }}</small>
               </b-list-group-item>
             </b-list-group>
-            <b-row v-if="did">
+            <b-row>
               <b-col class="mt-4" cols="2">
                 <label class="switch">
                   <input type="checkbox">
