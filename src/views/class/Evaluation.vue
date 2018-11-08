@@ -88,7 +88,17 @@ export default {
         this.$store.getters.getThisClass.cid
       }`
     );
+
     this.lessons = await this.lessons.data;
+
+    var test = await this.$http.get(
+      `http://flss.kr/api/lesson/testList?cid=${
+        this.$store.getters.getThisClass.cid
+      }`
+    );
+    test = await test.data;
+    this.lessons = this.lessons.concat(test)
+    console.log('lesson', this.lessons)
     this.studentData = this.$store.getters.getMemberList.filter(
       student => student.role === "student"
     );
