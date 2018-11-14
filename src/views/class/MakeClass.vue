@@ -47,7 +47,7 @@
                 <small style="float:right">{{ file.date }}</small>
               </b-list-group-item>
             </b-list-group>
-            <b-row v-if="did">
+            <b-row>
               <b-col class="mt-4" cols="2">
                 <label class="switch">
                   <input type="checkbox">
@@ -68,16 +68,35 @@
             </div>
           </b-modal>
         </b-col> -->
+        <b-modal ref="progress" hide-footer hide-header no-close-on-backdrop>
+          <b-progress :value="uploadPercentage" show-progress animated variant="success"></b-progress>
+        </b-modal>
+        <b-modal id="link" ref="link" @ok="okLink" title="Enter Link">
+             <b-form-group label-for="newInteractionLink" :state="linkState" :invalid-feedback="invalidLink">
+              <b-form-input id="newInteractionLink" v-model.trim="newLink" type="text" placeholder="E.g. https://youtube.com" :state="linkState" />
+            </b-form-group>
+          </b-modal>
         <b-col v-if="did" cols="6">
           <b-nav>
+              <b-nav-item active @click="pcResource()">PC 자료</b-nav-item>
               <b-nav-item active @click="search()">FLSS 검색</b-nav-item>
+              <b-nav-item active @click="link()">링크</b-nav-item>
           </b-nav>
           <div  class="div1 border no-scrollbar" style="min-width:100%">
-            <span class="center" v-if="!items.length"> 
+            <b-row class="mt-5 ml-5">
+              <b-col v-if="isPcResource" cols="7" class="float-right">
+                <input type="file" v-on:change="onFileChange" name="file[]" class="file_multi_video">
+              </b-col>
+              <b-col>
+                <b-button v-if="uploadFile" variant="success" class="ml-5" @click="fileUpload">업로드</b-button>
+              </b-col>
+            </b-row>
+            <b-button v-if="isLink" variant="success" class="ml-5 mt-5" @click="linkSelect">링크 업로드</b-button>
+            <span class="center" v-if="(!items.length) && isFlss"> 
               <font-awesome-icon class="py-2 ml-5 mr-5" fas icon="exclamation-circle" size="4x"/><br>
               등록된 파일이 없습니다
             </span>
-            <b-table style="cursor:pointer" hover :items="items" @row-clicked="addFile"></b-table>      
+            <b-table style="cursor:pointer" v-if="isFlss" hover :items="items" @row-clicked="addFile"></b-table>      
             </div>
         </b-col>
       </b-row>
@@ -99,6 +118,7 @@ export default {
   data() {
     return {
       lessonTitle: "",
+      isPcResource: false,
       title: "",
       fileItems: [],
       items: [],
@@ -107,7 +127,13 @@ export default {
       List: [],
       did: "",
       flssItems: [],
-      fileList: []
+      fileList: [],
+      pcResources: [],
+      uploadFile: "",
+      uploadPercentage: 0,
+      newLink: "",
+      isLink: false,
+      isFlss: false
       //["PC 자료", "웹 주소", "FLSS 검색", "내 즐겨찾기"]
     };
   },
@@ -151,7 +177,18 @@ export default {
     MainNavbar,
     FileList
   },
-  computed: {},
+  computed: {
+    linkState() {
+      const urlreg = /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+      return urlreg.test(this.newLink);
+    },
+    invalidLink() {
+      if (!this.linkState) {
+        return "Please enter a valid link";
+      }
+      return "";
+    }
+  },
   methods: {
     makeClass() {
       if (this.title.trim() === "") {
@@ -167,6 +204,35 @@ export default {
           this.did = res.data.Did;
         });
     },
+    fileUpload() {
+      const data = new FormData();
+      data.append("did",this.did)
+      data.append("name",this.uploadFile.name);
+      data.append("cid",this.$store.getters.getThisClass.cid)
+      data.append("file",this.uploadFile);
+      this.$refs.progress.show();
+      this.$http
+        .post("http://flss.kr/api/design/addFile", data, {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: function(progressEvent) {
+            this.uploadPercentage = parseInt(
+              Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            );
+          }.bind(this)
+        })
+        .then((res) => {
+          console.log(res.data);
+          let fileExt = this.uploadFile.name.split('.');
+          fileExt = `.${fileExt[fileExt.length-1]}`;
+          this.files.push({
+            fileName: this.uploadFile.name,
+            fileExt
+          })
+          console.log(this.files);
+          this.uploadFile = "";
+          this.$refs.progress.hide();
+        })
+    },
     addFile(record, index) {
       console.log("MID" + this.fileItems[index].Mid);
       console.log("CID" + this.$store.getters.getThisClass.cid);
@@ -178,13 +244,38 @@ export default {
           cid: this.$store.getters.getThisClass.cid
         })
         .then(res => {
+          this.items[index];
           console.log("데이터" + res.data);
         });
       console.log(this.fileItems[index]);
       let name = this.items[index].fileName;
       let fileExt = name.substring(name.lastIndexOf("."), name.length);
-      this.items[index].fileExt = fileExt;
+      if(!this.isLink) {
+        this.items[index].fileExt = fileExt;
+      }
       this.files.push(this.items[index]);
+    },
+    okLink(evt) {
+      evt.preventDefault();
+      if (!this.linkState) {
+        alert("올바르지 않은 입력 형식 입니다.");
+        return;
+      } else {
+        this.$http
+        .post("http://flss.kr/api/design/addFile", {
+          did: this.did,
+          link: this.link,
+          cid: this.$store.getters.getThisClass.cid
+        })
+        .then(res => {
+          console.log(this.newLink);
+          this.files.push({
+            fileName: this.newLink
+          });
+          this.newLink = "";
+          this.$refs.link.hide();
+        });
+      }
     },
     getFile(record, index) {
       this.lessonTitle = this.List[index].Title;
@@ -219,10 +310,36 @@ export default {
       this.items = [];
     },
     search() {
+      this.defaultSet();
+      this.isFlss = true;
       this.items = this.flssItems;
+    },
+    link() {
+      this.defaultSet();
+      this.isLink = true;
+    },
+    pcResource() {
+      this.defaultSet();
+      this.items = this.pcResources;
+      this.isPcResource = true;
     },
     like() {
       this.items = [];
+    },
+    defaultSet() {
+      this.isPcResource = false;
+      this.isFlss = false;
+      this.isLink = false;
+    },
+    onFileChange(e) {
+      let uploadFiles = e.target.files || e.dataTransfer.files;
+      console.log(uploadFiles);
+      if (uploadFiles.length) {
+        this.uploadFile = uploadFiles[0];
+      }
+    },
+    linkSelect() {
+      this.$refs.link.show()
     }
   }
 };
@@ -277,5 +394,62 @@ body {
   position: relative;
   left: 35%;
   transform: translateX(-50%);
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2196f3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>

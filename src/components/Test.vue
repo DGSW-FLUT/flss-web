@@ -292,7 +292,7 @@ export default {
     next() {
       this.$refs.progress.show();
       console.log("1");
-      let data = new FormData();
+      const data = new FormData();
       if (this.isUrl) {
         console.log(this.link);
         data.append("link", this.changeToEmbed);

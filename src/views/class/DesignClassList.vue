@@ -10,7 +10,7 @@
           <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
           <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
             <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
-              <b-card @click="download(file.File, file.Name)">
+              <b-card :class="{link : file.Link}" class="file" @click="download(file.File, file.Name, file.Link)">
                 {{ file.Name }}
               </b-card>
             </div>
@@ -75,7 +75,7 @@ export default {
       this.$http
         .get(`http://flss.kr/api/design/oneDesign?did=${this.List[index].Did}`)
         .then(res => {
-          console.log("res.data" + res.data);
+          console.log("res.data", res.data);
           this.fileList = res.data;
           this.selectedIdx = index;
           this.loadComments();
@@ -119,8 +119,12 @@ export default {
     clickComment() {
       this.isComment = !this.isComment;
     },
-    download(uploadName, originalName) {
-      console.log("http://flss.kr/video/" + uploadName);
+    download(uploadName, originalName, link) {
+      if (link)
+      {
+        return window.open(link, '_black');
+      }
+      console.log('original name', originalName)
       this.$http
         .get("http://flss.kr/video/" + uploadName, { responseType: "blob" })
         .then(res => {
@@ -143,7 +147,15 @@ export default {
 };
 </script>
 
-<style>
+<style <style lang="scss">
+.file {
+  background-color: lightgreen;
+}
+
+.link {
+  background-color: lightblue !important; 
+}
+
 .aligncenter {
   transform: translateX(-50%);
   left: 50%;
