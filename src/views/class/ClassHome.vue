@@ -145,21 +145,21 @@ export default {
       notice: "",
       contents: [
         {
-          name: "회원가입, 보상도구",
+          name: this.$store.getters.isTeacher ? "회원가입, 보상도구" : "회원가입",
           content: "",
           id: "reg",
           newContent: "",
           bool: false
         },
         {
-          name: "수업 설계/영상제작",
+          name: this.$store.getters.isTeacher ? "수업 설계/영상제작" : "디딤학습방",
           content: "",
           id: "class",
           newContent: "",
           bool: false
         },
         {
-          name: "상호작용",
+          name: this.$store.getters.isTeacher ? "상호작용" : "생각나누기",
           content: "",
           id: "together",
           newContent: "",
