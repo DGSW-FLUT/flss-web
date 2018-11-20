@@ -96,7 +96,7 @@ export default {
         },
         {
           link: "/class/prize",
-          text: "보상 도구"
+          text: "칭찬 현황"
         },
         {
           link: "/class/portfolio",
