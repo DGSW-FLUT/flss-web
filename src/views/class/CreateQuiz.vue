@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     test() {
-      this.$router.push({ path: "/class1" });
+      this.$router.push({ path: "/class" });
     }
   }
 };

@@ -79,12 +79,8 @@ export default {
           text: "Home"
         },
         {
-          link: "/class/select",
-          text: "사전영상/평가"
-        },
-        {
           link: "/class/classlist",
-          text: "사전영상/평가 목록"
+          text: "디딤학습방"
         },
         // {
         //   link: "/class/library",
@@ -92,11 +88,11 @@ export default {
         // },
         {
           link: "/class/interaction",
-          text: "상호 작용"
+          text: "생각 나누기"
         },
         {
           link: "/class/prize",
-          text: "보상 도구"
+          text: "칭찬 현황"
         },
         {
           link: "/class/portfolio",

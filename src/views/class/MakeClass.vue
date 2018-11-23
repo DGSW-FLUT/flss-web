@@ -202,6 +202,7 @@ export default {
         })
         .then(res => {
           this.did = res.data.Did;
+          console.log(this.did);
         });
     },
     fileUpload() {
@@ -261,14 +262,18 @@ export default {
         alert("올바르지 않은 입력 형식 입니다.");
         return;
       } else {
+        console.log(this.$store.getters.getThisClass.cid);
         this.$http
         .post("http://flss.kr/api/design/addFile", {
           did: this.did,
-          link: this.link,
+          name : this.newLink,
+          link: this.newLink,
           cid: this.$store.getters.getThisClass.cid
         })
         .then(res => {
+          console.log(this.link);
           console.log(this.newLink);
+          console.log(res.data);
           this.files.push({
             fileName: this.newLink
           });
