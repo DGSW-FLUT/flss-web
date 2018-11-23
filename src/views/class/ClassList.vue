@@ -10,14 +10,6 @@
               </span>
               <b-table class="mt-4" hover :items="lessons" @row-clicked="lessonClickEvent">
               </b-table>
-              <!-- <b-card tag="article"
-                      style="max-width: 20rem;"
-                      class="mb-2">
-                <p class="card-text">
-                  Title : 123
-                </p>
-                <b-button href="#" variant="primary">Go somewhere</b-button>
-              </b-card> -->
             </b-row>
         </b-tab>
         <b-tab title="평가 문제" class="table">
@@ -28,14 +20,6 @@
               </span>
               <b-table class="mt-4" hover :items="tests" @row-clicked="testClickEvent">
               </b-table>
-              <!-- <b-card tag="article"
-                      style="max-width: 20rem;"
-                      class="mb-2">
-                <p class="card-text">
-                  Title : 123
-                </p>
-                <b-button href="#" variant="primary">Go somewhere</b-button>
-              </b-card> -->
             </b-row>
         </b-tab>
       </b-tabs>
@@ -44,6 +28,9 @@
 </template>
 
 <script>
+import moment from "moment";
+moment.locale("ko");
+
 export default {
   name: "class-list",
   created() {
@@ -61,7 +48,7 @@ export default {
             제목: res.data[i].LessonName,
             학년: res.data[i].Syear,
             과목: res.data[i].SubjectName,
-            날짜: res.data[i].UpTime
+            날짜: moment(res.data[i].UpTime).format("LL")
           };
           this.lessons.push(item);
         }
@@ -83,7 +70,7 @@ export default {
             제목: res.data[i].LessonName,
             학년: res.data[i].Syear,
             과목: res.data[i].SubjectName,
-            날짜: res.data[i].AddTime
+            날짜: moment(res.data[i].AddTime).format("LL")
           };
           console.log(item);
           this.tests.push(item);
