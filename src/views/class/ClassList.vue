@@ -65,6 +65,7 @@ export default {
           };
           this.lessons.push(item);
         }
+        this.lessonsData.reverse();
         this.lessons.reverse();
       });
 
@@ -87,6 +88,7 @@ export default {
           console.log(item);
           this.tests.push(item);
         }
+        this.testsData.reverse();
         this.tests.reverse();
       });
   },
