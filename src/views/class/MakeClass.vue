@@ -38,13 +38,31 @@
                   class="mt-3"
                   type="text"
                   placeholder="Text input"></b-form-input>
+            <!-- 스샷 -->
+            <!-- <b-list-group>
+              <b-list-group-item class="flex-column align-items-start" v-for="i in 4" :key="i">
+                <b-badge v-if="i === 1" variant="success">수업 전</b-badge>
+                <b-badge v-if="i === 2" variant="danger">도입</b-badge>
+                <b-badge v-if="i === 3" variant="danger">전개</b-badge>
+                <b-badge v-if="i === 4" variant="danger">정리</b-badge>
+                <b-input class="mt-1"  placeholder="활동 입력" />
+                <b-list-group v-if="i !== 2">
+                  <b-list-group-item class="flex-column align-items-start mt-3" v-for="(file, i) in files" :key="i">
+                    <p class="mb-1" style="text-overflow: ellipsis; overflow: hidden">
+                      {{ file.fileName }}
+                    </p>
+                    <small>{{ file.fileExt }}</small>
+                    <small style="float:right">{{ file.date }}</small>
+                  </b-list-group-item>
+                </b-list-group>
+              </b-list-group-item>
+            </b-list-group> -->
             <b-list-group>
               <b-list-group-item class="flex-column align-items-start mt-3" v-for="(file, i) in files" :key="i">
                 <p class="mb-1" style="text-overflow: ellipsis; overflow: hidden">
                   {{ file.fileName }}
                 </p>
-                <!-- TODO: 실제 구현 필요 -->
-                <small>{{ file.fileExt }}</small>&nbsp;<b-badge :variant="getFileUsageColor(i)" >{{ getFileUsage(i) }}</b-badge>
+                <small>{{ file.fileExt }}</small>
                 <small style="float:right">{{ file.date }}</small>
               </b-list-group-item>
             </b-list-group>
@@ -336,28 +354,6 @@ export default {
     },
     linkSelect() {
       this.$refs.link.show()
-    },
-    getFileUsage(i) {
-      if (i % 4 === 0) {
-        return "수업 전";
-      }
-      else if (i % 4 === 1) {
-        return "도입";
-      }
-      else if (i % 4 === 2) {
-        return "전개";
-      }
-      else if (i % 4 === 3) {
-        return "정리";
-      }
-    },
-    getFileUsageColor(i) {
-      if (i % 4 === 0) {
-        return "success";
-      }
-      else if ((i % 4 === 1) || (i % 4 === 2) || (i % 4 === 3)) {
-        return "danger";
-      }
     }
   }
 };
