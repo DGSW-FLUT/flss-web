@@ -43,7 +43,8 @@
                 <p class="mb-1" style="text-overflow: ellipsis; overflow: hidden">
                   {{ file.fileName }}
                 </p>
-                <small>{{ file.fileExt }}</small>
+                <!-- TODO: 실제 구현 필요 -->
+                <small>{{ file.fileExt }}</small>&nbsp;<b-badge :variant="getFileUsageColor(i)" >{{ getFileUsage(i) }}</b-badge>
                 <small style="float:right">{{ file.date }}</small>
               </b-list-group-item>
             </b-list-group>
@@ -58,16 +59,6 @@
             </b-row>
           </div>
         </b-col>
-        <!-- <b-col cols="4">
-          <b-table hover :items="classList" @row-clicked="getFile"></b-table>    
-          <b-modal ref="myModalRef" hide-footer :title="lessonTitle">
-            <div v-if="fileList" v-for="(file, i) in fileList" :key="i">
-              <b-card @click="loadFile(file.File)">
-                {{ file.File }}
-              </b-card>
-            </div>
-          </b-modal>
-        </b-col> -->
         <b-modal ref="progress" hide-footer hide-header no-close-on-backdrop>
           <b-progress :value="uploadPercentage" show-progress animated variant="success"></b-progress>
         </b-modal>
@@ -345,6 +336,28 @@ export default {
     },
     linkSelect() {
       this.$refs.link.show()
+    },
+    getFileUsage(i) {
+      if (i % 4 === 0) {
+        return "수업 전";
+      }
+      else if (i % 4 === 1) {
+        return "도입";
+      }
+      else if (i % 4 === 2) {
+        return "전개";
+      }
+      else if (i % 4 === 3) {
+        return "정리";
+      }
+    },
+    getFileUsageColor(i) {
+      if (i % 4 === 0) {
+        return "success";
+      }
+      else if ((i % 4 === 1) || (i % 4 === 2) || (i % 4 === 3)) {
+        return "danger";
+      }
     }
   }
 };
